@@ -69,7 +69,7 @@ function KPICard({ label, value, sub, icon, onClick }: { label: string; value: s
     >
       <Flex justifyContent="between" alignItems="start">
         <div className="min-w-0">
-          <Text className="truncate">{label}</Text>
+          <Text>{label}</Text>
           <Metric className="mt-1" style={{ color: 'var(--sf-accent-dark)' }}>{value}</Metric>
           {sub && <Text className="mt-1 text-xs truncate">{sub}</Text>}
         </div>

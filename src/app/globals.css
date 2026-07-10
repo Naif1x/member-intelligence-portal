@@ -1,5 +1,17 @@
 @import "tailwindcss";
-@source "../../node_modules/@tremor/react/dist";
+
+/*
+ * Tremor builds its color classes at runtime via string interpolation
+ * (e.g. `bg-${color}-${shade}`, see @tremor/react/dist/lib/utils.js
+ * getColorClassNames). Tailwind v4's scanner only generates CSS for
+ * class names it finds as literal text, so those interpolated names
+ * are invisible to it no matter which directories are scanned — the
+ * previous `@source` pointed at Tremor's dist folder for exactly this
+ * reason, but never worked, because there's no literal "bg-cyan-500"
+ * string anywhere in that bundle to find. This inline safelist forces
+ * generation of every utility/color/shade combination Tremor can emit.
+ */
+@source inline("{,hover:,dark:,dark:hover:,data-[selected]:,dark:data-[selected]:}{bg,text,border,ring,stroke,fill}-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900}");
 
 :root {
   --sf-primary: #032D60;

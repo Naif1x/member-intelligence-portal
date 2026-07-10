@@ -53,7 +53,7 @@ export default function TopNav() {
           ⛳
         </div>
         <span className="hidden sm:block text-white text-sm font-bold whitespace-nowrap">
-          Royal Greens Golf &amp; Country Club
+          Luxury Golf
         </span>
       </div>
 
