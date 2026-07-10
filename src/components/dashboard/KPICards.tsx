@@ -4,18 +4,62 @@ import { useMemo } from 'react';
 import { Card, Metric, Text, Flex } from '@tremor/react';
 import { useApp } from '@/lib/store';
 import { formatCurrency, formatNumber } from '@/lib/data';
-import { computeSummary } from '@/types';
-import { defaultFilters } from '@/lib/store';
+import { computeSummary, type DataSummary } from '@/types';
+import { defaultFilters, type FilterState } from '@/lib/store';
 
-interface KPICardProps {
+interface KPIDefinition {
+  id: string;
   label: string;
-  value: string;
-  sub?: string;
   icon: string;
-  onClick?: () => void;
+  getValue: (summary: DataSummary) => string;
+  getSub?: (summary: DataSummary) => string;
+  filter?: Partial<FilterState>;
 }
 
-function KPICard({ label, value, sub, icon, onClick }: KPICardProps) {
+const KPI_DEFINITIONS: KPIDefinition[] = [
+  {
+    id: 'total-members',
+    label: 'Total Members',
+    icon: '👥',
+    getValue: (s) => formatNumber(s.totalMembers),
+    getSub: () => 'Unified D360 profiles',
+    filter: {},
+  },
+  {
+    id: 'members-at-risk',
+    label: 'Members At Risk',
+    icon: '⚠️',
+    getValue: (s) => formatNumber(s.flaggedMembers),
+    getSub: () => 'Big Spender at Risk flag',
+    filter: { riskOnly: true },
+  },
+  {
+    id: 'champions',
+    label: 'Champions',
+    icon: '🏆',
+    getValue: (s) => formatNumber(s.championMembers),
+    getSub: () => 'Highest RFM tier',
+    filter: { segment: 'Champion', segmentTab: 'general' },
+  },
+  {
+    id: 'total-spend',
+    label: 'Total Spend',
+    icon: '💰',
+    getValue: (s) => formatCurrency(s.totalSales),
+    getSub: () => 'Across Golf, Retail, F&B',
+    filter: {},
+  },
+  {
+    id: 'avg-spend-per-member',
+    label: 'Avg. Spend / Member',
+    icon: '📈',
+    getValue: (s) => formatCurrency(s.avgTotalSpend),
+    getSub: () => 'Total spend / profile',
+    filter: {},
+  },
+];
+
+function KPICard({ label, value, sub, icon, onClick }: { label: string; value: string; sub?: string; icon: string; onClick?: () => void }) {
   return (
     <Card
       className="cursor-pointer transition-all hover:shadow-md hover:-translate-y-0.5"
@@ -40,56 +84,24 @@ export default function KPICards() {
   const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
   if (!data || !summary) return null;
 
-  function goToMembers(partial: Partial<typeof defaultFilters>) {
+  function goToMembers(partial: Partial<FilterState>) {
     setFilters({ ...defaultFilters, ...partial });
     setView('members');
     scrollToTable();
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
-      <KPICard
-        label="Buying Members"
-        value={formatNumber(summary.buyingMembers)}
-        sub={`${Math.round((summary.buyingMembers / summary.totalMembers) * 100)}% of profiles`}
-        icon="🛒"
-        onClick={() => goToMembers({ buyingOnly: true })}
-      />
-      <KPICard
-        label="Champions"
-        value={formatNumber(summary.championMembers)}
-        sub="Highest RFM tier"
-        icon="🏆"
-        onClick={() => goToMembers({ segment: 'Champion' })}
-      />
-      <KPICard
-        label="Members At Risk"
-        value={formatNumber(summary.flaggedMembers)}
-        sub="Big Spender at Risk flag"
-        icon="⚠️"
-        onClick={() => goToMembers({ riskOnly: true })}
-      />
-      <KPICard
-        label="Total Sales"
-        value={formatCurrency(summary.totalSales)}
-        sub="Across Golf, Retail, F&B"
-        icon="💰"
-        onClick={() => goToMembers({})}
-      />
-      <KPICard
-        label="Avg. Frequency Score"
-        value={summary.avgFrequencyScore.toFixed(1)}
-        sub="General F-score (1-4)"
-        icon="🔁"
-        onClick={() => goToMembers({})}
-      />
-      <KPICard
-        label="Avg. Spend / Member"
-        value={formatCurrency(summary.avgTotalSpend)}
-        sub="Total spend / profile"
-        icon="📈"
-        onClick={() => goToMembers({})}
-      />
+    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
+      {KPI_DEFINITIONS.map((kpi) => (
+        <KPICard
+          key={kpi.id}
+          label={kpi.label}
+          value={kpi.getValue(summary)}
+          sub={kpi.getSub?.(summary)}
+          icon={kpi.icon}
+          onClick={() => goToMembers(kpi.filter ?? {})}
+        />
+      ))}
     </div>
   );
 }

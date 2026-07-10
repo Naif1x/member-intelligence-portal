@@ -1,7 +1,7 @@
 'use client';
 
 import { useApp, defaultFilters } from '@/lib/store';
-import { CHANNEL_LABELS } from '@/types';
+import { CHANNEL_LABELS, SEGMENT_TAB_LABELS } from '@/types';
 
 export default function FilterBreadcrumb() {
   const { filters, setFilters } = useApp();
@@ -9,7 +9,12 @@ export default function FilterBreadcrumb() {
   const chips: { key: string; label: string; clear: () => void }[] = [];
 
   if (filters.segment) {
-    chips.push({ key: 'segment', label: `${filters.segment} segment`, clear: () => setFilters({ ...filters, segment: '' }) });
+    const tabLabel = filters.segmentTab !== 'general' ? ` (${SEGMENT_TAB_LABELS[filters.segmentTab]})` : '';
+    chips.push({
+      key: 'segment',
+      label: `${filters.segment} segment${tabLabel}`,
+      clear: () => setFilters({ ...filters, segment: '', segmentTab: 'general' }),
+    });
   }
   if (filters.channel) {
     chips.push({ key: 'channel', label: `${CHANNEL_LABELS[filters.channel]} channel`, clear: () => setFilters({ ...filters, channel: '' }) });

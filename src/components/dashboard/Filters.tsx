@@ -37,8 +37,8 @@ export default function Filters() {
       />
 
       <select
-        value={filters.segment}
-        onChange={(e) => update({ segment: e.target.value })}
+        value={filters.segmentTab === 'general' ? filters.segment : ''}
+        onChange={(e) => update({ segment: e.target.value, segmentTab: 'general' })}
         className="px-3 py-1.5 rounded-md outline-none"
         style={inputStyle}
       >

@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import type { MemberData, Member, ChannelName } from '@/types';
+import type { MemberData, Member, ChannelName, SegmentTab } from '@/types';
 
 export type ViewMode = 'dashboard' | 'members' | 'segments' | 'campaigns';
 
@@ -34,6 +34,7 @@ export interface AppState {
 export interface FilterState {
   search: string;
   segment: string;
+  segmentTab: SegmentTab;
   channel: ChannelName | '';
   riskOnly: boolean;
   buyingOnly: boolean;
@@ -45,6 +46,7 @@ export interface FilterState {
 export const defaultFilters: FilterState = {
   search: '',
   segment: '',
+  segmentTab: 'general',
   channel: '',
   riskOnly: false,
   buyingOnly: false,

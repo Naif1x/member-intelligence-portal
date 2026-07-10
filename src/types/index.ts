@@ -99,6 +99,22 @@ export function getAtRiskChannels(m: Member): ChannelName[] {
   return channels;
 }
 
+export type SegmentTab = 'general' | ChannelName;
+
+export const SEGMENT_FIELD_BY_TAB: Record<SegmentTab, keyof Member> = {
+  general: 'general_segment',
+  golf: 'golf_segment',
+  retail: 'retail_segment',
+  food: 'food_segment',
+};
+
+export const SEGMENT_TAB_LABELS: Record<SegmentTab, string> = {
+  general: 'General',
+  golf: 'Golf',
+  retail: 'Retail',
+  food: 'Food & Beverage',
+};
+
 export interface DataSummary {
   totalMembers: number;
   flaggedMembers: number;
@@ -108,6 +124,7 @@ export interface DataSummary {
   avgFrequencyScore: number;
   totalSales: number;
   segmentDistribution: Record<string, number>;
+  segmentDistributionByTab: Record<SegmentTab, Record<string, number>>;
   channelCoverage: Record<ChannelName, number>;
   channelSpend: Record<ChannelName, number>;
   recencyDistribution: { r: number; count: number }[];
@@ -116,6 +133,12 @@ export interface DataSummary {
 
 export function computeSummary(members: Member[]): DataSummary {
   const segmentDistribution: Record<string, number> = {};
+  const segmentDistributionByTab: Record<SegmentTab, Record<string, number>> = {
+    general: {},
+    golf: {},
+    retail: {},
+    food: {},
+  };
   const channelCoverage: Record<ChannelName, number> = { golf: 0, retail: 0, food: 0 };
   const channelSpend: Record<ChannelName, number> = { golf: 0, retail: 0, food: 0 };
   const recencyBuckets: Record<number, number> = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 };
@@ -127,6 +150,10 @@ export function computeSummary(members: Member[]): DataSummary {
 
   members.forEach((m) => {
     segmentDistribution[m.general_segment] = (segmentDistribution[m.general_segment] || 0) + 1;
+    (Object.keys(SEGMENT_FIELD_BY_TAB) as SegmentTab[]).forEach((tab) => {
+      const seg = m[SEGMENT_FIELD_BY_TAB[tab]] as string;
+      segmentDistributionByTab[tab][seg] = (segmentDistributionByTab[tab][seg] || 0) + 1;
+    });
     (['golf', 'retail', 'food'] as ChannelName[]).forEach((ch) => {
       if (hasChannelData(m, ch)) channelCoverage[ch]++;
       channelSpend[ch] += m[ch].spend;
@@ -150,6 +177,7 @@ export function computeSummary(members: Member[]): DataSummary {
     avgFrequencyScore: members.length ? Math.round((totalFreqScore / members.length) * 10) / 10 : 0,
     totalSales: Math.round(totalSpend),
     segmentDistribution,
+    segmentDistributionByTab,
     channelCoverage,
     channelSpend,
     recencyDistribution: [0, 1, 2, 3, 4].map((r) => ({ r, count: recencyBuckets[r] || 0 })),

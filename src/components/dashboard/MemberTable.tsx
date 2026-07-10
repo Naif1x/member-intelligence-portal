@@ -8,7 +8,7 @@ import { useApp } from '@/lib/store';
 import { formatCurrency, getMemberName, getMemberInitials } from '@/lib/data';
 import { useRouter } from 'next/navigation';
 import type { Member, ChannelName } from '@/types';
-import { SEGMENT_COLORS } from '@/types';
+import { SEGMENT_COLORS, SEGMENT_FIELD_BY_TAB } from '@/types';
 
 const PAGE_SIZE = 20;
 
@@ -51,7 +51,7 @@ export default function MemberTable() {
           m.id.toLowerCase().includes(q)
       );
     }
-    if (filters.segment) list = list.filter((m) => m.general_segment === filters.segment);
+    if (filters.segment) list = list.filter((m) => m[SEGMENT_FIELD_BY_TAB[filters.segmentTab]] === filters.segment);
     if (filters.channel) list = list.filter((m) => m[filters.channel as ChannelName].score > 0);
     if (filters.riskOnly) list = list.filter((m) => m.flagged);
     if (filters.buyingOnly) list = list.filter((m) => m.total_spend > 0);
