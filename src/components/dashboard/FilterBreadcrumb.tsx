@@ -1,5 +1,6 @@
 'use client';
 
+import { Button, Chip } from '@heroui/react';
 import { useApp, defaultFilters } from '@/lib/store';
 import { CHANNEL_LABELS, SEGMENT_TAB_LABELS } from '@/types';
 
@@ -25,9 +26,6 @@ export default function FilterBreadcrumb() {
   if (filters.buyingOnly) {
     chips.push({ key: 'buying', label: 'Buying members only', clear: () => setFilters({ ...filters, buyingOnly: false }) });
   }
-  if (filters.recencyScore !== null) {
-    chips.push({ key: 'recency', label: `Recency R${filters.recencyScore}`, clear: () => setFilters({ ...filters, recencyScore: null }) });
-  }
   if (filters.search) {
     chips.push({ key: 'search', label: `"${filters.search}"`, clear: () => setFilters({ ...filters, search: '' }) });
   }
@@ -38,22 +36,25 @@ export default function FilterBreadcrumb() {
     <div className="flex items-center gap-2 flex-wrap mb-3 px-1">
       <span className="text-xs font-medium" style={{ color: 'var(--sf-text-secondary)' }}>Filtered by:</span>
       {chips.map((chip) => (
-        <span
+        <Chip
           key={chip.key}
-          className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full"
+          size="sm"
+          className="gap-1.5 font-medium"
           style={{ background: 'var(--sf-hover)', color: 'var(--sf-accent-dark)', border: '1px solid var(--sf-accent)' }}
         >
           {chip.label}
-          <button onClick={chip.clear} className="hover:opacity-70 font-bold leading-none">×</button>
-        </span>
+          <button onClick={chip.clear} aria-label={`Remove ${chip.label} filter`} className="hover:opacity-70 font-bold leading-none ml-1">×</button>
+        </Chip>
       ))}
-      <button
-        onClick={() => setFilters(defaultFilters)}
-        className="text-xs font-medium underline"
+      <Button
+        size="sm"
+        variant="ghost"
+        onPress={() => setFilters(defaultFilters)}
+        className="underline h-auto min-h-0 py-0.5"
         style={{ color: 'var(--sf-text-secondary)' }}
       >
         Clear all
-      </button>
+      </Button>
     </div>
   );
 }

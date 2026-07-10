@@ -1,4 +1,5 @@
-@import "tailwindcss";
+/* HeroUI v3 styles — bundles @import "tailwindcss" plus the HeroUI theme layers */
+@import "@heroui/styles";
 
 /*
  * Tremor builds its color classes at runtime via string interpolation
@@ -74,47 +75,6 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #9CA3AF;
 }
-
-.slds-card {
-  background: var(--sf-card-bg);
-  border: 1px solid var(--sf-border);
-  border-radius: 10px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-}
-
-.slds-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  line-height: 1.5;
-}
-
-.rfm-score-cell {
-  display: inline-flex;
-  gap: 2px;
-}
-
-.rfm-digit {
-  width: 22px;
-  height: 22px;
-  border-radius: 4px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: white;
-  cursor: help;
-}
-
-.rfm-1 { background: #E53935; }
-.rfm-2 { background: #FF9800; }
-.rfm-3 { background: #0EA5E9; }
-.rfm-4 { background: #4CAF50; }
-.rfm-0 { background: #C9C7C5; }
 
 .nav-item-active {
   border-left: 3px solid var(--sf-accent);

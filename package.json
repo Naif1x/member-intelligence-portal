@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@heroui/react": "^3.2.2",
     "@tremor/react": "^3.18.7",
     "csv-parse": "^7.0.1",
     "framer-motion": "^12.42.2",

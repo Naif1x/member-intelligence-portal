@@ -5,7 +5,7 @@ import Sidebar from '@/components/layout/Sidebar';
 import TopNav from '@/components/layout/TopNav';
 import RightPanel from '@/components/layout/RightPanel';
 import KPICards from '@/components/dashboard/KPICards';
-import { SegmentDonut, ChannelBar, RecencyDistribution, TopMembersBySpend } from '@/components/dashboard/Charts';
+import { SegmentDonut, ChannelBar, TopMembersBySpend } from '@/components/dashboard/Charts';
 import Filters from '@/components/dashboard/Filters';
 import FilterBreadcrumb from '@/components/dashboard/FilterBreadcrumb';
 import MemberTable from '@/components/dashboard/MemberTable';
@@ -45,15 +45,16 @@ function DashboardContent() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
           <SegmentDonut />
           <ChannelBar />
-          <RecencyDistribution />
-          <TopMembersBySpend />
+          <div className="lg:col-span-2">
+            <TopMembersBySpend />
+          </div>
         </div>
       )}
 
       {view === 'segments' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
           <SegmentDonut />
-          <RecencyDistribution />
+          <ChannelBar />
         </div>
       )}
 

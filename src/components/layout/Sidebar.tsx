@@ -1,5 +1,6 @@
 'use client';
 
+import { Button, Chip } from '@heroui/react';
 import { useApp, type ViewMode } from '@/lib/store';
 import { defaultFilters } from '@/lib/store';
 
@@ -24,23 +25,29 @@ function SidebarContent() {
             Navigation
           </div>
         )}
-        <button
-          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-          className="hidden md:flex w-7 h-7 rounded items-center justify-center hover:bg-black/5 transition-colors"
+        <Button
+          isIconOnly
+          variant="ghost"
+          size="sm"
+          aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          onPress={() => setSidebarCollapsed(!sidebarCollapsed)}
+          className="hidden md:flex"
           style={{ color: 'var(--sf-text-secondary)' }}
         >
           {sidebarCollapsed ? '▶' : '◀'}
-        </button>
+        </Button>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 py-2">
+      <nav className="flex-1 py-2 flex flex-col">
         {NAV_ITEMS.map((item) => {
           const active = view === item.view && !item.openFilters;
           return (
-            <button
+            <Button
               key={item.label}
-              onClick={() => {
+              variant="ghost"
+              fullWidth
+              onPress={() => {
                 if (item.openFilters) {
                   setFilters(defaultFilters);
                   setView(item.view);
@@ -49,14 +56,14 @@ function SidebarContent() {
                   setView(item.view);
                 }
               }}
-              className={`nav-item w-full flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+              className={`nav-item justify-start gap-3 px-4 py-2.5 h-auto rounded-none text-sm font-normal ${
                 active ? 'nav-item-active font-semibold' : 'hover:bg-black/5'
               }`}
               style={{ color: active ? 'var(--sf-accent-dark)' : 'var(--sf-text)' }}
             >
               <span className="text-base">{item.icon}</span>
               {!sidebarCollapsed && <span>{item.label}</span>}
-            </button>
+            </Button>
           );
         })}
       </nav>
@@ -64,11 +71,9 @@ function SidebarContent() {
       {/* System Status */}
       {!sidebarCollapsed && (
         <div className="p-4 border-t" style={{ borderColor: 'var(--sf-border)' }}>
-          <div className="flex items-center gap-2 py-1 text-xs" style={{ color: 'var(--sf-success)' }}>
-            <span>✓</span> Connected to D360
-          </div>
-          <div className="flex items-center gap-2 py-1 text-xs" style={{ color: 'var(--sf-success)' }}>
-            <span>✓</span> Agentforce Active
+          <div className="flex flex-col gap-1.5">
+            <Chip size="sm" color="success" variant="soft">✓ Connected to D360</Chip>
+            <Chip size="sm" color="success" variant="soft">✓ Agentforce Active</Chip>
           </div>
           {data && (
             <div className="mt-3 pt-3 border-t text-[10px]" style={{ borderColor: 'var(--sf-border)', color: 'var(--sf-text-secondary)' }}>

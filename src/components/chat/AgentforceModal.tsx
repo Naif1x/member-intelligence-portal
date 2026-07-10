@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Button, Chip, Input } from '@heroui/react';
 import { useApp } from '@/lib/store';
 import { generateAgentResponse, type ChatMessage } from '@/lib/agentforce';
 
@@ -79,7 +80,7 @@ export default function AgentforceModal() {
   }
 
   const suggestions = selectedMember
-    ? ['Analyze RFM scores', 'Check risk status', 'Recommend next actions', 'Show spending breakdown']
+    ? ['Analyze segment profile', 'Check risk status', 'Recommend next actions', 'Show spending breakdown']
     : ['Show at-risk members', 'Explain segments', 'What can you do?'];
 
   return (
@@ -105,7 +106,7 @@ export default function AgentforceModal() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-6 right-6 w-[420px] h-[560px] rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden"
+            className="fixed bottom-4 right-4 left-4 sm:left-auto sm:bottom-6 sm:right-6 sm:w-[420px] h-[70vh] max-h-[560px] rounded-xl shadow-2xl flex flex-col z-50 overflow-hidden"
             style={{ background: 'white', border: '1px solid var(--sf-border)' }}
           >
             {/* Header */}
@@ -176,37 +177,40 @@ export default function AgentforceModal() {
             {messages.length <= 1 && (
               <div className="px-4 pb-2 flex flex-wrap gap-1.5">
                 {suggestions.map((s) => (
-                  <button
+                  <Chip
                     key={s}
+                    size="sm"
+                    variant="secondary"
                     onClick={() => { setInput(s); }}
-                    className="text-xs px-2.5 py-1 rounded-full border hover:bg-cyan-50 transition-colors"
-                    style={{ borderColor: 'var(--sf-border)', color: 'var(--sf-accent-dark)' }}
+                    className="cursor-pointer hover:bg-cyan-50 transition-colors"
+                    style={{ color: 'var(--sf-accent-dark)' }}
                   >
                     {s}
-                  </button>
+                  </Chip>
                 ))}
               </div>
             )}
 
             {/* Input */}
             <div className="p-3 flex gap-2 flex-shrink-0" style={{ borderTop: '1px solid var(--sf-border)' }}>
-              <input
+              <Input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Ask Agentforce..."
-                className="flex-1 px-3 py-2 rounded-lg text-sm outline-none focus:ring-2 focus:ring-cyan-400"
-                style={{ border: '1px solid var(--sf-border)' }}
+                aria-label="Ask Agentforce"
+                fullWidth
+                className="flex-1"
               />
-              <button
-                onClick={handleSend}
-                disabled={!input.trim()}
-                className="px-3 py-2 rounded-lg text-white text-sm font-medium disabled:opacity-40"
+              <Button
+                onPress={handleSend}
+                isDisabled={!input.trim()}
+                className="text-white"
                 style={{ background: 'var(--sf-accent)' }}
               >
                 Send
-              </button>
+              </Button>
             </div>
           </motion.div>
         )}

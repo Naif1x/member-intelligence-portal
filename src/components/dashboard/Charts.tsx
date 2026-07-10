@@ -2,12 +2,29 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card, Title, DonutChart, BarChart, Legend, TabGroup, TabList, Tab } from '@tremor/react';
+import { Card, Title, DonutChart, BarChart, TabGroup, TabList, Tab } from '@tremor/react';
 import { useApp, defaultFilters } from '@/lib/store';
-import { computeSummary, SEGMENT_TREMOR_COLORS, CHANNEL_TREMOR_COLORS, SEGMENT_TAB_LABELS, type SegmentTab } from '@/types';
+import { computeSummary, SEGMENT_COLORS, SEGMENT_TREMOR_COLORS, SEGMENT_TAB_LABELS, type SegmentTab } from '@/types';
 import { formatCurrency, getMemberName } from '@/lib/data';
 
 const SEGMENT_TABS: SegmentTab[] = ['general', 'golf', 'retail', 'food'];
+
+// Tremor's Legend truncates long labels ("Big Spe..."); this one wraps instead.
+function WrappingLegend({ items }: { items: { name: string }[] }) {
+  return (
+    <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5">
+      {items.map((d) => (
+        <div key={d.name} className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
+          <span
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+            style={{ background: SEGMENT_COLORS[d.name] || '#D1D5DB' }}
+          />
+          <span>{d.name}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export function SegmentDonut() {
   const { data, setFilters, setView, scrollToTable } = useApp();
@@ -46,11 +63,7 @@ export function SegmentDonut() {
         onValueChange={(v) => onSliceClick(v as { name?: string })}
         valueFormatter={(v) => `${v} members`}
       />
-      <Legend
-        className="mt-3"
-        categories={chartData.map((d) => d.name)}
-        colors={colors}
-      />
+      <WrappingLegend items={chartData} />
     </Card>
   );
 }
@@ -87,41 +100,6 @@ export function ChannelBar() {
         categories={['Revenue']}
         colors={['cyan']}
         valueFormatter={(v) => formatCurrency(v)}
-        onValueChange={(v) => onBarClick(v as { name?: string })}
-        showLegend={false}
-      />
-    </Card>
-  );
-}
-
-export function RecencyDistribution() {
-  const { data, setFilters, setView, scrollToTable } = useApp();
-  const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
-  if (!data || !summary) return null;
-
-  const chartData = summary.recencyDistribution
-    .filter((d) => d.r > 0)
-    .map((d) => ({ name: `R${d.r}`, Members: d.count, r: d.r }));
-
-  function onBarClick(v: { name?: string } | undefined) {
-    if (!v?.name) return;
-    const r = parseInt(v.name.replace('R', ''), 10);
-    if (Number.isNaN(r)) return;
-    setFilters({ ...defaultFilters, recencyScore: r });
-    setView('members');
-    scrollToTable();
-  }
-
-  return (
-    <Card>
-      <Title>Recency Score Distribution</Title>
-      <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>General R-score across all members — click to filter</p>
-      <BarChart
-        className="mt-4 h-56 cursor-pointer"
-        data={chartData}
-        index="name"
-        categories={['Members']}
-        colors={['blue']}
         onValueChange={(v) => onBarClick(v as { name?: string })}
         showLegend={false}
       />

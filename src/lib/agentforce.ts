@@ -1,5 +1,12 @@
 import type { Member, ChannelName } from '@/types';
+import { SEGMENT_ACTIONS } from '@/types';
 import { formatCurrency } from './data';
+
+const CHANNEL_SHORT_LABEL: Record<ChannelName, string> = { golf: 'Golf', retail: 'Retail', food: 'F&B' };
+
+function labelChannels(channels: ChannelName[]): string {
+  return channels.map((c) => CHANNEL_SHORT_LABEL[c]).join(', ');
+}
 
 export interface ChatMessage {
   id: string;
@@ -31,12 +38,11 @@ export function generateAgentResponse(input: string, member?: Member | null): st
     const atRiskChannels = getAtRiskChannels(member);
 
     if (lower.includes('win-back') || lower.includes('win back')) {
-      const channelList = atRiskChannels.join(', ') || 'their overall profile';
-      const strongChannels: string[] = [];
-      if (member.golf.score > 0 && !atRiskChannels.includes('golf')) strongChannels.push(`Golf (${member.golf.score})`);
-      if (member.retail.score > 0 && !atRiskChannels.includes('retail')) strongChannels.push(`Retail (${member.retail.score})`);
-      if (member.food.score > 0 && !atRiskChannels.includes('food')) strongChannels.push(`F&B (${member.food.score})`);
-      return `Win-Back Strategy for ${name}:\n\nDeclining recency in ${channelList}, while remaining active in ${strongChannels.join(', ') || 'other channels'}. This is a high-value member disengaging from one channel — not the whole relationship.\n\n1. Send a personalized offer targeting the declining channel specifically\n2. Time the outreach within 14 days to catch them before full churn\n3. Reference their activity in other channels to reinforce the relationship\n\nShall I draft the outreach message?`;
+      const channelList = labelChannels(atRiskChannels) || 'their overall profile';
+      const strongChannels = (['golf', 'retail', 'food'] as ChannelName[]).filter(
+        (c) => member[c].score > 0 && !atRiskChannels.includes(c)
+      );
+      return `Win-Back Strategy for ${name}:\n\nDeclining recency in ${channelList}, while remaining active in ${labelChannels(strongChannels) || 'other channels'}. This is a high-value member disengaging from one channel — not the whole relationship.\n\n1. Send a personalized offer targeting the declining channel specifically\n2. Time the outreach within 14 days to catch them before full churn\n3. Reference their activity in other channels to reinforce the relationship\n\nShall I draft the outreach message?`;
     }
 
     if (lower.includes('cross-sell') || lower.includes('cross sell')) {
@@ -48,18 +54,26 @@ export function generateAgentResponse(input: string, member?: Member | null): st
     }
 
     if (lower.includes('deep analysis') || lower.includes('deep rfm') || lower.includes('deep dive')) {
-      const channelEntries: [string, number][] = [['Golf', member.golf.score], ['Retail', member.retail.score], ['F&B', member.food.score]];
-      const lowest = channelEntries.filter(([, s]) => s > 0).reduce((a, b) => (b[1] < a[1] ? b : a), channelEntries[0]);
-      return `Deep RFM Analysis for ${name}:\n\nGeneral score is ${member.general.score}, averaged across channels. But this masks real variance — ${lowest[0]} sits at ${lowest[1]}, well below the general average. Blended scores can hide a channel-specific problem.\n\nRecommendation: track ${lowest[0]} recency independently rather than relying on the general score alone for this member.`;
+      const channelEntries: [string, number, string][] = [
+        ['Golf', member.golf.score, member.golf_segment],
+        ['Retail', member.retail.score, member.retail_segment],
+        ['F&B', member.food.score, member.food_segment],
+      ];
+      const active = channelEntries.filter(([, s]) => s > 0);
+      const lowest = active.length ? active.reduce((a, b) => (b[1] < a[1] ? b : a)) : null;
+      if (!lowest) {
+        return `Deep Analysis for ${name}:\n\nNo active channel engagement found — their overall standing is "${member.general_segment}". Verify identity resolution for this profile before acting on it.`;
+      }
+      return `Deep Analysis for ${name}:\n\nTheir overall standing is "${member.general_segment}", but channel-level standing varies — ${lowest[0]} sits at "${lowest[2]}", the weakest of their active channels. A healthy blended segment can hide channel-specific decline.\n\nRecommendation: track ${lowest[0]} engagement independently rather than relying on the overall segment alone for this member.`;
     }
 
     if (lower.includes('campaign brief') || lower.includes('campaign for')) {
-      return `Campaign Brief — ${member.general_segment} segment:\n\nMember: ${name}\nSegment: ${member.general_segment}\nTotal Spend: ${formatCurrency(member.total_spend)}\nGeneral RFM: ${member.general.score}\n\nSuggested approach: ${member.flagged ? 'prioritize retention — this member shows risk signals despite historical value.' : 'reinforce loyalty with recognition rather than discounting — their engagement is currently healthy.'}`;
+      return `Campaign Brief — ${member.general_segment} segment:\n\nMember: ${name}\nSegment: ${member.general_segment}\nTotal Spend: ${formatCurrency(member.total_spend)}\n\nSuggested approach: ${member.flagged ? 'prioritize retention — this member shows risk signals despite historical value.' : 'reinforce loyalty with recognition rather than discounting — their engagement is currently healthy.'}`;
     }
 
     if (lower.includes('risk') || lower.includes('churn') || lower.includes('retain')) {
       if (member.flagged) {
-        const channelList = atRiskChannels.length ? atRiskChannels.join(', ') : 'their general profile';
+        const channelList = labelChannels(atRiskChannels) || 'their general profile';
         return `${name} is flagged at-risk (${channelList}). This reflects declining recency with sustained high spend — a "Big Spender at Risk" pattern. I recommend a personalized re-engagement offer: a complimentary ${atRiskChannels[0] === 'golf' ? 'tee time with cart' : atRiskChannels[0] === 'food' ? 'dining experience' : 'in-store event'} to bring them back within 14 days.`;
       }
       return `${name} is currently not flagged. Their engagement is healthy across active channels. I'd recommend a loyalty recognition touchpoint to reinforce their positive behavior.`;
@@ -67,12 +81,16 @@ export function generateAgentResponse(input: string, member?: Member | null): st
 
     if (lower.includes('rfm') || lower.includes('score') || lower.includes('segment')) {
       const channelCount = [member.golf, member.retail, member.food].filter((c) => c.score > 0).length;
-      return `${name}'s General RFM is ${member.general.score} (R${member.general.r} F${member.general.f} M${member.general.m}), placing them in the "${member.general_segment}" segment with ${formatCurrency(member.total_spend)} total spend across ${channelCount} channel${channelCount === 1 ? '' : 's'}.`;
+      const standing: string[] = [];
+      if (member.golf.score > 0) standing.push(`Golf "${member.golf_segment}"`);
+      if (member.retail.score > 0) standing.push(`Retail "${member.retail_segment}"`);
+      if (member.food.score > 0) standing.push(`F&B "${member.food_segment}"`);
+      return `${name} is in the "${member.general_segment}" segment with ${formatCurrency(member.total_spend)} total spend across ${channelCount} channel${channelCount === 1 ? '' : 's'}.${standing.length ? `\n\nChannel standing: ${standing.join(', ')}.` : ''}`;
     }
 
     if (lower.includes('recommend') || lower.includes('next best') || lower.includes('action')) {
       const actions: string[] = [];
-      if (member.flagged) actions.push(`Re-engage in ${atRiskChannels.join(', ') || 'their core channel'} with a personalized offer`);
+      if (member.flagged) actions.push(`Re-engage in ${labelChannels(atRiskChannels) || 'their core channel'} with a personalized offer`);
       if (member.golf.score > 0 && member.retail.score === 0) actions.push('Cross-sell retail products during next golf visit');
       if (member.retail.score > 0 && member.food.score === 0) actions.push('Introduce F&B experience with a complimentary appetizer');
       if (actions.length === 0) actions.push('Send loyalty milestone recognition', 'Invite to exclusive member event');
@@ -89,7 +107,14 @@ export function generateAgentResponse(input: string, member?: Member | null): st
       return `${firstName}'s spending breakdown:\n${parts.join('\n')}\nTotal Spend: ${formatCurrency(member.total_spend)}\n\nTheir highest-value channel is ${top[0] === 'golf' ? 'Golf' : top[0] === 'retail' ? 'Retail' : 'F&B'}.`;
     }
 
-    return `I have ${name}'s full D360 profile loaded. They're a "${member.general_segment}" with ${formatCurrency(member.total_spend)} total spend${member.flagged ? `, flagged at-risk in ${atRiskChannels.join(', ') || 'their profile'}` : ''}. Ask me about their RFM scores, spending patterns, risk analysis, or next best actions.`;
+    return `I have ${name}'s full D360 profile loaded. They're a "${member.general_segment}" with ${formatCurrency(member.total_spend)} total spend${member.flagged ? `, flagged at-risk in ${labelChannels(atRiskChannels) || 'their profile'}` : ''}. Ask me about their segment profile, spending patterns, risk analysis, or next best actions.`;
+  }
+
+  const campaignMatch = input.match(/campaign brief for the "([^"]+)" segment \((\d+) members?, (SAR [\d,]+) total spend\)/i);
+  if (campaignMatch) {
+    const [, segmentName, count, totalSpend] = campaignMatch;
+    const action = SEGMENT_ACTIONS[segmentName] || 'Review this segment individually — no standard playbook matches its profile.';
+    return `Campaign Brief — ${segmentName} segment:\n\nMembers: ${count}\nTotal Spend: ${totalSpend}\n\nRecommended approach: ${action}`;
   }
 
   if (lower.includes('at risk') || lower.includes('at-risk') || lower.includes('churn')) {
@@ -101,7 +126,7 @@ export function generateAgentResponse(input: string, member?: Member | null): st
   }
 
   if (lower.includes('help') || lower.includes('what can')) {
-    return "I'm your Agentforce-powered D360 assistant. I can:\n1. Analyze any member's RFM profile and segment\n2. Generate at-risk alerts and retention strategies\n3. Recommend Next Best Actions per member\n4. Explain spending patterns across Golf, Retail, and F&B\n5. Create engagement campaign briefs\n\nSelect a member for personalized insights, or ask me about the overall portfolio.";
+    return "I'm your Agentforce-powered D360 assistant. I can:\n1. Analyze any member's segment profile\n2. Generate at-risk alerts and retention strategies\n3. Recommend Next Best Actions per member\n4. Explain spending patterns across Golf, Retail, and F&B\n5. Create engagement campaign briefs\n\nSelect a member for personalized insights, or ask me about the overall portfolio.";
   }
 
   return GENERAL_RESPONSES[Math.floor(Math.random() * GENERAL_RESPONSES.length)];

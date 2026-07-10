@@ -118,16 +118,12 @@ export const SEGMENT_TAB_LABELS: Record<SegmentTab, string> = {
 export interface DataSummary {
   totalMembers: number;
   flaggedMembers: number;
-  buyingMembers: number;
   championMembers: number;
   avgTotalSpend: number;
-  avgFrequencyScore: number;
   totalSales: number;
   segmentDistribution: Record<string, number>;
   segmentDistributionByTab: Record<SegmentTab, Record<string, number>>;
-  channelCoverage: Record<ChannelName, number>;
   channelSpend: Record<ChannelName, number>;
-  recencyDistribution: { r: number; count: number }[];
   topMembersBySpend: Member[];
 }
 
@@ -139,14 +135,10 @@ export function computeSummary(members: Member[]): DataSummary {
     retail: {},
     food: {},
   };
-  const channelCoverage: Record<ChannelName, number> = { golf: 0, retail: 0, food: 0 };
   const channelSpend: Record<ChannelName, number> = { golf: 0, retail: 0, food: 0 };
-  const recencyBuckets: Record<number, number> = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 };
   let flaggedMembers = 0;
-  let buyingMembers = 0;
   let championMembers = 0;
   let totalSpend = 0;
-  let totalFreqScore = 0;
 
   members.forEach((m) => {
     segmentDistribution[m.general_segment] = (segmentDistribution[m.general_segment] || 0) + 1;
@@ -155,15 +147,11 @@ export function computeSummary(members: Member[]): DataSummary {
       segmentDistributionByTab[tab][seg] = (segmentDistributionByTab[tab][seg] || 0) + 1;
     });
     (['golf', 'retail', 'food'] as ChannelName[]).forEach((ch) => {
-      if (hasChannelData(m, ch)) channelCoverage[ch]++;
       channelSpend[ch] += m[ch].spend;
     });
     if (m.flagged) flaggedMembers++;
-    if (m.total_spend > 0) buyingMembers++;
     if (m.general_segment === 'Champion') championMembers++;
     totalSpend += m.total_spend;
-    totalFreqScore += m.general.f;
-    recencyBuckets[m.general.r] = (recencyBuckets[m.general.r] || 0) + 1;
   });
 
   const topMembersBySpend = [...members].sort((a, b) => b.total_spend - a.total_spend).slice(0, 10);
@@ -171,16 +159,12 @@ export function computeSummary(members: Member[]): DataSummary {
   return {
     totalMembers: members.length,
     flaggedMembers,
-    buyingMembers,
     championMembers,
     avgTotalSpend: members.length ? Math.round(totalSpend / members.length) : 0,
-    avgFrequencyScore: members.length ? Math.round((totalFreqScore / members.length) * 10) / 10 : 0,
     totalSales: Math.round(totalSpend),
     segmentDistribution,
     segmentDistributionByTab,
-    channelCoverage,
     channelSpend,
-    recencyDistribution: [0, 1, 2, 3, 4].map((r) => ({ r, count: recencyBuckets[r] || 0 })),
     topMembersBySpend,
   };
 }

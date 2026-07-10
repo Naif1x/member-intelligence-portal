@@ -38,7 +38,6 @@ export interface FilterState {
   channel: ChannelName | '';
   riskOnly: boolean;
   buyingOnly: boolean;
-  recencyScore: number | null;
   sortBy: string;
   sortDir: 'asc' | 'desc';
 }
@@ -50,7 +49,6 @@ export const defaultFilters: FilterState = {
   channel: '',
   riskOnly: false,
   buyingOnly: false,
-  recencyScore: null,
   sortBy: 'total_spend',
   sortDir: 'desc',
 };

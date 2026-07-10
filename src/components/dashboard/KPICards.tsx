@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { Card, Metric, Text, Flex } from '@tremor/react';
+import { Card } from '@heroui/react';
 import { useApp } from '@/lib/store';
 import { formatCurrency, formatNumber } from '@/lib/data';
 import { computeSummary, type DataSummary } from '@/types';
@@ -38,7 +38,7 @@ const KPI_DEFINITIONS: KPIDefinition[] = [
     label: 'Champions',
     icon: '🏆',
     getValue: (s) => formatNumber(s.championMembers),
-    getSub: () => 'Highest RFM tier',
+    getSub: () => 'Highest engagement tier',
     filter: { segment: 'Champion', segmentTab: 'general' },
   },
   {
@@ -62,19 +62,21 @@ const KPI_DEFINITIONS: KPIDefinition[] = [
 function KPICard({ label, value, sub, icon, onClick }: { label: string; value: string; sub?: string; icon: string; onClick?: () => void }) {
   return (
     <Card
-      className="cursor-pointer transition-all hover:shadow-md hover:-translate-y-0.5"
+      role="button"
+      tabIndex={0}
       onClick={onClick}
-      decoration="top"
-      decorationColor="cyan"
+      onKeyDown={(e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(); }}
+      className="cursor-pointer transition-all hover:shadow-md hover:-translate-y-0.5 border-t-4"
+      style={{ borderTopColor: 'var(--sf-accent)' }}
     >
-      <Flex justifyContent="between" alignItems="start">
+      <Card.Content className="flex flex-row items-start justify-between gap-2 p-4">
         <div className="min-w-0">
-          <Text>{label}</Text>
-          <Metric className="mt-1" style={{ color: 'var(--sf-accent-dark)' }}>{value}</Metric>
-          {sub && <Text className="mt-1 text-xs truncate">{sub}</Text>}
+          <div className="text-sm" style={{ color: 'var(--sf-text-secondary)' }}>{label}</div>
+          <div className="mt-1 text-2xl font-semibold" style={{ color: 'var(--sf-accent-dark)' }}>{value}</div>
+          {sub && <div className="mt-1 text-xs" style={{ color: 'var(--sf-text-secondary)' }}>{sub}</div>}
         </div>
         <div className="text-xl flex-shrink-0">{icon}</div>
-      </Flex>
+      </Card.Content>
     </Card>
   );
 }

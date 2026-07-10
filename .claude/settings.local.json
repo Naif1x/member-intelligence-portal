@@ -23,7 +23,9 @@
       "Bash(node -e ' *)",
       "Bash(curl -sS https://api.vercel.com/v13/deployments/dpl_AAXASynq8vWV8VacNbia3Poax5Jg?teamId=team_d7e2D7BViA1QW1KCamsxji1P -H 'Authorization: Bearer __CMDSUB_OUTPUT__')",
       "Bash(npm install *)",
-      "Bash(node -e \"console.log\\(require\\('@tremor/react/package.json'\\).main\\)\")"
+      "Bash(node -e \"console.log\\(require\\('@tremor/react/package.json'\\).main\\)\")",
+      "Bash(npx tsc *)",
+      "Bash(git fetch *)"
     ]
   }
 }

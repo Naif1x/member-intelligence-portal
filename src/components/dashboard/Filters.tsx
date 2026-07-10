@@ -1,5 +1,6 @@
 'use client';
 
+import { Button, Input } from '@heroui/react';
 import { useApp } from '@/lib/store';
 import type { FilterState } from '@/lib/store';
 import type { ChannelName } from '@/types';
@@ -18,7 +19,7 @@ export default function Filters() {
     setFilters({ ...filters, ...partial });
   }
 
-  const inputStyle = {
+  const selectStyle = {
     border: '1px solid var(--sf-border)',
     fontSize: '0.8125rem',
     color: 'var(--sf-text)',
@@ -26,21 +27,22 @@ export default function Filters() {
   };
 
   return (
-    <div className="slds-card p-3 mb-4 flex items-center gap-3 flex-wrap">
-      <input
+    <div className="bg-white border rounded-xl shadow-sm p-3 mb-4 flex items-center gap-3 flex-wrap" style={{ borderColor: 'var(--sf-border)' }}>
+      <Input
         type="text"
         placeholder="Search by name, email, or ID..."
+        aria-label="Search members"
         value={filters.search}
         onChange={(e) => update({ search: e.target.value })}
-        className="px-3 py-1.5 rounded-md flex-1 min-w-[200px] outline-none focus:ring-2 focus:ring-cyan-400"
-        style={inputStyle}
+        className="flex-1 min-w-[200px]"
       />
 
       <select
         value={filters.segmentTab === 'general' ? filters.segment : ''}
         onChange={(e) => update({ segment: e.target.value, segmentTab: 'general' })}
-        className="px-3 py-1.5 rounded-md outline-none"
-        style={inputStyle}
+        className="px-3 py-2 rounded-lg outline-none"
+        style={selectStyle}
+        aria-label="Filter by segment"
       >
         <option value="">All Segments</option>
         {SEGMENTS.map((s) => (
@@ -51,8 +53,9 @@ export default function Filters() {
       <select
         value={filters.channel}
         onChange={(e) => update({ channel: e.target.value as ChannelName | '' })}
-        className="px-3 py-1.5 rounded-md outline-none"
-        style={inputStyle}
+        className="px-3 py-2 rounded-lg outline-none"
+        style={selectStyle}
+        aria-label="Filter by channel"
       >
         <option value="">All Channels</option>
         <option value="golf">Golf</option>
@@ -70,13 +73,15 @@ export default function Filters() {
         At-Risk Only
       </label>
 
-      <button
-        onClick={() => setFiltersOpen(false)}
-        className="text-xs px-2 py-1 rounded hover:bg-gray-100 ml-auto"
+      <Button
+        size="sm"
+        variant="ghost"
+        onPress={() => setFiltersOpen(false)}
+        className="ml-auto"
         style={{ color: 'var(--sf-accent-dark)' }}
       >
         Hide Filters
-      </button>
+      </Button>
     </div>
   );
 }

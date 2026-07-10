@@ -1,10 +1,11 @@
 'use client';
 
 import { useMemo } from 'react';
-import { Card, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell } from '@tremor/react';
+import { Button, Card, Table } from '@heroui/react';
 import { useApp, defaultFilters } from '@/lib/store';
 import { formatCurrency } from '@/lib/data';
-import { SEGMENT_COLORS, SEGMENT_ACTIONS } from '@/types';
+import { SEGMENT_ACTIONS } from '@/types';
+import SegmentChip from '@/components/ui/SegmentChip';
 
 export default function CampaignAnalysis() {
   const { data, setFilters, setView, scrollToTable, openChatWithContext } = useApp();
@@ -32,64 +33,67 @@ export default function CampaignAnalysis() {
 
   return (
     <Card>
-      <div className="mb-3">
-        <span className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>Campaign Analysis by Segment</span>
-        <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>
+      <Card.Header className="flex flex-col items-start gap-0.5 pb-0">
+        <Card.Title className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>Campaign Analysis by Segment</Card.Title>
+        <Card.Description className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
           Aggregated spend and recommended campaign action per D360 segment
-        </p>
-      </div>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeaderCell>Segment</TableHeaderCell>
-            <TableHeaderCell>Members</TableHeaderCell>
-            <TableHeaderCell>Total Spend</TableHeaderCell>
-            <TableHeaderCell>Avg. Spend</TableHeaderCell>
-            <TableHeaderCell>Recommended Action</TableHeaderCell>
-            <TableHeaderCell>Actions</TableHeaderCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.segment}>
-              <TableCell>
-                <span
-                  className="slds-badge"
-                  style={{ background: `${SEGMENT_COLORS[row.segment]}18`, color: SEGMENT_COLORS[row.segment] }}
-                >
-                  {row.segment}
-                </span>
-              </TableCell>
-              <TableCell>{row.count}</TableCell>
-              <TableCell className="font-medium" style={{ color: 'var(--sf-primary)' }}>{formatCurrency(row.totalSpend)}</TableCell>
-              <TableCell>{formatCurrency(row.avgSpend)}</TableCell>
-              <TableCell className="text-xs max-w-xs" style={{ color: 'var(--sf-text-secondary)' }}>{row.action}</TableCell>
-              <TableCell>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => {
-                      setFilters({ ...defaultFilters, segment: row.segment });
-                      setView('members');
-                      scrollToTable();
-                    }}
-                    className="text-xs font-medium hover:underline"
-                    style={{ color: 'var(--sf-accent-dark)' }}
-                  >
-                    View Members
-                  </button>
-                  <button
-                    onClick={() => openChatWithContext(`Generate a campaign brief for the "${row.segment}" segment (${row.count} members, ${formatCurrency(row.totalSpend)} total spend).`)}
-                    className="text-xs font-medium hover:underline"
-                    style={{ color: 'var(--sf-accent-dark)' }}
-                  >
-                    Ask Agentforce
-                  </button>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+        </Card.Description>
+      </Card.Header>
+      <Card.Content>
+        <Table>
+          <Table.ScrollContainer className="overflow-x-auto">
+            <Table.Content aria-label="Campaign analysis by segment">
+              <Table.Header>
+                <Table.Column isRowHeader>Segment</Table.Column>
+                <Table.Column>Members</Table.Column>
+                <Table.Column>Total Spend</Table.Column>
+                <Table.Column>Avg. Spend</Table.Column>
+                <Table.Column>Recommended Action</Table.Column>
+                <Table.Column>Actions</Table.Column>
+              </Table.Header>
+              <Table.Body items={rows.map((r) => ({ ...r, id: r.segment }))}>
+                {(row) => (
+                  <Table.Row id={row.segment}>
+                    <Table.Cell><SegmentChip segment={row.segment} /></Table.Cell>
+                    <Table.Cell>{row.count}</Table.Cell>
+                    <Table.Cell>
+                      <span className="font-medium" style={{ color: 'var(--sf-primary)' }}>{formatCurrency(row.totalSpend)}</span>
+                    </Table.Cell>
+                    <Table.Cell>{formatCurrency(row.avgSpend)}</Table.Cell>
+                    <Table.Cell>
+                      <span className="text-xs max-w-xs block" style={{ color: 'var(--sf-text-secondary)' }}>{row.action}</span>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <div className="flex gap-1">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onPress={() => {
+                            setFilters({ ...defaultFilters, segment: row.segment });
+                            setView('members');
+                            scrollToTable();
+                          }}
+                          style={{ color: 'var(--sf-accent-dark)' }}
+                        >
+                          View Members
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onPress={() => openChatWithContext(`Generate a campaign brief for the "${row.segment}" segment (${row.count} members, ${formatCurrency(row.totalSpend)} total spend).`)}
+                          style={{ color: 'var(--sf-accent-dark)' }}
+                        >
+                          Ask Agentforce
+                        </Button>
+                      </div>
+                    </Table.Cell>
+                  </Table.Row>
+                )}
+              </Table.Body>
+            </Table.Content>
+          </Table.ScrollContainer>
+        </Table>
+      </Card.Content>
     </Card>
   );
 }
