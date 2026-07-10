@@ -4,73 +4,103 @@ import { useApp } from '@/lib/store';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatCurrency } from '@/lib/data';
 import type { Member, ChannelName } from '@/types';
-import { CHANNEL_LABELS } from '@/types';
+import { CHANNEL_LABELS, getAtRiskChannels } from '@/types';
 
-function InsightCard({ title, description, action }: { title: string; description: string; action: string }) {
+interface Insight {
+  icon: string;
+  text: string;
+  actionLabel: string;
+  actionPrompt: string;
+}
+
+function InsightCard({ insight, onAction }: { insight: Insight; onAction: (prompt: string) => void }) {
   return (
     <div className="slds-card p-3 mb-2">
-      <div className="text-sm font-semibold mb-1" style={{ color: 'var(--sf-primary)' }}>{title}</div>
-      <p className="text-xs mb-2" style={{ color: 'var(--sf-text-secondary)' }}>{description}</p>
+      <div className="flex gap-2 mb-2">
+        <span className="text-base flex-shrink-0">{insight.icon}</span>
+        <p className="text-xs leading-relaxed" style={{ color: 'var(--sf-text)' }}>{insight.text}</p>
+      </div>
       <button
+        onClick={() => onAction(insight.actionPrompt)}
         className="text-xs font-medium px-3 py-1.5 rounded"
-        style={{ background: 'var(--sf-secondary)', color: 'white' }}
+        style={{ background: 'var(--sf-accent)', color: 'white' }}
       >
-        {action}
+        {insight.actionLabel}
       </button>
     </div>
   );
 }
 
-function getAtRiskChannels(m: Member): ChannelName[] {
-  const channels: ChannelName[] = [];
-  if (m.golf_segment === 'Big Spender at Risk') channels.push('golf');
-  if (m.retail_segment === 'Big Spender at Risk') channels.push('retail');
-  if (m.food_segment === 'Big Spender at Risk') channels.push('food');
-  return channels;
-}
-
-function getInsights(member: Member) {
-  const insights = [];
-  const firstName = member.name.split(/\s+/)[0];
+function buildInsights(member: Member): Insight[] {
+  const insights: Insight[] = [];
+  const name = member.name;
+  const firstName = name.split(/\s+/)[0];
   const atRiskChannels = getAtRiskChannels(member);
 
-  if (member.flagged) {
+  // 1. At-risk channel vs. healthy channels
+  if (member.flagged && atRiskChannels.length > 0) {
+    const strong: string[] = [];
+    (['golf', 'retail', 'food'] as ChannelName[]).forEach((ch) => {
+      if (member[ch].score > 0 && !atRiskChannels.includes(ch)) {
+        strong.push(`${CHANNEL_LABELS[ch]} (${member[ch].score})`);
+      }
+    });
+    const riskLabel = atRiskChannels.map((c) => CHANNEL_LABELS[c]).join(', ');
     insights.push({
-      title: `At-Risk: ${atRiskChannels.map((c) => CHANNEL_LABELS[c]).join(', ') || 'General'}`,
-      description: `${firstName} shows declining engagement (low recency, high spend) in ${atRiskChannels.map((c) => CHANNEL_LABELS[c]).join(', ') || 'their overall profile'}. Re-engagement within 14 days recommended.`,
-      action: 'Create Re-engagement Flow',
+      icon: '⚠️',
+      text: `${firstName} shows declining recency in ${riskLabel} but remains active in ${strong.join(' and ') || 'other channels'}. High churn risk in this channel specifically.`,
+      actionLabel: 'Launch Win-Back Agent',
+      actionPrompt: `Generate a win-back strategy for ${name}, who is at risk in ${riskLabel}.`,
     });
   }
 
-  if (member.golf.score > 0 && member.retail.score === 0) {
-    insights.push({
-      title: 'Cross-sell Opportunity',
-      description: `${firstName} is active in Golf but hasn't visited Retail. Personalized offer for golf equipment could drive incremental revenue.`,
-      action: 'Send Retail Offer',
-    });
+  // 2. Spend concentration / cross-sell
+  const channelSpends: [ChannelName, number][] = [['golf', member.golf.spend], ['retail', member.retail.spend], ['food', member.food.spend]];
+  const activeSpends = channelSpends.filter(([, spend]) => spend > 0);
+  if (activeSpends.length >= 1 && member.total_spend > 0) {
+    const top = activeSpends.reduce((a, b) => (b[1] > a[1] ? b : a));
+    const pct = Math.round((top[1] / member.total_spend) * 100);
+    const missingChannels = (['golf', 'retail', 'food'] as ChannelName[]).filter((ch) => member[ch].score === 0);
+    if (pct >= 50 || missingChannels.length > 0) {
+      insights.push({
+        icon: '💡',
+        text: `${pct}% of spend concentrated in ${CHANNEL_LABELS[top[0]]}.${missingChannels.length > 0 ? ` No activity yet in ${missingChannels.map((c) => CHANNEL_LABELS[c]).join(', ')} — cross-sell opportunity.` : ' Consider diversifying engagement across channels.'}`,
+        actionLabel: 'Promote Cross-Sell Offer',
+        actionPrompt: `Suggest a cross-sell offer for ${name}, whose spend is concentrated in ${CHANNEL_LABELS[top[0]]}.`,
+      });
+    }
   }
 
-  if (member.retail.score > 0 && member.food.score === 0) {
-    insights.push({
-      title: 'F&B Introduction',
-      description: `${firstName} shops at Retail but hasn't dined with us. A complimentary appetizer voucher could expand engagement.`,
-      action: 'Send Dining Voucher',
-    });
+  // 3. General score masking a weak channel
+  const scored = channelSpends.map(([ch]) => ({ ch, score: member[ch].score })).filter((c) => c.score > 0);
+  if (scored.length >= 2) {
+    const lowest = scored.reduce((a, b) => (b.score < a.score ? b : a));
+    if (member.general.score - lowest.score >= 100) {
+      insights.push({
+        icon: '📊',
+        text: `General RFM ${member.general.score} masks a weaker ${CHANNEL_LABELS[lowest.ch]} score (${lowest.score}). Blended scores can hide channel-specific decline.`,
+        actionLabel: 'Deep Analysis',
+        actionPrompt: `Do a deep RFM analysis for ${name} — general score is ${member.general.score} but ${CHANNEL_LABELS[lowest.ch]} shows ${lowest.score}.`,
+      });
+    }
   }
 
+  // 4. Champion recognition
   if (member.general_segment === 'Champion') {
     insights.push({
-      title: 'VIP Recognition',
-      description: `As a Champion with ${formatCurrency(member.total_spend)} total spend, ${firstName} qualifies for exclusive member events.`,
-      action: 'Invite to VIP Event',
+      icon: '🏆',
+      text: `${firstName} is a Champion with ${formatCurrency(member.total_spend)} total spend. Protect this relationship with recognition, not discounting.`,
+      actionLabel: 'Draft VIP Recognition',
+      actionPrompt: `Draft a VIP recognition message for ${name}, a Champion-segment member with ${formatCurrency(member.total_spend)} total spend.`,
     });
   }
 
   if (insights.length === 0) {
     insights.push({
-      title: 'Engagement Healthy',
-      description: `${firstName}'s engagement metrics are stable. Continue current touchpoint cadence.`,
-      action: 'View Full Profile',
+      icon: '✅',
+      text: `${firstName}'s engagement metrics are stable across active channels. Continue current touchpoint cadence.`,
+      actionLabel: 'View Full Profile',
+      actionPrompt: `Summarize ${name}'s current engagement across all channels.`,
     });
   }
 
@@ -78,25 +108,25 @@ function getInsights(member: Member) {
 }
 
 export default function RightPanel() {
-  const { rightPanelOpen, setRightPanelOpen, selectedMember } = useApp();
+  const { rightPanelOpen, setRightPanelOpen, selectedMember, openChatWithContext } = useApp();
 
   return (
     <AnimatePresence>
       {rightPanelOpen && selectedMember && (
         <motion.aside
-          initial={{ x: 400, opacity: 0 }}
+          initial={{ x: 380, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
-          exit={{ x: 400, opacity: 0 }}
+          exit={{ x: 380, opacity: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="h-full flex-shrink-0 border-l overflow-y-auto"
+          className="h-full flex-shrink-0 border-l overflow-y-auto hidden lg:flex lg:flex-col"
           style={{
-            width: 400,
+            width: 380,
             borderColor: 'var(--sf-border)',
             background: 'var(--sf-surface)',
           }}
         >
           {/* Header */}
-          <div className="p-4 border-b flex items-center justify-between" style={{ borderColor: 'var(--sf-border)', background: 'white' }}>
+          <div className="p-4 border-b flex items-center justify-between flex-shrink-0" style={{ borderColor: 'var(--sf-border)', background: 'white' }}>
             <div>
               <div className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>
                 Business Insights
@@ -114,7 +144,7 @@ export default function RightPanel() {
           </div>
 
           {/* Member Quick Stats */}
-          <div className="p-4">
+          <div className="p-4 overflow-y-auto">
             <div className="slds-card p-3 mb-3">
               <div className="grid grid-cols-2 gap-3">
                 <div>
@@ -146,8 +176,8 @@ export default function RightPanel() {
             <div className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--sf-text-secondary)' }}>
               AI-Generated Insights
             </div>
-            {getInsights(selectedMember).map((insight, i) => (
-              <InsightCard key={i} {...insight} />
+            {buildInsights(selectedMember).map((insight, i) => (
+              <InsightCard key={i} insight={insight} onAction={openChatWithContext} />
             ))}
           </div>
         </motion.aside>

@@ -1,166 +1,159 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useApp } from '@/lib/store';
-import {
-  PieChart, Pie, Cell, ResponsiveContainer, Tooltip,
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend,
-} from 'recharts';
-import { SEGMENT_COLORS, CHANNEL_COLORS, computeSummary, type ChannelName } from '@/types';
+import { useRouter } from 'next/navigation';
+import { Card, Title, DonutChart, BarChart, Legend } from '@tremor/react';
+import { useApp, defaultFilters } from '@/lib/store';
+import { computeSummary, SEGMENT_TREMOR_COLORS, CHANNEL_TREMOR_COLORS } from '@/types';
+import { formatCurrency, getMemberName } from '@/lib/data';
 
 export function SegmentDonut() {
-  const { data } = useApp();
+  const { data, setFilters, setView, scrollToTable } = useApp();
   const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
   if (!data || !summary) return null;
 
-  const chartData = Object.entries(summary.segmentDistribution).map(([name, value]) => ({
-    name,
-    value,
-    color: SEGMENT_COLORS[name] || '#8B8D8F',
-  }));
+  const chartData = Object.entries(summary.segmentDistribution).map(([name, value]) => ({ name, value }));
+  const colors = chartData.map((d) => SEGMENT_TREMOR_COLORS[d.name] || 'gray');
+
+  function onSliceClick(v: { name?: string } | undefined) {
+    if (!v?.name) return;
+    setFilters({ ...defaultFilters, segment: v.name });
+    setView('members');
+    scrollToTable();
+  }
 
   return (
-    <div className="slds-card p-4">
-      <div className="text-sm font-bold mb-3" style={{ color: 'var(--sf-primary)' }}>
-        Segment Distribution
-      </div>
-      <div className="h-[220px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={chartData}
-              cx="50%"
-              cy="50%"
-              innerRadius={55}
-              outerRadius={85}
-              paddingAngle={2}
-              dataKey="value"
-            >
-              {chartData.map((entry, index) => (
-                <Cell key={index} fill={entry.color} />
-              ))}
-            </Pie>
-            <Tooltip
-              formatter={(value) => [`${value} members`]}
-              contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid var(--sf-border)' }}
-            />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2">
-        {chartData.map((d) => (
-          <div key={d.name} className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-sm" style={{ background: d.color }} />
-            <span className="text-[11px]" style={{ color: 'var(--sf-text-secondary)' }}>
-              {d.name} ({d.value})
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
+    <Card>
+      <Title>Segment Distribution</Title>
+      <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>Click a segment to filter members</p>
+      <DonutChart
+        className="mt-4 h-56 cursor-pointer"
+        data={chartData}
+        category="value"
+        index="name"
+        colors={colors}
+        onValueChange={(v) => onSliceClick(v as { name?: string })}
+        valueFormatter={(v) => `${v} members`}
+      />
+      <Legend
+        className="mt-3"
+        categories={chartData.map((d) => d.name)}
+        colors={colors}
+      />
+    </Card>
   );
 }
 
 export function ChannelBar() {
-  const { data } = useApp();
-  if (!data) return null;
-
-  const channelSpend: Record<ChannelName, number> = { golf: 0, retail: 0, food: 0 };
-  data.members.forEach((m) => {
-    channelSpend.golf += m.golf.spend;
-    channelSpend.retail += m.retail.spend;
-    channelSpend.food += m.food.spend;
-  });
-
-  const chartData = [
-    { name: 'Golf', value: Math.round(channelSpend.golf), fill: CHANNEL_COLORS.golf },
-    { name: 'Retail', value: Math.round(channelSpend.retail), fill: CHANNEL_COLORS.retail },
-    { name: 'F&B', value: Math.round(channelSpend.food), fill: CHANNEL_COLORS.food },
-  ];
-
-  return (
-    <div className="slds-card p-4">
-      <div className="text-sm font-bold mb-3" style={{ color: 'var(--sf-primary)' }}>
-        Revenue by Channel
-      </div>
-      <div className="h-[220px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={chartData} layout="vertical" margin={{ left: 10, right: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-            <XAxis type="number" tickFormatter={(v) => `${Math.round(v / 1000)}K`} tick={{ fontSize: 11 }} />
-            <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} width={50} />
-            <Tooltip
-              formatter={(value) => [`SAR ${Number(value).toLocaleString()}`, 'Revenue']}
-              contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid var(--sf-border)' }}
-            />
-            <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-              {chartData.map((entry, index) => (
-                <Cell key={index} fill={entry.fill} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-      <div className="flex gap-4 mt-2">
-        {chartData.map((d) => (
-          <div key={d.name} className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-sm" style={{ background: d.fill }} />
-            <span className="text-[11px]" style={{ color: 'var(--sf-text-secondary)' }}>
-              {d.name}: SAR {(d.value / 1000).toFixed(0)}K
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export function ChannelCoverage() {
-  const { data } = useApp();
+  const { data, setFilters, setView, scrollToTable } = useApp();
   const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
   if (!data || !summary) return null;
 
-  const segments = Object.keys(summary.segmentDistribution);
-  const segmentMembers: Record<string, { golf: number; retail: number; food: number }> = {};
+  const chartData = [
+    { name: 'Golf', Revenue: Math.round(summary.channelSpend.golf) },
+    { name: 'Retail', Revenue: Math.round(summary.channelSpend.retail) },
+    { name: 'F&B', Revenue: Math.round(summary.channelSpend.food) },
+  ];
 
-  segments.forEach((seg) => {
-    segmentMembers[seg] = { golf: 0, retail: 0, food: 0 };
-  });
-
-  data.members.forEach((m) => {
-    const bucket = segmentMembers[m.general_segment];
-    if (!bucket) return;
-    if (m.golf.score > 0) bucket.golf++;
-    if (m.retail.score > 0) bucket.retail++;
-    if (m.food.score > 0) bucket.food++;
-  });
-
-  const chartData = segments.map((seg) => ({
-    name: seg,
-    Golf: segmentMembers[seg]?.golf || 0,
-    Retail: segmentMembers[seg]?.retail || 0,
-    'F&B': segmentMembers[seg]?.food || 0,
-  }));
+  function onBarClick(v: { name?: string } | undefined) {
+    if (!v?.name) return;
+    const map: Record<string, 'golf' | 'retail' | 'food'> = { Golf: 'golf', Retail: 'retail', 'F&B': 'food' };
+    const channel = map[v.name];
+    if (!channel) return;
+    setFilters({ ...defaultFilters, channel });
+    setView('members');
+    scrollToTable();
+  }
 
   return (
-    <div className="slds-card p-4">
-      <div className="text-sm font-bold mb-3" style={{ color: 'var(--sf-primary)' }}>
-        Channel Coverage by Segment
-      </div>
-      <div className="h-[250px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={chartData} margin={{ left: -10, right: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-            <XAxis dataKey="name" tick={{ fontSize: 10 }} angle={-25} textAnchor="end" height={60} />
-            <YAxis tick={{ fontSize: 11 }} />
-            <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid var(--sf-border)' }} />
-            <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar dataKey="Golf" stackId="a" fill={CHANNEL_COLORS.golf} radius={[0, 0, 0, 0]} />
-            <Bar dataKey="Retail" stackId="a" fill={CHANNEL_COLORS.retail} />
-            <Bar dataKey="F&B" stackId="a" fill={CHANNEL_COLORS.food} radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
+    <Card>
+      <Title>Revenue by Channel</Title>
+      <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>Click a bar to filter by channel</p>
+      <BarChart
+        className="mt-4 h-56 cursor-pointer"
+        data={chartData}
+        index="name"
+        categories={['Revenue']}
+        colors={['cyan']}
+        valueFormatter={(v) => formatCurrency(v)}
+        onValueChange={(v) => onBarClick(v as { name?: string })}
+        showLegend={false}
+      />
+    </Card>
+  );
+}
+
+export function RecencyDistribution() {
+  const { data, setFilters, setView, scrollToTable } = useApp();
+  const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
+  if (!data || !summary) return null;
+
+  const chartData = summary.recencyDistribution
+    .filter((d) => d.r > 0)
+    .map((d) => ({ name: `R${d.r}`, Members: d.count, r: d.r }));
+
+  function onBarClick(v: { name?: string } | undefined) {
+    if (!v?.name) return;
+    const r = parseInt(v.name.replace('R', ''), 10);
+    if (Number.isNaN(r)) return;
+    setFilters({ ...defaultFilters, recencyScore: r });
+    setView('members');
+    scrollToTable();
+  }
+
+  return (
+    <Card>
+      <Title>Recency Score Distribution</Title>
+      <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>General R-score across all members — click to filter</p>
+      <BarChart
+        className="mt-4 h-56 cursor-pointer"
+        data={chartData}
+        index="name"
+        categories={['Members']}
+        colors={['blue']}
+        onValueChange={(v) => onBarClick(v as { name?: string })}
+        showLegend={false}
+      />
+    </Card>
+  );
+}
+
+export function TopMembersBySpend() {
+  const { data, persistStateForNavigation } = useApp();
+  const router = useRouter();
+  const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
+  if (!data || !summary) return null;
+
+  const chartData = summary.topMembersBySpend.map((m) => ({
+    name: getMemberName(m).length > 18 ? getMemberName(m).slice(0, 18) + '…' : getMemberName(m),
+    Spend: Math.round(m.total_spend),
+    id: m.id,
+  }));
+
+  function onBarClick(v: { name?: string } | undefined) {
+    if (!v?.name) return;
+    const match = chartData.find((d) => d.name === v.name);
+    if (match) {
+      persistStateForNavigation();
+      router.push(`/member/${match.id}`);
+    }
+  }
+
+  return (
+    <Card>
+      <Title>Top Members by Spend</Title>
+      <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>Click a member to open their 360 profile</p>
+      <BarChart
+        className="mt-4 h-64 cursor-pointer"
+        data={chartData}
+        index="name"
+        categories={['Spend']}
+        colors={['cyan']}
+        layout="vertical"
+        valueFormatter={(v) => formatCurrency(v)}
+        onValueChange={(v) => onBarClick(v as { name?: string })}
+        showLegend={false}
+      />
+    </Card>
   );
 }

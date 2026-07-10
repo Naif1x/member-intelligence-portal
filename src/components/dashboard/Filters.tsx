@@ -2,6 +2,7 @@
 
 import { useApp } from '@/lib/store';
 import type { FilterState } from '@/lib/store';
+import type { ChannelName } from '@/types';
 
 const SEGMENTS = [
   'Champion', 'Loyal', 'Almost Loyal', 'Occasional',
@@ -9,7 +10,9 @@ const SEGMENTS = [
 ];
 
 export default function Filters() {
-  const { filters, setFilters } = useApp();
+  const { filters, setFilters, filtersOpen, setFiltersOpen } = useApp();
+
+  if (!filtersOpen) return null;
 
   function update(partial: Partial<FilterState>) {
     setFilters({ ...filters, ...partial });
@@ -29,7 +32,7 @@ export default function Filters() {
         placeholder="Search by name, email, or ID..."
         value={filters.search}
         onChange={(e) => update({ search: e.target.value })}
-        className="px-3 py-1.5 rounded-md flex-1 min-w-[200px] outline-none focus:ring-2 focus:ring-blue-400"
+        className="px-3 py-1.5 rounded-md flex-1 min-w-[200px] outline-none focus:ring-2 focus:ring-cyan-400"
         style={inputStyle}
       />
 
@@ -47,7 +50,7 @@ export default function Filters() {
 
       <select
         value={filters.channel}
-        onChange={(e) => update({ channel: e.target.value })}
+        onChange={(e) => update({ channel: e.target.value as ChannelName | '' })}
         className="px-3 py-1.5 rounded-md outline-none"
         style={inputStyle}
       >
@@ -62,20 +65,18 @@ export default function Filters() {
           type="checkbox"
           checked={filters.riskOnly}
           onChange={(e) => update({ riskOnly: e.target.checked })}
-          className="accent-red-600"
+          className="accent-orange-500"
         />
         At-Risk Only
       </label>
 
-      {(filters.search || filters.segment || filters.channel || filters.riskOnly) && (
-        <button
-          onClick={() => setFilters({ ...filters, search: '', segment: '', channel: '', riskOnly: false })}
-          className="text-xs px-2 py-1 rounded hover:bg-gray-100"
-          style={{ color: 'var(--sf-secondary)' }}
-        >
-          Clear Filters
-        </button>
-      )}
+      <button
+        onClick={() => setFiltersOpen(false)}
+        className="text-xs px-2 py-1 rounded hover:bg-gray-100 ml-auto"
+        style={{ color: 'var(--sf-accent-dark)' }}
+      >
+        Hide Filters
+      </button>
     </div>
   );
 }

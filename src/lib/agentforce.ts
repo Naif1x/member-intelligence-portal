@@ -30,6 +30,33 @@ export function generateAgentResponse(input: string, member?: Member | null): st
     const firstName = name.split(/\s+/)[0];
     const atRiskChannels = getAtRiskChannels(member);
 
+    if (lower.includes('win-back') || lower.includes('win back')) {
+      const channelList = atRiskChannels.join(', ') || 'their overall profile';
+      const strongChannels: string[] = [];
+      if (member.golf.score > 0 && !atRiskChannels.includes('golf')) strongChannels.push(`Golf (${member.golf.score})`);
+      if (member.retail.score > 0 && !atRiskChannels.includes('retail')) strongChannels.push(`Retail (${member.retail.score})`);
+      if (member.food.score > 0 && !atRiskChannels.includes('food')) strongChannels.push(`F&B (${member.food.score})`);
+      return `Win-Back Strategy for ${name}:\n\nDeclining recency in ${channelList}, while remaining active in ${strongChannels.join(', ') || 'other channels'}. This is a high-value member disengaging from one channel — not the whole relationship.\n\n1. Send a personalized offer targeting the declining channel specifically\n2. Time the outreach within 14 days to catch them before full churn\n3. Reference their activity in other channels to reinforce the relationship\n\nShall I draft the outreach message?`;
+    }
+
+    if (lower.includes('cross-sell') || lower.includes('cross sell')) {
+      const spends: [string, number][] = [['Golf', member.golf.spend], ['Retail', member.retail.spend], ['F&B', member.food.spend]];
+      const top = spends.reduce((a, b) => (b[1] > a[1] ? b : a));
+      const pct = member.total_spend > 0 ? Math.round((top[1] / member.total_spend) * 100) : 0;
+      const others = spends.filter(([label]) => label !== top[0]);
+      return `Cross-Sell Analysis for ${name}:\n\n${pct}% of total spend (${formatCurrency(top[1])}) is concentrated in ${top[0]}. ${others.map(([l]) => l).join(' and ')} ${others.length > 1 ? 'are' : 'is'} underdeveloped by comparison.\n\nRecommended: introduce ${name.split(/\s+/)[0]} to ${others[0]?.[0] || 'another channel'} with a low-friction first offer — a bundled experience often converts better than a standalone discount.`;
+    }
+
+    if (lower.includes('deep analysis') || lower.includes('deep rfm') || lower.includes('deep dive')) {
+      const channelEntries: [string, number][] = [['Golf', member.golf.score], ['Retail', member.retail.score], ['F&B', member.food.score]];
+      const lowest = channelEntries.filter(([, s]) => s > 0).reduce((a, b) => (b[1] < a[1] ? b : a), channelEntries[0]);
+      return `Deep RFM Analysis for ${name}:\n\nGeneral score is ${member.general.score}, averaged across channels. But this masks real variance — ${lowest[0]} sits at ${lowest[1]}, well below the general average. Blended scores can hide a channel-specific problem.\n\nRecommendation: track ${lowest[0]} recency independently rather than relying on the general score alone for this member.`;
+    }
+
+    if (lower.includes('campaign brief') || lower.includes('campaign for')) {
+      return `Campaign Brief — ${member.general_segment} segment:\n\nMember: ${name}\nSegment: ${member.general_segment}\nTotal Spend: ${formatCurrency(member.total_spend)}\nGeneral RFM: ${member.general.score}\n\nSuggested approach: ${member.flagged ? 'prioritize retention — this member shows risk signals despite historical value.' : 'reinforce loyalty with recognition rather than discounting — their engagement is currently healthy.'}`;
+    }
+
     if (lower.includes('risk') || lower.includes('churn') || lower.includes('retain')) {
       if (member.flagged) {
         const channelList = atRiskChannels.length ? atRiskChannels.join(', ') : 'their general profile';

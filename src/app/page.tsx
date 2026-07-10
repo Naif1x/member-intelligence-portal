@@ -2,22 +2,25 @@
 
 import AppProvider from '@/components/layout/AppProvider';
 import Sidebar from '@/components/layout/Sidebar';
+import TopNav from '@/components/layout/TopNav';
 import RightPanel from '@/components/layout/RightPanel';
 import KPICards from '@/components/dashboard/KPICards';
-import { SegmentDonut, ChannelBar, ChannelCoverage } from '@/components/dashboard/Charts';
+import { SegmentDonut, ChannelBar, RecencyDistribution, TopMembersBySpend } from '@/components/dashboard/Charts';
 import Filters from '@/components/dashboard/Filters';
+import FilterBreadcrumb from '@/components/dashboard/FilterBreadcrumb';
 import MemberTable from '@/components/dashboard/MemberTable';
+import CampaignAnalysis from '@/components/dashboard/CampaignAnalysis';
 import AgentforceModal from '@/components/chat/AgentforceModal';
 import { useApp } from '@/lib/store';
 
 function DashboardContent() {
-  const { loading } = useApp();
+  const { loading, view } = useApp();
 
   if (loading) {
     return (
       <div className="flex-1 flex items-center justify-center" style={{ background: 'var(--sf-surface)' }}>
         <div className="text-center">
-          <div className="w-10 h-10 border-3 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3" />
+          <div className="w-10 h-10 border-3 rounded-full animate-spin mx-auto mb-3" style={{ borderColor: 'var(--sf-border)', borderTopColor: 'var(--sf-accent)' }} />
           <div className="text-sm" style={{ color: 'var(--sf-text-secondary)' }}>Loading member data...</div>
         </div>
       </div>
@@ -25,7 +28,7 @@ function DashboardContent() {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-6" style={{ background: 'var(--sf-surface)' }}>
+    <div className="flex-1 overflow-y-auto p-4 md:p-6" style={{ background: 'var(--sf-surface)' }}>
       {/* Page header */}
       <div className="mb-6">
         <h1 className="text-xl font-bold" style={{ color: 'var(--sf-primary)' }}>
@@ -36,16 +39,47 @@ function DashboardContent() {
         </p>
       </div>
 
-      <KPICards />
+      {(view === 'dashboard' || view === 'members') && <KPICards />}
 
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <SegmentDonut />
-        <ChannelBar />
-        <ChannelCoverage />
+      {view === 'dashboard' && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+          <SegmentDonut />
+          <ChannelBar />
+          <RecencyDistribution />
+          <TopMembersBySpend />
+        </div>
+      )}
+
+      {view === 'segments' && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+          <SegmentDonut />
+          <RecencyDistribution />
+        </div>
+      )}
+
+      {view === 'campaigns' ? (
+        <CampaignAnalysis />
+      ) : view === 'segments' ? null : (
+        <>
+          <FilterBreadcrumb />
+          <Filters />
+          <MemberTable />
+        </>
+      )}
+    </div>
+  );
+}
+
+function Shell() {
+  return (
+    <div className="flex flex-col h-screen overflow-hidden">
+      <TopNav />
+      <div className="flex flex-1 overflow-hidden relative">
+        <Sidebar />
+        <DashboardContent />
+        <RightPanel />
+        <AgentforceModal />
       </div>
-
-      <Filters />
-      <MemberTable />
     </div>
   );
 }
@@ -53,12 +87,7 @@ function DashboardContent() {
 export default function Home() {
   return (
     <AppProvider>
-      <div className="flex h-screen overflow-hidden">
-        <Sidebar />
-        <DashboardContent />
-        <RightPanel />
-        <AgentforceModal />
-      </div>
+      <Shell />
     </AppProvider>
   );
 }

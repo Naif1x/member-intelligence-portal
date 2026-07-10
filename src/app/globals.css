@@ -1,44 +1,44 @@
 @import "tailwindcss";
+@source "../../node_modules/@tremor/react/dist";
 
 :root {
   --sf-primary: #032D60;
-  --sf-secondary: #0176D3;
-  --sf-accent: #1B96FF;
-  --sf-success: #2E844A;
-  --sf-warning: #DD7A01;
-  --sf-error: #C23934;
-  --sf-surface: #F3F3F3;
+  --sf-accent: #00BCD4;
+  --sf-accent-dark: #0097A7;
+  --sf-success: #4CAF50;
+  --sf-warning: #FF9800;
+  --sf-error: #E53935;
+  --sf-surface: #F5F5F5;
   --sf-white: #FFFFFF;
-  --sf-text: #181818;
-  --sf-text-secondary: #5A5A5A;
-  --sf-border: #DDDBDA;
-  --sf-sidebar-bg: #032D60;
-  --sf-sidebar-text: #FFFFFF;
+  --sf-text: #333333;
+  --sf-text-secondary: #6B7280;
+  --sf-border: #E5E7EB;
+  --sf-sidebar-bg: #FAFAFA;
+  --sf-sidebar-text: #333333;
   --sf-card-bg: #FFFFFF;
-  --sf-hover: #F3F2F2;
-  --background: #F3F3F3;
-  --foreground: #181818;
+  --sf-hover: #F0FBFC;
+  --background: #F5F5F5;
+  --foreground: #333333;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-sf-primary: #032D60;
-  --color-sf-secondary: #0176D3;
-  --color-sf-accent: #1B96FF;
-  --color-sf-success: #2E844A;
-  --color-sf-warning: #DD7A01;
-  --color-sf-error: #C23934;
-  --color-sf-surface: #F3F3F3;
-  --color-sf-border: #DDDBDA;
-  --color-sf-text: #181818;
-  --color-sf-text-secondary: #5A5A5A;
+  --color-sf-accent: #00BCD4;
+  --color-sf-success: #4CAF50;
+  --color-sf-warning: #FF9800;
+  --color-sf-error: #E53935;
+  --color-sf-surface: #F5F5F5;
+  --color-sf-border: #E5E7EB;
+  --color-sf-text: #333333;
+  --color-sf-text-secondary: #6B7280;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Salesforce Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
   overflow: hidden;
   height: 100vh;
@@ -50,23 +50,24 @@ body {
 
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #C9C7C5;
+  background: #D1D5DB;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #8B8D8F;
+  background: #9CA3AF;
 }
 
 .slds-card {
   background: var(--sf-card-bg);
   border: 1px solid var(--sf-border);
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }
 
 .slds-badge {
@@ -94,10 +95,29 @@ body {
   font-size: 0.75rem;
   font-weight: 700;
   color: white;
+  cursor: help;
 }
 
-.rfm-1 { background: #C23934; }
-.rfm-2 { background: #DD7A01; }
-.rfm-3 { background: #0176D3; }
-.rfm-4 { background: #2E844A; }
+.rfm-1 { background: #E53935; }
+.rfm-2 { background: #FF9800; }
+.rfm-3 { background: #0EA5E9; }
+.rfm-4 { background: #4CAF50; }
 .rfm-0 { background: #C9C7C5; }
+
+.nav-item-active {
+  border-left: 3px solid var(--sf-accent);
+  background: var(--sf-hover);
+  color: var(--sf-accent-dark);
+}
+
+.nav-item {
+  border-left: 3px solid transparent;
+}
+
+.at-risk-row {
+  border-left: 3px solid var(--sf-warning);
+}
+
+.tremor-tooltip-wrapper {
+  z-index: 50;
+}

@@ -6,11 +6,12 @@ import { useApp } from '@/lib/store';
 import { generateAgentResponse, type ChatMessage } from '@/lib/agentforce';
 
 export default function AgentforceModal() {
-  const { chatOpen, setChatOpen, selectedMember } = useApp();
+  const { chatOpen, setChatOpen, selectedMember, chatSeedPrompt } = useApp();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const consumedSeedRef = useRef<string | null>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -29,16 +30,15 @@ export default function AgentforceModal() {
     }
   }, [chatOpen, selectedMember]);
 
-  function handleSend() {
-    if (!input.trim()) return;
+  function sendMessage(text: string) {
+    if (!text.trim()) return;
     const userMsg: ChatMessage = {
       id: `u-${Date.now()}`,
       role: 'user',
-      text: input.trim(),
+      text: text.trim(),
       timestamp: new Date(),
     };
     setMessages(prev => [...prev, userMsg]);
-    setInput('');
     setTyping(true);
 
     setTimeout(() => {
@@ -53,6 +53,31 @@ export default function AgentforceModal() {
     }, 800 + Math.random() * 600);
   }
 
+  // Auto-send a seeded prompt when an insight action button opens the chat
+  useEffect(() => {
+    if (chatOpen && chatSeedPrompt && consumedSeedRef.current !== chatSeedPrompt) {
+      consumedSeedRef.current = chatSeedPrompt;
+      if (messages.length === 0) {
+        setMessages([{
+          id: 'welcome',
+          role: 'agent',
+          text: selectedMember
+            ? `I've loaded ${selectedMember.name}'s D360 profile. How can I help you with this member?`
+            : "Welcome to Agentforce D360. How can I help?",
+          timestamp: new Date(),
+        }]);
+      }
+      setTimeout(() => sendMessage(chatSeedPrompt), 150);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatOpen, chatSeedPrompt]);
+
+  function handleSend() {
+    if (!input.trim()) return;
+    sendMessage(input);
+    setInput('');
+  }
+
   const suggestions = selectedMember
     ? ['Analyze RFM scores', 'Check risk status', 'Recommend next actions', 'Show spending breakdown']
     : ['Show at-risk members', 'Explain segments', 'What can you do?'];
@@ -64,7 +89,7 @@ export default function AgentforceModal() {
         <button
           onClick={() => setChatOpen(true)}
           className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white text-xl z-50 hover:scale-105 transition-transform"
-          style={{ background: 'var(--sf-secondary)' }}
+          style={{ background: 'var(--sf-accent)' }}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -106,8 +131,8 @@ export default function AgentforceModal() {
 
             {/* Context badge */}
             {selectedMember && (
-              <div className="px-4 py-2 text-xs flex items-center gap-2" style={{ background: '#EBF5FF', borderBottom: '1px solid var(--sf-border)' }}>
-                <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] text-white font-bold" style={{ background: 'var(--sf-secondary)' }}>
+              <div className="px-4 py-2 text-xs flex items-center gap-2" style={{ background: 'var(--sf-hover)', borderBottom: '1px solid var(--sf-border)' }}>
+                <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] text-white font-bold" style={{ background: 'var(--sf-accent)' }}>
                   {selectedMember.name?.[0]}
                 </span>
                 <span style={{ color: 'var(--sf-primary)' }}>
@@ -125,8 +150,8 @@ export default function AgentforceModal() {
                       msg.role === 'user' ? 'text-white' : ''
                     }`}
                     style={msg.role === 'user'
-                      ? { background: 'var(--sf-secondary)' }
-                      : { background: '#F3F3F3', color: 'var(--sf-text)' }
+                      ? { background: 'var(--sf-accent)' }
+                      : { background: 'var(--sf-surface)', color: 'var(--sf-text)' }
                     }
                   >
                     {msg.text}
@@ -135,7 +160,7 @@ export default function AgentforceModal() {
               ))}
               {typing && (
                 <div className="flex justify-start">
-                  <div className="rounded-lg px-3 py-2 text-sm" style={{ background: '#F3F3F3' }}>
+                  <div className="rounded-lg px-3 py-2 text-sm" style={{ background: 'var(--sf-surface)' }}>
                     <span className="inline-flex gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
                       <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -154,8 +179,8 @@ export default function AgentforceModal() {
                   <button
                     key={s}
                     onClick={() => { setInput(s); }}
-                    className="text-xs px-2.5 py-1 rounded-full border hover:bg-blue-50 transition-colors"
-                    style={{ borderColor: 'var(--sf-border)', color: 'var(--sf-secondary)' }}
+                    className="text-xs px-2.5 py-1 rounded-full border hover:bg-cyan-50 transition-colors"
+                    style={{ borderColor: 'var(--sf-border)', color: 'var(--sf-accent-dark)' }}
                   >
                     {s}
                   </button>
@@ -171,14 +196,14 @@ export default function AgentforceModal() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Ask Agentforce..."
-                className="flex-1 px-3 py-2 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-400"
+                className="flex-1 px-3 py-2 rounded-lg text-sm outline-none focus:ring-2 focus:ring-cyan-400"
                 style={{ border: '1px solid var(--sf-border)' }}
               />
               <button
                 onClick={handleSend}
                 disabled={!input.trim()}
                 className="px-3 py-2 rounded-lg text-white text-sm font-medium disabled:opacity-40"
-                style={{ background: 'var(--sf-secondary)' }}
+                style={{ background: 'var(--sf-accent)' }}
               >
                 Send
               </button>
