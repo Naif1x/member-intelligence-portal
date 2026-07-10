@@ -1,4 +1,4 @@
-import type { Member } from '@/types';
+import type { Member, ChannelName } from '@/types';
 import { formatCurrency } from './data';
 
 export interface ChatMessage {
@@ -9,55 +9,68 @@ export interface ChatMessage {
 }
 
 const GENERAL_RESPONSES = [
-  "Based on our D360 analysis, I can see patterns across Golf, Retail, and F&B channels. What specific area would you like me to explore?",
-  "I've analyzed the complete member portfolio. Our Champions segment drives 45% of total revenue. Would you like me to identify growth opportunities?",
-  "Looking at cross-channel engagement data, I notice several members with declining activity patterns. Should I generate a retention campaign brief?",
+  "Based on our D360 Data Graph, I can see patterns across Golf, Retail, and F&B channels. What specific area would you like me to explore?",
+  "I've analyzed the complete member portfolio. Our Champion segment drives a large share of total revenue. Would you like me to identify growth opportunities?",
+  "Looking at cross-channel engagement data, I notice several members with a 'Big Spender at Risk' segment. Should I generate a retention campaign brief?",
 ];
+
+function getAtRiskChannels(m: Member): ChannelName[] {
+  const channels: ChannelName[] = [];
+  if (m.golf_segment === 'Big Spender at Risk') channels.push('golf');
+  if (m.retail_segment === 'Big Spender at Risk') channels.push('retail');
+  if (m.food_segment === 'Big Spender at Risk') channels.push('food');
+  return channels;
+}
 
 export function generateAgentResponse(input: string, member?: Member | null): string {
   const lower = input.toLowerCase();
 
   if (member) {
-    const name = `${member.firstName} ${member.lastName}`;
+    const name = member.name;
+    const firstName = name.split(/\s+/)[0];
+    const atRiskChannels = getAtRiskChannels(member);
 
     if (lower.includes('risk') || lower.includes('churn') || lower.includes('retain')) {
-      if (member.atRisk) {
-        return `${name} is flagged at-risk in ${member.atRiskChannels.join(', ')}. Their ${member.atRiskChannels[0]} recency has dropped while maintaining high spend — classic "Big Spender at Risk" pattern. I recommend a personalized re-engagement offer: a complimentary ${member.atRiskChannels[0] === 'golf' ? 'tee time with cart' : 'dining experience'} to bring them back within 14 days.`;
+      if (member.flagged) {
+        const channelList = atRiskChannels.length ? atRiskChannels.join(', ') : 'their general profile';
+        return `${name} is flagged at-risk (${channelList}). This reflects declining recency with sustained high spend — a "Big Spender at Risk" pattern. I recommend a personalized re-engagement offer: a complimentary ${atRiskChannels[0] === 'golf' ? 'tee time with cart' : atRiskChannels[0] === 'food' ? 'dining experience' : 'in-store event'} to bring them back within 14 days.`;
       }
-      return `${name} is currently not flagged at-risk. Their engagement is healthy across active channels. I'd recommend a loyalty recognition touchpoint to reinforce their positive behavior.`;
+      return `${name} is currently not flagged. Their engagement is healthy across active channels. I'd recommend a loyalty recognition touchpoint to reinforce their positive behavior.`;
     }
 
     if (lower.includes('rfm') || lower.includes('score') || lower.includes('segment')) {
-      return `${name}'s General RFM is ${member.general.rfmScore} (R${member.general.r} F${member.general.f} M${member.general.m}), placing them in the "${member.segment}" segment with ${formatCurrency(member.general.totalMonetary)} lifetime value across ${[member.channels.golf, member.channels.retail, member.channels.food].filter(Boolean).length} channels.`;
+      const channelCount = [member.golf, member.retail, member.food].filter((c) => c.score > 0).length;
+      return `${name}'s General RFM is ${member.general.score} (R${member.general.r} F${member.general.f} M${member.general.m}), placing them in the "${member.general_segment}" segment with ${formatCurrency(member.total_spend)} total spend across ${channelCount} channel${channelCount === 1 ? '' : 's'}.`;
     }
 
     if (lower.includes('recommend') || lower.includes('next best') || lower.includes('action')) {
-      const actions = [];
-      if (member.atRisk) actions.push(`Re-engage in ${member.atRiskChannels.join(', ')} with a personalized offer`);
-      if (member.channels.golf && !member.channels.retail) actions.push('Cross-sell retail products during next golf visit');
-      if (member.channels.retail && !member.channels.food) actions.push('Introduce F&B experience with a complimentary appetizer');
-      if (!member.autoRenew && member.subscriptionStatus === 'Active') actions.push('Initiate auto-renewal conversation before subscription expires');
+      const actions: string[] = [];
+      if (member.flagged) actions.push(`Re-engage in ${atRiskChannels.join(', ') || 'their core channel'} with a personalized offer`);
+      if (member.golf.score > 0 && member.retail.score === 0) actions.push('Cross-sell retail products during next golf visit');
+      if (member.retail.score > 0 && member.food.score === 0) actions.push('Introduce F&B experience with a complimentary appetizer');
       if (actions.length === 0) actions.push('Send loyalty milestone recognition', 'Invite to exclusive member event');
       return `Next Best Actions for ${name}:\n${actions.map((a, i) => `${i + 1}. ${a}`).join('\n')}\n\nShall I create a Salesforce Flow to automate any of these?`;
     }
 
     if (lower.includes('spend') || lower.includes('value') || lower.includes('revenue') || lower.includes('monetary')) {
-      const parts = [];
-      if (member.channels.golf) parts.push(`Golf: ${formatCurrency(member.channels.golf.monetary)}`);
-      if (member.channels.retail) parts.push(`Retail: ${formatCurrency(member.channels.retail.monetary)}`);
-      if (member.channels.food) parts.push(`F&B: ${formatCurrency(member.channels.food.monetary)}`);
-      return `${name}'s spending breakdown:\n${parts.join('\n')}\nTotal Lifetime Value: ${formatCurrency(member.general.totalMonetary)}\n\nTheir highest-value channel is ${member.channels.golf && member.channels.retail && member.channels.food ? (member.channels.golf.monetary >= member.channels.retail.monetary && member.channels.golf.monetary >= member.channels.food.monetary ? 'Golf' : member.channels.retail.monetary >= member.channels.food.monetary ? 'Retail' : 'F&B') : 'their primary channel'}.`;
+      const parts: string[] = [];
+      if (member.golf.score > 0) parts.push(`Golf: ${formatCurrency(member.golf.spend)}`);
+      if (member.retail.score > 0) parts.push(`Retail: ${formatCurrency(member.retail.spend)}`);
+      if (member.food.score > 0) parts.push(`F&B: ${formatCurrency(member.food.spend)}`);
+      const spends: [ChannelName, number][] = [['golf', member.golf.spend], ['retail', member.retail.spend], ['food', member.food.spend]];
+      const top = spends.reduce((a, b) => (b[1] > a[1] ? b : a));
+      return `${firstName}'s spending breakdown:\n${parts.join('\n')}\nTotal Spend: ${formatCurrency(member.total_spend)}\n\nTheir highest-value channel is ${top[0] === 'golf' ? 'Golf' : top[0] === 'retail' ? 'Retail' : 'F&B'}.`;
     }
 
-    return `I have ${name}'s full D360 profile loaded. They're a "${member.segment}" with ${formatCurrency(member.general.totalMonetary)} total value${member.atRisk ? `, flagged at-risk in ${member.atRiskChannels.join(', ')}` : ''}. Ask me about their RFM scores, spending patterns, risk analysis, or next best actions.`;
+    return `I have ${name}'s full D360 profile loaded. They're a "${member.general_segment}" with ${formatCurrency(member.total_spend)} total spend${member.flagged ? `, flagged at-risk in ${atRiskChannels.join(', ') || 'their profile'}` : ''}. Ask me about their RFM scores, spending patterns, risk analysis, or next best actions.`;
   }
 
   if (lower.includes('at risk') || lower.includes('at-risk') || lower.includes('churn')) {
-    return "Our at-risk analysis identifies members with high monetary value (M>=3) but declining recency (R<=2) in any channel. These are your 'Big Spenders at Risk' — they spend well but are disengaging. Targeted re-engagement within 30 days typically recovers 40% of at-risk members.";
+    return "Our at-risk analysis flags members with high monetary value but declining recency in any channel — the 'Big Spender at Risk' segment. These members spend well but are disengaging. Targeted re-engagement within 30 days typically recovers a meaningful share of at-risk members.";
   }
 
   if (lower.includes('segment') || lower.includes('distribution')) {
-    return "The member base segments into 8 groups based on RFM analysis. Champions (R3+F3+M3+) are your core — protect them. Big Spenders at Risk need immediate attention. Almost Loyal members are your best conversion opportunity with targeted engagement.";
+    return "The member base segments into groups based on the D360 RFM analysis: Champion, Loyal, Almost Loyal, Occasional, Big Spender at Risk, Almost Lost, and Lost. Champions are your core — protect them. Big Spenders at Risk need immediate attention.";
   }
 
   if (lower.includes('help') || lower.includes('what can')) {

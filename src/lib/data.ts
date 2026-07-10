@@ -4,21 +4,21 @@ let cachedData: MemberData | null = null;
 
 export async function getMemberData(): Promise<MemberData> {
   if (cachedData) return cachedData;
-  const res = await fetch('/data/members.json');
+  const res = await fetch('/data/d360_datagraph_export.json');
   cachedData = await res.json();
   return cachedData!;
 }
 
 export function getSegmentIcon(segment: string): string {
   const icons: Record<string, string> = {
-    Champions: '🏆',
+    Champion: '🏆',
     Loyal: '💎',
     'Almost Loyal': '📈',
     Occasional: '🎯',
-    'Big Spenders': '💰',
-    'Big Spenders at Risk': '⚠️',
+    'Big Spender at Risk': '⚠️',
     'Almost Lost': '📉',
     Lost: '❌',
+    'No Data': '•',
   };
   return icons[segment] || '•';
 }
@@ -31,17 +31,23 @@ export function formatNumber(n: number): string {
   return n.toLocaleString('en-US');
 }
 
-export function getRFMLabel(score: number): string {
-  if (score >= 4) return 'Excellent';
-  if (score >= 3) return 'Good';
-  if (score >= 2) return 'Fair';
-  return 'Poor';
-}
-
 export function getMemberName(m: Member): string {
-  return `${m.firstName || ''} ${m.lastName || ''}`.trim() || m.email;
+  const name = m.name?.trim();
+  if (name) return name;
+  if (m.email) return m.email;
+  if (m.phone) return `Unresolved Guest (${m.phone})`;
+  return 'Unresolved Guest';
 }
 
-export function getChannelCount(m: Member): number {
-  return [m.channels.golf, m.channels.retail, m.channels.food].filter(Boolean).length;
+export function getMemberInitials(m: Member): string {
+  const name = m.name?.trim();
+  if (!name) return '?';
+  const parts = name.split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return '?';
+  if (parts.length === 1) return parts[0][0].toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+export function getGenderLabel(gender: string): string {
+  return gender === '1' ? 'Male' : gender === '0' ? 'Female' : '—';
 }

@@ -3,7 +3,8 @@
 import { useApp } from '@/lib/store';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatCurrency } from '@/lib/data';
-import type { Member } from '@/types';
+import type { Member, ChannelName } from '@/types';
+import { CHANNEL_LABELS } from '@/types';
 
 function InsightCard({ title, description, action }: { title: string; description: string; action: string }) {
   return (
@@ -20,45 +21,47 @@ function InsightCard({ title, description, action }: { title: string; descriptio
   );
 }
 
+function getAtRiskChannels(m: Member): ChannelName[] {
+  const channels: ChannelName[] = [];
+  if (m.golf_segment === 'Big Spender at Risk') channels.push('golf');
+  if (m.retail_segment === 'Big Spender at Risk') channels.push('retail');
+  if (m.food_segment === 'Big Spender at Risk') channels.push('food');
+  return channels;
+}
+
 function getInsights(member: Member) {
   const insights = [];
+  const firstName = member.name.split(/\s+/)[0];
+  const atRiskChannels = getAtRiskChannels(member);
 
-  if (member.atRisk) {
+  if (member.flagged) {
     insights.push({
-      title: `At-Risk: ${member.atRiskChannels.map(c => c.charAt(0).toUpperCase() + c.slice(1)).join(', ')}`,
-      description: `${member.firstName} shows declining engagement in ${member.atRiskChannels.join(', ')} despite high spending. Re-engagement within 14 days recommended.`,
+      title: `At-Risk: ${atRiskChannels.map((c) => CHANNEL_LABELS[c]).join(', ') || 'General'}`,
+      description: `${firstName} shows declining engagement (low recency, high spend) in ${atRiskChannels.map((c) => CHANNEL_LABELS[c]).join(', ') || 'their overall profile'}. Re-engagement within 14 days recommended.`,
       action: 'Create Re-engagement Flow',
     });
   }
 
-  if (member.channels.golf && !member.channels.retail) {
+  if (member.golf.score > 0 && member.retail.score === 0) {
     insights.push({
       title: 'Cross-sell Opportunity',
-      description: `${member.firstName} is active in Golf but hasn't visited Retail. Personalized offer for golf equipment could drive incremental revenue.`,
+      description: `${firstName} is active in Golf but hasn't visited Retail. Personalized offer for golf equipment could drive incremental revenue.`,
       action: 'Send Retail Offer',
     });
   }
 
-  if (member.channels.retail && !member.channels.food) {
+  if (member.retail.score > 0 && member.food.score === 0) {
     insights.push({
       title: 'F&B Introduction',
-      description: `${member.firstName} shops at Retail but hasn't dined with us. A complimentary appetizer voucher could expand engagement.`,
+      description: `${firstName} shops at Retail but hasn't dined with us. A complimentary appetizer voucher could expand engagement.`,
       action: 'Send Dining Voucher',
     });
   }
 
-  if (!member.autoRenew && member.subscriptionStatus === 'Active') {
-    insights.push({
-      title: 'Auto-Renewal Risk',
-      description: `Subscription expires ${member.subscriptionEnd || 'soon'} with auto-renew OFF. Proactive outreach recommended.`,
-      action: 'Schedule Renewal Call',
-    });
-  }
-
-  if (member.segment === 'Champions') {
+  if (member.general_segment === 'Champion') {
     insights.push({
       title: 'VIP Recognition',
-      description: `As a Champion with ${formatCurrency(member.general.totalMonetary)} lifetime value, ${member.firstName} qualifies for exclusive member events.`,
+      description: `As a Champion with ${formatCurrency(member.total_spend)} total spend, ${firstName} qualifies for exclusive member events.`,
       action: 'Invite to VIP Event',
     });
   }
@@ -66,7 +69,7 @@ function getInsights(member: Member) {
   if (insights.length === 0) {
     insights.push({
       title: 'Engagement Healthy',
-      description: `${member.firstName}'s engagement metrics are stable. Continue current touchpoint cadence.`,
+      description: `${firstName}'s engagement metrics are stable. Continue current touchpoint cadence.`,
       action: 'View Full Profile',
     });
   }
@@ -99,7 +102,7 @@ export default function RightPanel() {
                 Business Insights
               </div>
               <div className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
-                {selectedMember.firstName} {selectedMember.lastName}
+                {selectedMember.name}
               </div>
             </div>
             <button
@@ -116,16 +119,16 @@ export default function RightPanel() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Segment</div>
-                  <div className="text-sm font-semibold" style={{ color: 'var(--sf-primary)' }}>{selectedMember.segment}</div>
+                  <div className="text-sm font-semibold" style={{ color: 'var(--sf-primary)' }}>{selectedMember.general_segment}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Lifetime Value</div>
-                  <div className="text-sm font-semibold" style={{ color: 'var(--sf-primary)' }}>{formatCurrency(selectedMember.general.totalMonetary)}</div>
+                  <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Total Spend</div>
+                  <div className="text-sm font-semibold" style={{ color: 'var(--sf-primary)' }}>{formatCurrency(selectedMember.total_spend)}</div>
                 </div>
                 <div>
                   <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>General RFM</div>
                   <div className="rfm-score-cell">
-                    {selectedMember.general.rfmScore.split('').map((d, i) => (
+                    {String(selectedMember.general.score).padStart(3, '0').split('').map((d, i) => (
                       <span key={i} className={`rfm-digit rfm-${d}`}>{d}</span>
                     ))}
                   </div>
@@ -133,7 +136,7 @@ export default function RightPanel() {
                 <div>
                   <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Channels</div>
                   <div className="text-sm font-semibold" style={{ color: 'var(--sf-primary)' }}>
-                    {[selectedMember.channels.golf && 'G', selectedMember.channels.retail && 'R', selectedMember.channels.food && 'F'].filter(Boolean).join(' · ')}
+                    {[selectedMember.golf.score > 0 && 'G', selectedMember.retail.score > 0 && 'R', selectedMember.food.score > 0 && 'F'].filter(Boolean).join(' · ')}
                   </div>
                 </div>
               </div>

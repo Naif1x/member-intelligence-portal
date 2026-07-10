@@ -22,7 +22,7 @@ export default function AgentforceModal() {
         id: 'welcome',
         role: 'agent',
         text: selectedMember
-          ? `I've loaded ${selectedMember.firstName} ${selectedMember.lastName}'s D360 profile. How can I help you with this member?`
+          ? `I've loaded ${selectedMember.name}'s D360 profile. How can I help you with this member?`
           : "Welcome to Agentforce D360. I can analyze member profiles, RFM segments, at-risk patterns, and recommend next best actions. How can I help?",
         timestamp: new Date(),
       }]);
@@ -108,10 +108,10 @@ export default function AgentforceModal() {
             {selectedMember && (
               <div className="px-4 py-2 text-xs flex items-center gap-2" style={{ background: '#EBF5FF', borderBottom: '1px solid var(--sf-border)' }}>
                 <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] text-white font-bold" style={{ background: 'var(--sf-secondary)' }}>
-                  {selectedMember.firstName?.[0]}
+                  {selectedMember.name?.[0]}
                 </span>
                 <span style={{ color: 'var(--sf-primary)' }}>
-                  Viewing: <strong>{selectedMember.firstName} {selectedMember.lastName}</strong> — {selectedMember.segment}
+                  Viewing: <strong>{selectedMember.name}</strong> — {selectedMember.general_segment}
                 </span>
               </div>
             )}

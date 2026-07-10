@@ -32,7 +32,7 @@ export const defaultFilters: FilterState = {
   segment: '',
   channel: '',
   riskOnly: false,
-  sortBy: 'totalMonetary',
+  sortBy: 'total_spend',
   sortDir: 'desc',
 };
 

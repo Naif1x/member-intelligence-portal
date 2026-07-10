@@ -14,7 +14,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
 
   useEffect(() => {
-    fetch('/data/members.json')
+    fetch('/data/d360_datagraph_export.json')
       .then(r => r.json())
       .then((d: MemberData) => {
         setData(d);

@@ -1,7 +1,9 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useApp } from '@/lib/store';
 import { formatCurrency, formatNumber } from '@/lib/data';
+import { computeSummary } from '@/types';
 
 interface KPICardProps {
   label: string;
@@ -39,35 +41,35 @@ function KPICard({ label, value, sub, color, icon }: KPICardProps) {
 
 export default function KPICards() {
   const { data } = useApp();
-  if (!data) return null;
-  const s = data.summary;
+  const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
+  if (!data || !summary) return null;
 
   return (
     <div className="grid grid-cols-4 gap-4 mb-6">
       <KPICard
-        label="Total Members"
-        value={formatNumber(s.totalMembers)}
-        sub={`${s.systemsCoverage.LSGolf} from Golf · ${s.systemsCoverage.LSRetail} from Retail`}
+        label="Unified Profiles"
+        value={formatNumber(summary.totalMembers)}
+        sub={`From ${data.metadata.total_source_records} source records`}
         color="var(--sf-secondary)"
         icon="👥"
       />
       <KPICard
-        label="Active Subscriptions"
-        value={formatNumber(s.activeSubscriptions)}
-        sub={`${Math.round((s.activeSubscriptions / s.totalMembers) * 100)}% of members`}
+        label="Golf Coverage"
+        value={formatNumber(summary.channelCoverage.golf)}
+        sub={`${Math.round((summary.channelCoverage.golf / summary.totalMembers) * 100)}% of members`}
         color="var(--sf-success)"
-        icon="✓"
+        icon="⛳"
       />
       <KPICard
-        label="At-Risk Members"
-        value={formatNumber(s.atRiskMembers)}
-        sub="R≤2 & M≥3 in any channel"
+        label="Flagged Members"
+        value={formatNumber(summary.flaggedMembers)}
+        sub="Big Spender at Risk in any channel"
         color="var(--sf-error)"
         icon="⚠"
       />
       <KPICard
-        label="Avg. Lifetime Value"
-        value={formatCurrency(s.avgLifetimeValue)}
+        label="Avg. Total Spend"
+        value={formatCurrency(summary.avgTotalSpend)}
         sub="Across all channels"
         color="var(--sf-warning)"
         icon="$"

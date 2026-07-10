@@ -1,17 +1,19 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useApp } from '@/lib/store';
 import {
   PieChart, Pie, Cell, ResponsiveContainer, Tooltip,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend,
 } from 'recharts';
-import { SEGMENT_COLORS, CHANNEL_COLORS, type ChannelName } from '@/types';
+import { SEGMENT_COLORS, CHANNEL_COLORS, computeSummary, type ChannelName } from '@/types';
 
 export function SegmentDonut() {
   const { data } = useApp();
-  if (!data) return null;
+  const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
+  if (!data || !summary) return null;
 
-  const chartData = Object.entries(data.summary.segmentDistribution).map(([name, value]) => ({
+  const chartData = Object.entries(summary.segmentDistribution).map(([name, value]) => ({
     name,
     value,
     color: SEGMENT_COLORS[name] || '#8B8D8F',
@@ -65,9 +67,9 @@ export function ChannelBar() {
 
   const channelSpend: Record<ChannelName, number> = { golf: 0, retail: 0, food: 0 };
   data.members.forEach((m) => {
-    if (m.channels.golf) channelSpend.golf += m.channels.golf.monetary;
-    if (m.channels.retail) channelSpend.retail += m.channels.retail.monetary;
-    if (m.channels.food) channelSpend.food += m.channels.food.monetary;
+    channelSpend.golf += m.golf.spend;
+    channelSpend.retail += m.retail.spend;
+    channelSpend.food += m.food.spend;
   });
 
   const chartData = [
@@ -115,23 +117,25 @@ export function ChannelBar() {
 
 export function ChannelCoverage() {
   const { data } = useApp();
-  if (!data) return null;
+  const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
+  if (!data || !summary) return null;
 
-  const segments = Object.entries(data.summary.segmentDistribution);
+  const segments = Object.keys(summary.segmentDistribution);
   const segmentMembers: Record<string, { golf: number; retail: number; food: number }> = {};
 
-  segments.forEach(([seg]) => {
+  segments.forEach((seg) => {
     segmentMembers[seg] = { golf: 0, retail: 0, food: 0 };
   });
 
   data.members.forEach((m) => {
-    if (!segmentMembers[m.segment]) return;
-    if (m.channels.golf) segmentMembers[m.segment].golf++;
-    if (m.channels.retail) segmentMembers[m.segment].retail++;
-    if (m.channels.food) segmentMembers[m.segment].food++;
+    const bucket = segmentMembers[m.general_segment];
+    if (!bucket) return;
+    if (m.golf.score > 0) bucket.golf++;
+    if (m.retail.score > 0) bucket.retail++;
+    if (m.food.score > 0) bucket.food++;
   });
 
-  const chartData = segments.map(([seg]) => ({
+  const chartData = segments.map((seg) => ({
     name: seg,
     Golf: segmentMembers[seg]?.golf || 0,
     Retail: segmentMembers[seg]?.retail || 0,

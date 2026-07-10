@@ -4,8 +4,8 @@ import { useApp } from '@/lib/store';
 import type { FilterState } from '@/lib/store';
 
 const SEGMENTS = [
-  'Champions', 'Loyal', 'Almost Loyal', 'Occasional',
-  'Big Spenders', 'Big Spenders at Risk', 'Almost Lost', 'Lost',
+  'Champion', 'Loyal', 'Almost Loyal', 'Occasional',
+  'Big Spender at Risk', 'Almost Lost', 'Lost', 'No Data',
 ];
 
 export default function Filters() {

@@ -11,10 +11,8 @@ const NAV_ITEMS = [
 ];
 
 const SYSTEM_STATUS = [
-  { name: 'LSGolf', status: 'connected' as const },
-  { name: 'LSRetail', status: 'connected' as const },
-  { name: 'Infrasys F&B', status: 'connected' as const },
-  { name: 'Jigsaw App', status: 'connected' as const },
+  { name: 'Salesforce Data Cloud' },
+  { name: 'D360 Data Graph' },
 ];
 
 export default function Sidebar() {
@@ -87,7 +85,9 @@ export default function Sidebar() {
           ))}
           {data && (
             <div className="mt-3 pt-3 border-t border-white/10 text-[10px] text-white/40">
-              {data.summary.totalMembers} members resolved
+              {data.metadata.total_unified_profiles} unified profiles
+              <br />
+              from {data.metadata.total_source_records} source records
             </div>
           )}
         </div>

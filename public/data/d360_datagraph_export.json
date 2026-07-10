@@ -1,0 +1,6731 @@
+{
+  "metadata": {
+    "source": "Salesforce Data Cloud - Member 360 Data Graph",
+    "exported": "2026-07-10",
+    "total_unified_profiles": 160,
+    "total_source_records": 385,
+    "identity_resolution": "D360 fuzzy matching (name + email + phone)"
+  },
+  "members": [
+    {
+      "id": "3ba55e899e6372051a62f763ec78c80c",
+      "name": "Ahmad Al-Rashid",
+      "email": "ahmad.alrashid@gmail.com",
+      "phone": "0551234567",
+      "dob": "1971-11-24",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 4,
+        "m": 4,
+        "score": 144,
+        "spend": 1705.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 15588.08
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 7065.8
+      },
+      "general": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 24358.88
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": true,
+      "total_spend": 24358.88
+    },
+    {
+      "id": "7e7eb72588964bdaf6c34a63b7309cde",
+      "name": "Hassan AL-TURKI",
+      "email": "hassan.turki@outlook.com",
+      "phone": "966520117988",
+      "dob": "1968-11-18",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 3,
+        "score": 443,
+        "spend": 1245.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 3,
+        "m": 4,
+        "score": 234,
+        "spend": 16535.34
+      },
+      "food": {
+        "r": 1,
+        "f": 3,
+        "m": 4,
+        "score": 134,
+        "spend": 1599.0
+      },
+      "general": {
+        "r": 2,
+        "f": 3,
+        "m": 4,
+        "score": 234,
+        "spend": 19379.34
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Big Spender at Risk",
+      "general_segment": "Big Spender at Risk",
+      "flagged": true,
+      "total_spend": 19379.34
+    },
+    {
+      "id": "d463b7174563ffd2bd795fc48d90e8c5",
+      "name": "Omar AL-AMRI",
+      "email": "omar.amri@hotmail.com",
+      "phone": "966531172421",
+      "dob": "1998-01-22",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 4,
+        "m": 3,
+        "score": 343,
+        "spend": 1080.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 14060.06
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 3,
+        "score": 443,
+        "spend": 1058.0
+      },
+      "general": {
+        "r": 3,
+        "f": 4,
+        "m": 3,
+        "score": 343,
+        "spend": 16198.06
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": true,
+      "total_spend": 16198.06
+    },
+    {
+      "id": "499e2a2aeb9d90cdc515eacae6c1877b",
+      "name": "Omar AL-HAMDAN",
+      "email": "omar.hamdan@gmail.com",
+      "phone": "966557469942",
+      "dob": "1980-03-26",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 1000.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 3,
+        "m": 3,
+        "score": 133,
+        "spend": 15061.42
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 16061.42
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "No Data",
+      "general_segment": "Almost Lost",
+      "flagged": true,
+      "total_spend": 16061.42
+    },
+    {
+      "id": "42bf1d718ba255010ac1ece1bd00c64f",
+      "name": "Waleed Al-Turki",
+      "email": "waleed.turki@hotmail.com",
+      "phone": "966555298556",
+      "dob": "1991-05-27",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 2,
+        "m": 3,
+        "score": 123,
+        "spend": 800.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 2,
+        "m": 4,
+        "score": 124,
+        "spend": 15096.82
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 15896.82
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 15896.82
+    },
+    {
+      "id": "67def0958c15ee11b47e074d2064748f",
+      "name": "Sami Al-Fadhli",
+      "email": "",
+      "phone": "0522489409",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 1,
+        "f": 2,
+        "m": 3,
+        "score": 123,
+        "spend": 15066.76
+      },
+      "food": {
+        "r": 2,
+        "f": 2,
+        "m": 1,
+        "score": 221,
+        "spend": 292.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 15358.76
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Almost Lost",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 15358.76
+    },
+    {
+      "id": "2159cbb3591415284fc40e06ea94ff31",
+      "name": "Faisal Al-Khalifa",
+      "email": "faisal.khalifa@icloud.com",
+      "phone": "966539372360",
+      "dob": "1994-01-18",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 1140.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 13595.63
+      },
+      "food": {
+        "r": 3,
+        "f": 3,
+        "m": 2,
+        "score": 332,
+        "spend": 515.0
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 15250.63
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Champion",
+      "food_segment": "Loyal",
+      "general_segment": "Champion",
+      "flagged": true,
+      "total_spend": 15250.63
+    },
+    {
+      "id": "960e173581187fcfac9fe8ef4998d78b",
+      "name": "Nasser Al-Harbi",
+      "email": "",
+      "phone": "0551870192",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 2,
+        "f": 2,
+        "m": 3,
+        "score": 223,
+        "spend": 14262.83
+      },
+      "food": {
+        "r": 2,
+        "f": 2,
+        "m": 1,
+        "score": 221,
+        "spend": 269.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 14531.83
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Almost Lost",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 14531.83
+    },
+    {
+      "id": "407161d96f5ea4d18a10b259a0f0290b",
+      "name": "Dana Al-Shammari",
+      "email": "dana.shammari@outlook.com",
+      "phone": "0566431351",
+      "dob": "",
+      "gender": "0",
+      "golf": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 925.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 12085.57
+      },
+      "food": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 1280.0
+      },
+      "general": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 14290.57
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Big Spender at Risk",
+      "general_segment": "Big Spender at Risk",
+      "flagged": true,
+      "total_spend": 14290.57
+    },
+    {
+      "id": "e0d1d280fab9a57c9554074403e5cafe",
+      "name": "Hassan Al-Amri",
+      "email": "hassan.amri@icloud.com",
+      "phone": "0581969657",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 3,
+        "m": 4,
+        "score": 234,
+        "spend": 1420.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 11423.36
+      },
+      "food": {
+        "r": 4,
+        "f": 3,
+        "m": 2,
+        "score": 432,
+        "spend": 508.0
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 13351.36
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Champion",
+      "food_segment": "Loyal",
+      "general_segment": "Champion",
+      "flagged": true,
+      "total_spend": 13351.36
+    },
+    {
+      "id": "06d667073e71152e5d6b577dc588a0b4",
+      "name": "DANA Al-Qahtani",
+      "email": "",
+      "phone": "0521490777",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 2,
+        "f": 2,
+        "m": 3,
+        "score": 223,
+        "spend": 12326.42
+      },
+      "food": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 464.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 12790.42
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Almost Lost",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 12790.42
+    },
+    {
+      "id": "ffea329e8503e8cdcb26598505aaeed6",
+      "name": "Yousef Al-Dossari",
+      "email": "yousef.dossari@icloud.com",
+      "phone": "0556930359",
+      "dob": "1979-01-22",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 3,
+        "m": 3,
+        "score": 433,
+        "spend": 1285.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 8221.62
+      },
+      "food": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 901.0
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 10407.62
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Big Spender at Risk",
+      "general_segment": "Champion",
+      "flagged": true,
+      "total_spend": 10407.62
+    },
+    {
+      "id": "1e3dff81bb0b20d37bb87e8555e1dc2e",
+      "name": "Omar Al-Suwailem",
+      "email": "omar.suwailem@gmail.com",
+      "phone": "966571124923",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 3,
+        "m": 3,
+        "score": 133,
+        "spend": 1340.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 8724.73
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 10064.73
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Champion",
+      "food_segment": "No Data",
+      "general_segment": "Almost Lost",
+      "flagged": true,
+      "total_spend": 10064.73
+    },
+    {
+      "id": "0c6e6dcb2c414646c268312a18dcc8d9",
+      "name": "Salman Al-Qahtani",
+      "email": "salman.qahtani@icloud.com",
+      "phone": "966570465583",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 3,
+        "m": 1,
+        "score": 231,
+        "spend": 480.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 2,
+        "m": 3,
+        "score": 223,
+        "spend": 8990.4
+      },
+      "food": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 577.0
+      },
+      "general": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 10047.4
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Almost Lost",
+      "general_segment": "Almost Lost",
+      "flagged": true,
+      "total_spend": 10047.4
+    },
+    {
+      "id": "ef71bfc5c66bfb8692d33662dc9c4616",
+      "name": "Munira Al-Fadhli",
+      "email": "munira.fadhli@gmail.com",
+      "phone": "966585958181",
+      "dob": "1999-07-22",
+      "gender": "0",
+      "golf": {
+        "r": 2,
+        "f": 3,
+        "m": 1,
+        "score": 231,
+        "spend": 410.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 2,
+        "m": 3,
+        "score": 223,
+        "spend": 9000.45
+      },
+      "food": {
+        "r": 2,
+        "f": 2,
+        "m": 1,
+        "score": 221,
+        "spend": 240.0
+      },
+      "general": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 9650.45
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Almost Lost",
+      "general_segment": "Almost Lost",
+      "flagged": true,
+      "total_spend": 9650.45
+    },
+    {
+      "id": "b0bff52fff7108c125e34be46e926c16",
+      "name": "Talal AL-HAMDAN",
+      "email": "talal.hamdan@outlook.com",
+      "phone": "0576481885",
+      "dob": "1997-10-11",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 2,
+        "m": 2,
+        "score": 322,
+        "spend": 545.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 3,
+        "score": 113,
+        "spend": 8113.32
+      },
+      "food": {
+        "r": 1,
+        "f": 1,
+        "m": 3,
+        "score": 113,
+        "spend": 641.0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 3,
+        "score": 213,
+        "spend": 9299.32
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Big Spender at Risk",
+      "general_segment": "Big Spender at Risk",
+      "flagged": true,
+      "total_spend": 9299.32
+    },
+    {
+      "id": "711e2c172f521dcba079cd83034b66d5",
+      "name": "Omar AL-MUTAIRI",
+      "email": "omar.mutairi@icloud.com",
+      "phone": "966575181648",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 1165.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 7984.41
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 9149.41
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "No Data",
+      "general_segment": "Almost Lost",
+      "flagged": true,
+      "total_spend": 9149.41
+    },
+    {
+      "id": "f0673c1f6e7849e3b59116b3bec216b1",
+      "name": "Faisal Al-Faisal",
+      "email": "",
+      "phone": "0587049595",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 1,
+        "f": 2,
+        "m": 3,
+        "score": 123,
+        "spend": 8103.39
+      },
+      "food": {
+        "r": 1,
+        "f": 2,
+        "m": 3,
+        "score": 123,
+        "spend": 923.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 9026.39
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Big Spender at Risk",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 9026.39
+    },
+    {
+      "id": "fb911b73e74ff9b1e51059a365cc0ca8",
+      "name": "Saad Al-Muhanna",
+      "email": "",
+      "phone": "0575529051",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 2,
+        "f": 2,
+        "m": 3,
+        "score": 223,
+        "spend": 8440.88
+      },
+      "food": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 500.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 8940.88
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Almost Lost",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 8940.88
+    },
+    {
+      "id": "f772594bf322ef6f661cb7ad3906f803",
+      "name": "Majed Al-Amri",
+      "email": "majed.amri@icloud.com",
+      "phone": "966519391725",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 3,
+        "m": 4,
+        "score": 334,
+        "spend": 1740.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 6987.52
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 8727.52
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "No Data",
+      "general_segment": "Almost Lost",
+      "flagged": true,
+      "total_spend": 8727.52
+    },
+    {
+      "id": "886bed1572e4898e8c422941e40eddff",
+      "name": "Salman Al-Hamdan",
+      "email": "salman.hamdan@gmail.com",
+      "phone": "966548089166",
+      "dob": "1980-11-10",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 755.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 7375.48
+      },
+      "food": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 437.0
+      },
+      "general": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 8567.48
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "Almost Lost",
+      "general_segment": "Almost Lost",
+      "flagged": true,
+      "total_spend": 8567.48
+    },
+    {
+      "id": "9364bed61789cbc9871c2b5f7a7e1e7f",
+      "name": "Talal AL-GOSAIBI",
+      "email": "talal.gosaibi@gmail.com",
+      "phone": "966587267850",
+      "dob": "1965-06-10",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 525.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 3,
+        "m": 3,
+        "score": 133,
+        "spend": 7626.3
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 8151.3
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "Big Spender at Risk",
+      "food_segment": "No Data",
+      "general_segment": "Almost Lost",
+      "flagged": true,
+      "total_spend": 8151.3
+    },
+    {
+      "id": "9efaa8c8813b88fd2300efa06a1d46e9",
+      "name": "Jood AL-TAMIMI",
+      "email": "",
+      "phone": "0555150390",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 6856.17
+      },
+      "food": {
+        "r": 2,
+        "f": 2,
+        "m": 3,
+        "score": 223,
+        "spend": 1012.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 7868.17
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Almost Lost",
+      "food_segment": "Big Spender at Risk",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 7868.17
+    },
+    {
+      "id": "4f9d5fda4fb1db3fa984d84ab0eea086",
+      "name": "Noura Al-Harbi",
+      "email": "noura.harbi@icloud.com",
+      "phone": "966558612055",
+      "dob": "1992-03-24",
+      "gender": "0",
+      "golf": {
+        "r": 2,
+        "f": 1,
+        "m": 3,
+        "score": 213,
+        "spend": 815.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 5296.85
+      },
+      "food": {
+        "r": 1,
+        "f": 2,
+        "m": 1,
+        "score": 121,
+        "spend": 293.0
+      },
+      "general": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 6404.85
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Almost Lost",
+      "food_segment": "Almost Lost",
+      "general_segment": "Almost Lost",
+      "flagged": true,
+      "total_spend": 6404.85
+    },
+    {
+      "id": "8deefd0b641cea4b23754216aa509a1b",
+      "name": "Badr AL-HARBI",
+      "email": "badr.harbi@outlook.com",
+      "phone": "0587701200",
+      "dob": "1991-11-19",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 2,
+        "score": 442,
+        "spend": 530.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 4,
+        "m": 2,
+        "score": 342,
+        "spend": 3908.53
+      },
+      "food": {
+        "r": 1,
+        "f": 3,
+        "m": 4,
+        "score": 134,
+        "spend": 1374.0
+      },
+      "general": {
+        "r": 3,
+        "f": 4,
+        "m": 3,
+        "score": 343,
+        "spend": 5812.53
+      },
+      "golf_segment": "Loyal",
+      "retail_segment": "Loyal",
+      "food_segment": "Big Spender at Risk",
+      "general_segment": "Champion",
+      "flagged": true,
+      "total_spend": 5812.53
+    },
+    {
+      "id": "5c831de2045fff707f0c6e5970764051",
+      "name": "Adel Al-Fadhli",
+      "email": "adel.fadhli@hotmail.com",
+      "phone": "966572409658",
+      "dob": "1978-09-16",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 825.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 3,
+        "m": 2,
+        "score": 332,
+        "spend": 3555.16
+      },
+      "food": {
+        "r": 4,
+        "f": 3,
+        "m": 3,
+        "score": 433,
+        "spend": 847.0
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 5227.16
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Loyal",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": true,
+      "total_spend": 5227.16
+    },
+    {
+      "id": "a48fbf71b1ea211959329a0bbecfbe13",
+      "name": "Majed AL-SUBAIE",
+      "email": "",
+      "phone": "0586745380",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 3,
+        "f": 1,
+        "m": 2,
+        "score": 312,
+        "spend": 3038.71
+      },
+      "food": {
+        "r": 2,
+        "f": 1,
+        "m": 3,
+        "score": 213,
+        "spend": 720.0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 3758.71
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Occasional",
+      "food_segment": "Big Spender at Risk",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 3758.71
+    },
+    {
+      "id": "5327606cc5a2315f0b7ada14e4db051c",
+      "name": "Sara Al-Turki",
+      "email": "sara.turki@icloud.com",
+      "phone": "966589520597",
+      "dob": "1980-02-09",
+      "gender": "0",
+      "golf": {
+        "r": 2,
+        "f": 2,
+        "m": 3,
+        "score": 223,
+        "spend": 950.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 2,
+        "m": 1,
+        "score": 221,
+        "spend": 2090.0
+      },
+      "food": {
+        "r": 2,
+        "f": 3,
+        "m": 1,
+        "score": 231,
+        "spend": 299.0
+      },
+      "general": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 3339.0
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Almost Lost",
+      "food_segment": "Almost Lost",
+      "general_segment": "Almost Lost",
+      "flagged": true,
+      "total_spend": 3339.0
+    },
+    {
+      "id": "284d761b9f9e50654a5cb9fc7846051d",
+      "name": "Rayan Al-Anazi",
+      "email": "rayan.anazi@hotmail.com",
+      "phone": "0557219209",
+      "dob": "1984-05-08",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 2,
+        "m": 3,
+        "score": 123,
+        "spend": 880.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 2,
+        "m": 1,
+        "score": 121,
+        "spend": 1225.37
+      },
+      "food": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 456.0
+      },
+      "general": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 2561.37
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Almost Lost",
+      "food_segment": "Almost Lost",
+      "general_segment": "Almost Lost",
+      "flagged": true,
+      "total_spend": 2561.37
+    },
+    {
+      "id": "c212a20bcd6f0052bc9af8654aefa8d3",
+      "name": "Layan Al-Shehri",
+      "email": "layan.shehri@hotmail.com",
+      "phone": "966524541967",
+      "dob": "",
+      "gender": "0",
+      "golf": {
+        "r": 2,
+        "f": 1,
+        "m": 3,
+        "score": 213,
+        "spend": 815.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 789.24
+      },
+      "food": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 440.0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 2044.24
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Lost",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 2044.24
+    },
+    {
+      "id": "d1267a36ab6d51b58bb3794f5ce511d9",
+      "name": "Saud AL-FAISAL",
+      "email": "saud.faisal@hotmail.com",
+      "phone": "0581621574",
+      "dob": "1996-09-02",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 1,
+        "m": 3,
+        "score": 113,
+        "spend": 950.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 2,
+        "m": 1,
+        "score": 421,
+        "spend": 764.13
+      },
+      "food": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 312.0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 2026.13
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "Almost Loyal",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 2026.13
+    },
+    {
+      "id": "e94ca7d05b275c1c6b242bc5045c1f22",
+      "name": "Khalid Al-Hamdan",
+      "email": "khalid.hamdan@gmail.com",
+      "phone": "966518135295",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 4,
+        "m": 4,
+        "score": 244,
+        "spend": 1410.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1410.0
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 1410.0
+    },
+    {
+      "id": "caf661998fb01cdda584c4b6ebf98d3e",
+      "name": " ",
+      "email": "",
+      "phone": "0519391725",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 1017.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1017.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Big Spender at Risk",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 1017.0
+    },
+    {
+      "id": "addb654c71bcd62f0e6ad3b0a3dfe75c",
+      "name": " ",
+      "email": "",
+      "phone": "0557469942",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 1001.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1001.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Big Spender at Risk",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 1001.0
+    },
+    {
+      "id": "7c3076c617e5a0c6b0b08cc8b5153e79",
+      "name": " ",
+      "email": "",
+      "phone": "0562884503",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 1,
+        "f": 2,
+        "m": 3,
+        "score": 123,
+        "spend": 929.0
+      },
+      "general": {
+        "r": 0,
+        "f": 1,
+        "m": 1,
+        "score": 11,
+        "spend": 929.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Big Spender at Risk",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 929.0
+    },
+    {
+      "id": "46676c395642b5753d4731747544306e",
+      "name": "Nasser Al-Harbi",
+      "email": "nasser.harbi@gmail.com",
+      "phone": "966551870192",
+      "dob": "1977-02-19",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 2,
+        "m": 3,
+        "score": 123,
+        "spend": 870.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 0,
+        "f": 1,
+        "m": 1,
+        "score": 11,
+        "spend": 870.0
+      },
+      "golf_segment": "Big Spender at Risk",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 870.0
+    },
+    {
+      "id": "8b508f2275f7e72aedb0989388ce4e57",
+      "name": " ",
+      "email": "",
+      "phone": "0546855845",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 752.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 752.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Big Spender at Risk",
+      "general_segment": "Lost",
+      "flagged": true,
+      "total_spend": 752.0
+    },
+    {
+      "id": "900c4372bab7962a8f550dc9822d6669",
+      "name": "Badr AL-GOSAIBI",
+      "email": "badr.gosaibi@icloud.com",
+      "phone": "966529175900",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 1945.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 47886.88
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 49831.88
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "No Data",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 49831.88
+    },
+    {
+      "id": "461132df5704bcf7fb88c103982c4d63",
+      "name": "Faisal Al-Amri",
+      "email": "faisal.amri@hotmail.com",
+      "phone": "0591030736",
+      "dob": "1994-09-04",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 2375.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 42565.81
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 1897.0
+      },
+      "general": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 46837.81
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 46837.81
+    },
+    {
+      "id": "079f2d1da75ed596393bfc7bca4c79df",
+      "name": "Nasser Al-Sheikh",
+      "email": "nasser.sheikh@outlook.com",
+      "phone": "0530513739",
+      "dob": "1999-09-01",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2395.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 41747.22
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2226.0
+      },
+      "general": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 46368.22
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 46368.22
+    },
+    {
+      "id": "6e6edc09f7de741d96d8f90204aac1a3",
+      "name": "Haifa AL-GOSAIBI",
+      "email": "haifa.gosaibi@hotmail.com",
+      "phone": "966587490893",
+      "dob": "1967-11-08",
+      "gender": "0",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2835.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 35959.58
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2507.4
+      },
+      "general": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 41301.98
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 41301.98
+    },
+    {
+      "id": "0bc139642b831f9ef498dfb8c3a92582",
+      "name": "Badr Al-Amri",
+      "email": "badr.amri@outlook.com",
+      "phone": "0528566572",
+      "dob": "1968-02-05",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2485.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 34915.27
+      },
+      "food": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 3423.0
+      },
+      "general": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 40823.27
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 40823.27
+    },
+    {
+      "id": "77ea0e422e945894997f332554bb7557",
+      "name": "Dana Al-Mutairi",
+      "email": "",
+      "phone": "0580823176",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 37990.51
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2170.0
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 40160.51
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 40160.51
+    },
+    {
+      "id": "be8978da941fcf1643691d59960e9d9f",
+      "name": "Turki AL-MALKI",
+      "email": "turki.malki@icloud.com",
+      "phone": "0531227574",
+      "dob": "1981-09-25",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 1600.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 33493.37
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2898.0
+      },
+      "general": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 37991.37
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 37991.37
+    },
+    {
+      "id": "14ef8bff9196bdd1b42baeb93a5ca574",
+      "name": "Talal Al-Tamimi",
+      "email": "",
+      "phone": "0581016525",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 32183.22
+      },
+      "food": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 3672.2
+      },
+      "general": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 35855.42
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Big Spender at Risk",
+      "flagged": false,
+      "total_spend": 35855.42
+    },
+    {
+      "id": "8058fdf56bb28545fddc75db715465a7",
+      "name": "Sami Al-Gosaibi",
+      "email": "sami.gosaibi@icloud.com",
+      "phone": "966526240908",
+      "dob": "1969-06-01",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2335.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 31728.13
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 34063.13
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "No Data",
+      "general_segment": "Big Spender at Risk",
+      "flagged": false,
+      "total_spend": 34063.13
+    },
+    {
+      "id": "cfe86839989dd5542ab4cd1b216fc06d",
+      "name": "Abdullah Al-Qahtani",
+      "email": "abdullah.qahtani@gmail.com",
+      "phone": "0539345092",
+      "dob": "1966-09-07",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 1700.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 28917.4
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2335.2
+      },
+      "general": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 32952.6
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 32952.6
+    },
+    {
+      "id": "ad67019cbadeb19829a8bb1d744e3c1c",
+      "name": "Yousef Al-Faisal",
+      "email": "yousef.faisal@gmail.com",
+      "phone": "966561019678",
+      "dob": "1988-03-12",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2615.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 27814.28
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 30429.28
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "No Data",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 30429.28
+    },
+    {
+      "id": "4e3fcf2e106f198d1f5c3453626f4104",
+      "name": "NASSER Al-Rashid",
+      "email": "",
+      "phone": "0542329237",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 28051.73
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2322.6
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 30374.33
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 30374.33
+    },
+    {
+      "id": "1c7c158adaae23ccac3dd9fbe925aa99",
+      "name": "Munira Al-Naimi",
+      "email": "",
+      "phone": "0581691040",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 26752.3
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2724.4
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 29476.7
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 29476.7
+    },
+    {
+      "id": "566e875dc00854b323416960a328b2dc",
+      "name": "Sultan Al-Sheikh",
+      "email": "sultan.sheikh@gmail.com",
+      "phone": "0540742311",
+      "dob": "1990-05-03",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 2245.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 24881.48
+      },
+      "food": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 2279.2
+      },
+      "general": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 29405.68
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 29405.68
+    },
+    {
+      "id": "9e0f9f856dfe6c35e59571849d364b13",
+      "name": "Fahad AL-SUBAIE",
+      "email": "",
+      "phone": "0540728046",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 24070.03
+      },
+      "food": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 918.0
+      },
+      "general": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 24988.03
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Almost Lost",
+      "flagged": false,
+      "total_spend": 24988.03
+    },
+    {
+      "id": "ab4ff974fa14a3e474028ed8a3178cd6",
+      "name": "LAMA AL-MUHANNA",
+      "email": "",
+      "phone": "0569401199",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 4,
+        "f": 3,
+        "m": 4,
+        "score": 434,
+        "spend": 19743.94
+      },
+      "food": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 1112.0
+      },
+      "general": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 20855.94
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Almost Lost",
+      "flagged": false,
+      "total_spend": 20855.94
+    },
+    {
+      "id": "ac44a95a9428646c477a4f483510d61f",
+      "name": "Nawaf AL-ZAHRANI",
+      "email": "",
+      "phone": "0524366125",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 18512.14
+      },
+      "food": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 2134.0
+      },
+      "general": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 20646.14
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Big Spender at Risk",
+      "flagged": false,
+      "total_spend": 20646.14
+    },
+    {
+      "id": "8c3e644833334723045ea37ccd291066",
+      "name": "Yousef Al-Turki",
+      "email": "yousef.turki@hotmail.com",
+      "phone": "966510872248",
+      "dob": "1986-05-05",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 3030.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 17515.03
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 20545.03
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "No Data",
+      "general_segment": "Big Spender at Risk",
+      "flagged": false,
+      "total_spend": 20545.03
+    },
+    {
+      "id": "d244d0a0df5a6c245f9cdf45efd0e093",
+      "name": "Salman AL-BALAWI",
+      "email": "salman.balawi@icloud.com",
+      "phone": "0584045292",
+      "dob": "1972-02-23",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 3,
+        "m": 4,
+        "score": 334,
+        "spend": 1470.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 3,
+        "m": 4,
+        "score": 334,
+        "spend": 16050.79
+      },
+      "food": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 1145.0
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 4,
+        "score": 334,
+        "spend": 18665.79
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Champion",
+      "flagged": false,
+      "total_spend": 18665.79
+    },
+    {
+      "id": "e676d2368fc6454cc79c8d6a120464db",
+      "name": "Jood Al-Issa",
+      "email": "jood.issa@icloud.com",
+      "phone": "966542614537",
+      "dob": "1977-02-04",
+      "gender": "0",
+      "golf": {
+        "r": 3,
+        "f": 3,
+        "m": 4,
+        "score": 334,
+        "spend": 1565.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 15678.19
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 2,
+        "f": 2,
+        "m": 3,
+        "score": 223,
+        "spend": 17243.19
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "No Data",
+      "general_segment": "Big Spender at Risk",
+      "flagged": false,
+      "total_spend": 17243.19
+    },
+    {
+      "id": "6b9dae81528d5b4fa2546a38b77b8f6a",
+      "name": "Layan Al-Muhanna",
+      "email": "layan.muhanna@outlook.com",
+      "phone": "966567684996",
+      "dob": "1984-06-26",
+      "gender": "0",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 3,
+        "score": 443,
+        "spend": 1010.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 15892.01
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 2,
+        "score": 332,
+        "spend": 16902.01
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Champion",
+      "food_segment": "No Data",
+      "general_segment": "Loyal",
+      "flagged": false,
+      "total_spend": 16902.01
+    },
+    {
+      "id": "4b4d823926d2d929446b017a640c5324",
+      "name": "Talal Al-Subaie",
+      "email": "",
+      "phone": "0538716269",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 13912.18
+      },
+      "food": {
+        "r": 3,
+        "f": 3,
+        "m": 4,
+        "score": 334,
+        "spend": 1349.0
+      },
+      "general": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 15261.18
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Almost Lost",
+      "flagged": false,
+      "total_spend": 15261.18
+    },
+    {
+      "id": "721865e6a29b4a6b6bc32556af28a1a9",
+      "name": "KHALID Al-Otaibi",
+      "email": "khalid.otaibi@icloud.com",
+      "phone": "966577491435",
+      "dob": "",
+      "gender": "MALE",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 3,
+        "score": 443,
+        "spend": 12839.96
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 1310.0
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 2,
+        "score": 332,
+        "spend": 14149.96
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Champion",
+      "food_segment": "Champion",
+      "general_segment": "Loyal",
+      "flagged": false,
+      "total_spend": 14149.96
+    },
+    {
+      "id": "33733b9a945bc412f79043fe32361856",
+      "name": "Nasser Al-Issa",
+      "email": "nasser.issa@gmail.com",
+      "phone": "966591823275",
+      "dob": "1978-05-22",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 485.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 12038.74
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 12523.74
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Champion",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 12523.74
+    },
+    {
+      "id": "60644f095c6bf91b02b5d7b4f9d1fd20",
+      "name": "Layan Al-Hamdan",
+      "email": "layan.hamdan@icloud.com",
+      "phone": "966529944139",
+      "dob": "1987-06-18",
+      "gender": "0",
+      "golf": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 420.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 2,
+        "m": 3,
+        "score": 323,
+        "spend": 10768.51
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 11188.51
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Almost Loyal",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 11188.51
+    },
+    {
+      "id": "fbecedde641e177c152021cf24b1dc34",
+      "name": "NAWAF AL-FAISAL",
+      "email": "Nawaf.Faisal@Gmail.com",
+      "phone": "0547077298",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 500.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 2,
+        "m": 3,
+        "score": 423,
+        "spend": 7883.48
+      },
+      "food": {
+        "r": 4,
+        "f": 2,
+        "m": 2,
+        "score": 422,
+        "spend": 510.0
+      },
+      "general": {
+        "r": 3,
+        "f": 2,
+        "m": 2,
+        "score": 322,
+        "spend": 8893.48
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Almost Loyal",
+      "food_segment": "Almost Loyal",
+      "general_segment": "Almost Loyal",
+      "flagged": false,
+      "total_spend": 8893.48
+    },
+    {
+      "id": "7c04929005126a084716e3201c8fc6ae",
+      "name": "Ibrahim AL-ANAZI",
+      "email": "ibrahim.anazi@icloud.com",
+      "phone": "0530776478",
+      "dob": "1978-01-19",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 3,
+        "m": 2,
+        "score": 132,
+        "spend": 725.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 6100.55
+      },
+      "food": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 1347.0
+      },
+      "general": {
+        "r": 2,
+        "f": 3,
+        "m": 3,
+        "score": 233,
+        "spend": 8172.55
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "Almost Lost",
+      "food_segment": "Champion",
+      "general_segment": "Big Spender at Risk",
+      "flagged": false,
+      "total_spend": 8172.55
+    },
+    {
+      "id": "530443932b4319b8c56feb2abbf2b555",
+      "name": "Mohammed Al-Mutairi",
+      "email": "mohammed.mutairi@hotmail.com",
+      "phone": "966565259205",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 3,
+        "m": 4,
+        "score": 334,
+        "spend": 1415.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 3,
+        "m": 2,
+        "score": 332,
+        "spend": 6632.98
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 8047.98
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Loyal",
+      "food_segment": "No Data",
+      "general_segment": "Almost Lost",
+      "flagged": false,
+      "total_spend": 8047.98
+    },
+    {
+      "id": "a87fd5d70384b99edae617613784c502",
+      "name": "Khalid AL-HAMDAN",
+      "email": "",
+      "phone": "0518135295",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 3,
+        "f": 3,
+        "m": 2,
+        "score": 332,
+        "spend": 5972.9
+      },
+      "food": {
+        "r": 3,
+        "f": 3,
+        "m": 4,
+        "score": 334,
+        "spend": 1544.0
+      },
+      "general": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 7516.9
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Loyal",
+      "food_segment": "Champion",
+      "general_segment": "Almost Lost",
+      "flagged": false,
+      "total_spend": 7516.9
+    },
+    {
+      "id": "9d4913986fe8ce9eb3623dee35b08b0c",
+      "name": "Reem Al-Suwailem",
+      "email": "",
+      "phone": "0516818112",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 2,
+        "score": 442,
+        "spend": 6433.49
+      },
+      "food": {
+        "r": 3,
+        "f": 4,
+        "m": 3,
+        "score": 343,
+        "spend": 722.0
+      },
+      "general": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 7155.49
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Loyal",
+      "food_segment": "Champion",
+      "general_segment": "Almost Lost",
+      "flagged": false,
+      "total_spend": 7155.49
+    },
+    {
+      "id": "2a8d7b56b657465bd7cffe7f089f7925",
+      "name": "Waleed Al-Hamdan",
+      "email": "waleed.hamdan@hotmail.com",
+      "phone": "966542035886",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 1585.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 4,
+        "m": 2,
+        "score": 442,
+        "spend": 5070.19
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 2,
+        "score": 332,
+        "spend": 6655.19
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Loyal",
+      "food_segment": "No Data",
+      "general_segment": "Loyal",
+      "flagged": false,
+      "total_spend": 6655.19
+    },
+    {
+      "id": "c2f50302c9773677309059668151ff82",
+      "name": "Bandar Al-Suwailem",
+      "email": "bandar.suwailem@hotmail.com",
+      "phone": "0578299645",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 3,
+        "f": 1,
+        "m": 2,
+        "score": 312,
+        "spend": 5937.63
+      },
+      "food": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 279.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 6216.63
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Occasional",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 6216.63
+    },
+    {
+      "id": "f064df2edd1e24f6cb98d6a658d36512",
+      "name": "Rayan Al-Rashid",
+      "email": "rayan.rashid@gmail.com",
+      "phone": "966597477029",
+      "dob": "1980-04-27",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 705.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 4760.11
+      },
+      "food": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 592.0
+      },
+      "general": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 6057.11
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "Almost Lost",
+      "food_segment": "Almost Lost",
+      "general_segment": "Almost Lost",
+      "flagged": false,
+      "total_spend": 6057.11
+    },
+    {
+      "id": "cea6c946277bd9b76b7832ab14ed6094",
+      "name": "Fahad AL-HAMDAN",
+      "email": "",
+      "phone": "0545507920",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 3,
+        "f": 2,
+        "m": 2,
+        "score": 322,
+        "spend": 5775.16
+      },
+      "food": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 261.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 6036.16
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Almost Loyal",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 6036.16
+    },
+    {
+      "id": "e782971301a5d3b145a06a01f7c5977d",
+      "name": "Fahad Al-Gosaibi",
+      "email": "fahad.gosaibi@gmail.com",
+      "phone": "966553233116",
+      "dob": "1973-05-20",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 485.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 2,
+        "m": 2,
+        "score": 422,
+        "spend": 5065.63
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 5550.63
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Almost Loyal",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 5550.63
+    },
+    {
+      "id": "b6d4a313a77e1f021702e128e8133b82",
+      "name": "Fahad Al-Otaibi",
+      "email": "fahad.otaibi@outlook.com",
+      "phone": "966551286958",
+      "dob": "1972-08-23",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 450.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 4913.96
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 5363.96
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Lost",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 5363.96
+    },
+    {
+      "id": "9e9e8a7f3b3d395684b057ebc13a64e5",
+      "name": "Tariq Al-Ghamdi",
+      "email": "tariq.ghamdi@outlook.com",
+      "phone": "966540281491",
+      "dob": "1970-07-01",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 2,
+        "m": 1,
+        "score": 421,
+        "spend": 330.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 1,
+        "m": 2,
+        "score": 312,
+        "spend": 4434.16
+      },
+      "food": {
+        "r": 4,
+        "f": 2,
+        "m": 2,
+        "score": 422,
+        "spend": 517.0
+      },
+      "general": {
+        "r": 4,
+        "f": 2,
+        "m": 2,
+        "score": 422,
+        "spend": 5281.16
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "Occasional",
+      "food_segment": "Almost Loyal",
+      "general_segment": "Almost Loyal",
+      "flagged": false,
+      "total_spend": 5281.16
+    },
+    {
+      "id": "50bd2be816e5a9f60aaa865abccf8b4a",
+      "name": "Mohammed Al-Naimi",
+      "email": "mohammed.naimi@outlook.com",
+      "phone": "966531257157",
+      "dob": "2000-07-03",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 365.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 2,
+        "m": 2,
+        "score": 422,
+        "spend": 4742.12
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 5107.12
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Almost Loyal",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 5107.12
+    },
+    {
+      "id": "cb5e2e46e9f83479ea623353aa0854e7",
+      "name": "Turki Al-Sheikh",
+      "email": "turki.sheikh@gmail.com",
+      "phone": "0563782042",
+      "dob": "2001-11-22",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 600.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 3855.5
+      },
+      "food": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 552.0
+      },
+      "general": {
+        "r": 2,
+        "f": 2,
+        "m": 2,
+        "score": 222,
+        "spend": 5007.5
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "Almost Lost",
+      "food_segment": "Almost Lost",
+      "general_segment": "Almost Lost",
+      "flagged": false,
+      "total_spend": 5007.5
+    },
+    {
+      "id": "27d452c83acab31b6f0d7f402bccb7d6",
+      "name": "Nasser Al-Dossari",
+      "email": "nasser.dossari@icloud.com",
+      "phone": "966574855088",
+      "dob": "1989-10-12",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 650.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 4212.94
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 4862.94
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Lost",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 4862.94
+    },
+    {
+      "id": "5eb089f190e1f56078da971ea7330e94",
+      "name": "Nawaf AL-SHEHRI",
+      "email": "nawaf.shehri@icloud.com",
+      "phone": "0559796322",
+      "dob": "1991-11-04",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 1,
+        "m": 1,
+        "score": 311,
+        "spend": 370.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 3838.42
+      },
+      "food": {
+        "r": 4,
+        "f": 2,
+        "m": 2,
+        "score": 422,
+        "spend": 427.0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 4635.42
+      },
+      "golf_segment": "Occasional",
+      "retail_segment": "Lost",
+      "food_segment": "Almost Loyal",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 4635.42
+    },
+    {
+      "id": "c658f47590ad579a0babe6a29175f0e4",
+      "name": "Hassan Al-Qahtani",
+      "email": "Hassan.Qahtani@Gmail.com",
+      "phone": "0591390501",
+      "dob": "1979-10-26",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 370.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 4005.54
+      },
+      "food": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 220.0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 4595.54
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Lost",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 4595.54
+    },
+    {
+      "id": "b181f64ccc36d07379685544ea167733",
+      "name": "Rayan Al-Balawi",
+      "email": "rayan.balawi@hotmail.com",
+      "phone": "966568571795",
+      "dob": "2001-04-09",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 1290.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 3,
+        "m": 1,
+        "score": 331,
+        "spend": 2226.57
+      },
+      "food": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 852.0
+      },
+      "general": {
+        "r": 3,
+        "f": 3,
+        "m": 2,
+        "score": 332,
+        "spend": 4368.57
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Loyal",
+      "food_segment": "Champion",
+      "general_segment": "Loyal",
+      "flagged": false,
+      "total_spend": 4368.57
+    },
+    {
+      "id": "542f814f3b19f5b9220778e723aab309",
+      "name": "Lama AL-SUWAILEM",
+      "email": "lama.suwailem@outlook.com",
+      "phone": "966546855845",
+      "dob": "",
+      "gender": "0",
+      "golf": {
+        "r": 3,
+        "f": 3,
+        "m": 4,
+        "score": 334,
+        "spend": 1470.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 3,
+        "m": 1,
+        "score": 131,
+        "spend": 2859.07
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 4329.07
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "Almost Lost",
+      "food_segment": "No Data",
+      "general_segment": "Almost Lost",
+      "flagged": false,
+      "total_spend": 4329.07
+    },
+    {
+      "id": "21ebbfaf3366159a3ec388ad23443c4c",
+      "name": "Saud Al-Suwailem",
+      "email": "",
+      "phone": "0564807553",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 3,
+        "f": 1,
+        "m": 2,
+        "score": 312,
+        "spend": 3641.59
+      },
+      "food": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 538.0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 4179.59
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Occasional",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 4179.59
+    },
+    {
+      "id": "d6a6ffcf94b2f1e0e9a6bbf4fe54e93e",
+      "name": "Hassan Al-Issa",
+      "email": "hassan.issa@gmail.com",
+      "phone": "966533513701",
+      "dob": "1993-05-06",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 200.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 3846.43
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 4046.43
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Lost",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 4046.43
+    },
+    {
+      "id": "639146613381673107e1e1dcf3a9c412",
+      "name": "Tariq Al-Anazi",
+      "email": "tariq.anazi@gmail.com",
+      "phone": "966535176902",
+      "dob": "1993-01-07",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 2,
+        "m": 1,
+        "score": 421,
+        "spend": 420.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 3135.83
+      },
+      "food": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 395.0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 3950.83
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "Lost",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 3950.83
+    },
+    {
+      "id": "c12733137dd48d25177245054cebdc4a",
+      "name": "Reem Al-Muhanna",
+      "email": "reem.muhanna@icloud.com",
+      "phone": "0568755000",
+      "dob": "1992-12-11",
+      "gender": "0",
+      "golf": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 720.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 2442.68
+      },
+      "food": {
+        "r": 4,
+        "f": 2,
+        "m": 1,
+        "score": 421,
+        "spend": 160.0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 3322.68
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Lost",
+      "food_segment": "Almost Loyal",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 3322.68
+    },
+    {
+      "id": "4a717e5e98dd9f01cee848e3c603443d",
+      "name": "Nasser AL-GHAMDI",
+      "email": "nasser.ghamdi@outlook.com",
+      "phone": "966525898299",
+      "dob": "1998-07-15",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 420.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 2,
+        "m": 1,
+        "score": 121,
+        "spend": 2293.3
+      },
+      "food": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 605.0
+      },
+      "general": {
+        "r": 1,
+        "f": 2,
+        "m": 1,
+        "score": 121,
+        "spend": 3318.3
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Almost Lost",
+      "food_segment": "Almost Lost",
+      "general_segment": "Almost Lost",
+      "flagged": false,
+      "total_spend": 3318.3
+    },
+    {
+      "id": "451e729a29f142fe4d4f1f22f9aacd9a",
+      "name": "NAWAF AL-MUHANNA",
+      "email": "",
+      "phone": "0533420607",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 2743.03
+      },
+      "food": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 452.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 3195.03
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Lost",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 3195.03
+    },
+    {
+      "id": "a1fce295c77f5395bf65461a250c64f4",
+      "name": "Khalid Al-Shehri",
+      "email": "khalid.shehri@hotmail.com",
+      "phone": "0535475673",
+      "dob": "1970-11-07",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 2,
+        "m": 3,
+        "score": 423,
+        "spend": 1050.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 1,
+        "m": 1,
+        "score": 311,
+        "spend": 1262.29
+      },
+      "food": {
+        "r": 4,
+        "f": 2,
+        "m": 3,
+        "score": 423,
+        "spend": 805.0
+      },
+      "general": {
+        "r": 4,
+        "f": 2,
+        "m": 2,
+        "score": 422,
+        "spend": 3117.29
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "Occasional",
+      "food_segment": "Almost Loyal",
+      "general_segment": "Almost Loyal",
+      "flagged": false,
+      "total_spend": 3117.29
+    },
+    {
+      "id": "168aaf0a077c13eac18b8e773f00360d",
+      "name": " ",
+      "email": "",
+      "phone": "0561019678",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 3071.6
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 3071.6
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Champion",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 3071.6
+    },
+    {
+      "id": "8219ab8c783bd70aedb64d1b81290316",
+      "name": "NASSER Al-Naimi",
+      "email": "",
+      "phone": "0525659979",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 2657.95
+      },
+      "food": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 402.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 3059.95
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Lost",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 3059.95
+    },
+    {
+      "id": "59c63252ee0274543547812143d30fb0",
+      "name": "Turki Al-Issa",
+      "email": "turki.issa@outlook.com",
+      "phone": "966572415804",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 665.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 2,
+        "m": 1,
+        "score": 221,
+        "spend": 2389.8
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 3054.8
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Almost Lost",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 3054.8
+    },
+    {
+      "id": "3354e9ec75b16bd42e75eac75dda65af",
+      "name": "Abdullah Al-Subaie",
+      "email": "abdullah.subaie@hotmail.com",
+      "phone": "0539161443",
+      "dob": "1980-06-04",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 445.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1829.56
+      },
+      "food": {
+        "r": 3,
+        "f": 2,
+        "m": 3,
+        "score": 323,
+        "spend": 776.0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 3050.56
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Lost",
+      "food_segment": "Almost Loyal",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 3050.56
+    },
+    {
+      "id": "ebf01ba4be1596b7eb93444632bd3746",
+      "name": " ",
+      "email": "",
+      "phone": "0526240908",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 2948.4
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 2948.4
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Champion",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 2948.4
+    },
+    {
+      "id": "587626fa5221aa05b8a03959909120fd",
+      "name": " ",
+      "email": "",
+      "phone": "0510872248",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2934.4
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 2934.4
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Champion",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 2934.4
+    },
+    {
+      "id": "7b4e2512760ece90a99993770379a183",
+      "name": "Nawaf Al-Tamimi",
+      "email": "nawaf.tamimi@gmail.com",
+      "phone": "966562884503",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 620.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 3,
+        "m": 1,
+        "score": 231,
+        "spend": 2154.35
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 2,
+        "m": 1,
+        "score": 121,
+        "spend": 2774.35
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "Almost Lost",
+      "food_segment": "No Data",
+      "general_segment": "Almost Lost",
+      "flagged": false,
+      "total_spend": 2774.35
+    },
+    {
+      "id": "f9ed0c4581fbab311666ea851486b6e4",
+      "name": "Nasser Al-Rashid",
+      "email": "nasser.rashid@gmail.com",
+      "phone": "966542329237",
+      "dob": "1996-02-25",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2740.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 2740.0
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 2740.0
+    },
+    {
+      "id": "d905daccc1169e13b65195961b3423e3",
+      "name": " ",
+      "email": "",
+      "phone": "0529175900",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 2465.4
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 2465.4
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Champion",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 2465.4
+    },
+    {
+      "id": "8ecb9aef67feab5c3611afa57f79605f",
+      "name": "Haifa Al-Faisal",
+      "email": "",
+      "phone": "0593176117",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1985.12
+      },
+      "food": {
+        "r": 3,
+        "f": 1,
+        "m": 1,
+        "score": 311,
+        "spend": 390.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 2375.12
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Lost",
+      "food_segment": "Occasional",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 2375.12
+    },
+    {
+      "id": "e68ea216a8231303069cf098a0723c02",
+      "name": "Ahmad Al-Subaie",
+      "email": "",
+      "phone": "966546817443",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 2,
+        "f": 3,
+        "m": 1,
+        "score": 231,
+        "spend": 2122.01
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 0,
+        "score": 110,
+        "spend": 2122.01
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Almost Lost",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 2122.01
+    },
+    {
+      "id": "d3caffaccceea8ce3f933798c605ee50",
+      "name": "Munira Al-Naimi",
+      "email": "munira.naimi@outlook.com",
+      "phone": "966581691040",
+      "dob": "1994-07-09",
+      "gender": "0",
+      "golf": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 2055.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 2055.0
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 2055.0
+    },
+    {
+      "id": "c81af3039e7f66ff85639b312e31a074",
+      "name": "Dana Al-Mutairi",
+      "email": "dana.mutairi@hotmail.com",
+      "phone": "966580823176",
+      "dob": "1999-12-23",
+      "gender": "0",
+      "golf": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 2050.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 2050.0
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 2050.0
+    },
+    {
+      "id": "a5d5b84f12f5672a25de202d60f0b990",
+      "name": "Talal Al-Tamimi",
+      "email": "talal.tamimi@icloud.com",
+      "phone": "966581016525",
+      "dob": "1972-11-18",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 4,
+        "m": 4,
+        "score": 344,
+        "spend": 2035.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 2035.0
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 2035.0
+    },
+    {
+      "id": "1aaf09332de6fc90741c417dfad0b45e",
+      "name": "Nawaf Al-Fadhli",
+      "email": "nawaf.fadhli@hotmail.com",
+      "phone": "966581249799",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 2,
+        "m": 2,
+        "score": 422,
+        "spend": 530.0
+      },
+      "retail": {
+        "r": 3,
+        "f": 2,
+        "m": 1,
+        "score": 321,
+        "spend": 1425.37
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 1955.37
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "Almost Loyal",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1955.37
+    },
+    {
+      "id": "d22f63f79ef262e029cca324dea26e2f",
+      "name": "Ibrahim AL-AMRI",
+      "email": "ibrahim.amri@hotmail.com",
+      "phone": "966567805802",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 2,
+        "m": 1,
+        "score": 421,
+        "spend": 400.0
+      },
+      "retail": {
+        "r": 4,
+        "f": 2,
+        "m": 1,
+        "score": 421,
+        "spend": 1390.67
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 3,
+        "f": 1,
+        "m": 1,
+        "score": 311,
+        "spend": 1790.67
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "Almost Loyal",
+      "food_segment": "No Data",
+      "general_segment": "Occasional",
+      "flagged": false,
+      "total_spend": 1790.67
+    },
+    {
+      "id": "fe3cf30485ea70ff63c78e1839f2ef73",
+      "name": "Haifa Al-Otaibi",
+      "email": "haifa.otaibi@hotmail.com",
+      "phone": "966571477426",
+      "dob": "1995-07-14",
+      "gender": "0",
+      "golf": {
+        "r": 3,
+        "f": 2,
+        "m": 1,
+        "score": 321,
+        "spend": 465.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1316.2
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1781.2
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "Lost",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1781.2
+    },
+    {
+      "id": "4668ae53cdb6096b340fa6d79631d005",
+      "name": " ",
+      "email": "",
+      "phone": "0593370583",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 4,
+        "score": 444,
+        "spend": 1651.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1651.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Champion",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1651.0
+    },
+    {
+      "id": "b21241038c28c33e0a0015b5c6da774e",
+      "name": "Lama Al-Muhanna",
+      "email": "lama.muhanna@hotmail.com",
+      "phone": "966569401199",
+      "dob": "1975-12-28",
+      "gender": "0",
+      "golf": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 1375.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1375.0
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1375.0
+    },
+    {
+      "id": "de0d40d22e728f8d161ded4884c909ea",
+      "name": "Dana Al-Otaibi",
+      "email": "dana.otaibi@icloud.com",
+      "phone": "966521819185",
+      "dob": "",
+      "gender": "0",
+      "golf": {
+        "r": 3,
+        "f": 1,
+        "m": 2,
+        "score": 312,
+        "spend": 600.0
+      },
+      "retail": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 728.04
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 1328.04
+      },
+      "golf_segment": "Occasional",
+      "retail_segment": "Lost",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1328.04
+    },
+    {
+      "id": "62e6ebd3c8ecdf629dfa3164a8c8b319",
+      "name": " ",
+      "email": "",
+      "phone": "0587267850",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 3,
+        "f": 3,
+        "m": 4,
+        "score": 334,
+        "spend": 1323.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1323.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Champion",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1323.0
+    },
+    {
+      "id": "cb44288101cba4c55a0a5edb2aa24d64",
+      "name": " ",
+      "email": "",
+      "phone": "0542035886",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 3,
+        "f": 4,
+        "m": 3,
+        "score": 343,
+        "spend": 1296.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1296.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Champion",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1296.0
+    },
+    {
+      "id": "e82762f44c6ebaba0c7d25cd7f112f22",
+      "name": " ",
+      "email": "",
+      "phone": "0542614537",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 1294.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1294.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Champion",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1294.0
+    },
+    {
+      "id": "5d11e973a11d9fbb850bb26685debc90",
+      "name": "Reem Al-Suwailem",
+      "email": "reem.suwailem@hotmail.com",
+      "phone": "966516818112",
+      "dob": "1982-01-01",
+      "gender": "0",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 3,
+        "score": 443,
+        "spend": 1265.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1265.0
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1265.0
+    },
+    {
+      "id": "563657ec559a48d661eccfcd9c4dbf52",
+      "name": "Fahad Al-Subaie",
+      "email": "fahad.subaie@gmail.com",
+      "phone": "966540728046",
+      "dob": "1986-02-17",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 1220.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1220.0
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1220.0
+    },
+    {
+      "id": "66d26010af7b937bc6a6f702e6303e28",
+      "name": "Faisal AL-GOSAIBI",
+      "email": "",
+      "phone": "0551464269",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 705.85
+      },
+      "food": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 504.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1209.85
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Lost",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1209.85
+    },
+    {
+      "id": "bf74a56ab3f0618b3de37981945a6620",
+      "name": " ",
+      "email": "",
+      "phone": "0567684996",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 4,
+        "f": 4,
+        "m": 3,
+        "score": 443,
+        "spend": 1169.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1169.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Champion",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1169.0
+    },
+    {
+      "id": "31f984a6cd49c0f2747254a1d8059035",
+      "name": "Talal Al-Subaie",
+      "email": "talal.subaie@outlook.com",
+      "phone": "966538716269",
+      "dob": "1991-06-18",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 1135.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1135.0
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1135.0
+    },
+    {
+      "id": "a0b3f3e3fb85458a194ca976f612f1df",
+      "name": " ",
+      "email": "",
+      "phone": "0571124923",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 1037.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1037.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Champion",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1037.0
+    },
+    {
+      "id": "2ce9952df144e4fa0bc3bab48e55ab4d",
+      "name": "Nawaf Al-Zahrani",
+      "email": "nawaf.zahrani@gmail.com",
+      "phone": "966524366125",
+      "dob": "1983-10-07",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 4,
+        "m": 3,
+        "score": 443,
+        "spend": 1020.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 1020.0
+      },
+      "golf_segment": "Champion",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 1020.0
+    },
+    {
+      "id": "7d34dfdadede7f0184b22bb5376ea7b6",
+      "name": " ",
+      "email": "",
+      "phone": "0575181648",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 3,
+        "f": 4,
+        "m": 3,
+        "score": 343,
+        "spend": 937.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 937.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Champion",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 937.0
+    },
+    {
+      "id": "450fb8ae6c8b0f6ea3a8fe38ee3d8203",
+      "name": "Yousef Al-Balawi",
+      "email": "yousef.balawi@gmail.com",
+      "phone": "966568246664",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 550.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 320.17
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 870.17
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Lost",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 870.17
+    },
+    {
+      "id": "e0eeef4142d7cb2440c22bbd56c5284b",
+      "name": " ",
+      "email": "",
+      "phone": "0565259205",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 3,
+        "f": 3,
+        "m": 3,
+        "score": 333,
+        "spend": 774.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 774.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Champion",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 774.0
+    },
+    {
+      "id": "d1f91ab03a907993369a5278b67c2d17",
+      "name": "Sami Al-Harbi",
+      "email": "",
+      "phone": "0512059919",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 515.44
+      },
+      "food": {
+        "r": 4,
+        "f": 2,
+        "m": 1,
+        "score": 421,
+        "spend": 231.0
+      },
+      "general": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 746.44
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "Lost",
+      "food_segment": "Almost Loyal",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 746.44
+    },
+    {
+      "id": "6f2b3dd935cf37a7c8f0bbc74eae17d6",
+      "name": "Ahmad AlSubaie",
+      "email": "Ahmad.Subaie@Outlook.com",
+      "phone": "",
+      "dob": "2000-05-23",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 715.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 0,
+        "f": 1,
+        "m": 1,
+        "score": 11,
+        "spend": 715.0
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 715.0
+    },
+    {
+      "id": "073e9a343962449498c3a044ee5d3622",
+      "name": "Tariq Al-Gosaibi",
+      "email": "tariq.gosaibi@hotmail.com",
+      "phone": "966583363160",
+      "dob": "1993-06-19",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 2,
+        "m": 2,
+        "score": 422,
+        "spend": 665.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 665.0
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 665.0
+    },
+    {
+      "id": "09ca272d0628d8410819f993de247746",
+      "name": "Jood Al-Tamimi",
+      "email": "jood.tamimi@icloud.com",
+      "phone": "966555150390",
+      "dob": "1985-03-16",
+      "gender": "0",
+      "golf": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 620.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 0,
+        "f": 1,
+        "m": 1,
+        "score": 11,
+        "spend": 620.0
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 620.0
+    },
+    {
+      "id": "2312ac761600e667e4400e169c91def9",
+      "name": "Nawaf Al-Muhanna",
+      "email": "nawaf.muhanna@hotmail.com",
+      "phone": "966533420607",
+      "dob": "1973-01-12",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 2,
+        "m": 2,
+        "score": 322,
+        "spend": 620.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 620.0
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 620.0
+    },
+    {
+      "id": "81528ce22cd2b818515c0e8751fcc09f",
+      "name": "Fahad Al-Hamdan",
+      "email": "fahad.hamdan@outlook.com",
+      "phone": "966545507920",
+      "dob": "1972-09-08",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 2,
+        "m": 2,
+        "score": 322,
+        "spend": 620.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 620.0
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 620.0
+    },
+    {
+      "id": "30018b78bb2432fb3e0f4bd64aa310e8",
+      "name": " ",
+      "email": "",
+      "phone": "0555298556",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 618.0
+      },
+      "general": {
+        "r": 0,
+        "f": 1,
+        "m": 1,
+        "score": 11,
+        "spend": 618.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Almost Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 618.0
+    },
+    {
+      "id": "415ddec0615d1af3a9cb34193027281e",
+      "name": "Sami AlHarbi",
+      "email": "Sami.Harbi@Icloud.com",
+      "phone": "966512059919",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 2,
+        "m": 2,
+        "score": 322,
+        "spend": 615.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 615.0
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 615.0
+    },
+    {
+      "id": "3c417e7544abad6cf7139d6558445133",
+      "name": "Abdulaziz Al-Dossari",
+      "email": "abdulaziz.dossari@outlook.com",
+      "phone": "966574988034",
+      "dob": "1983-02-27",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 600.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 0,
+        "m": 1,
+        "score": 101,
+        "spend": 600.0
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 600.0
+    },
+    {
+      "id": "65a48de1de1d5bf02c0c071b78ed6091",
+      "name": " ",
+      "email": "",
+      "phone": "0591823275",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 589.0
+      },
+      "general": {
+        "r": 0,
+        "f": 1,
+        "m": 1,
+        "score": 11,
+        "spend": 589.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Almost Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 589.0
+    },
+    {
+      "id": "e6fd8fdbb96379786ca744dd58b10306",
+      "name": "Majed Al-Subaie",
+      "email": "majed.subaie@outlook.com",
+      "phone": "966586745380",
+      "dob": "1991-01-11",
+      "gender": "1",
+      "golf": {
+        "r": 3,
+        "f": 2,
+        "m": 2,
+        "score": 322,
+        "spend": 565.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 565.0
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 565.0
+    },
+    {
+      "id": "38c94de087e3bdd470c39d37ae6666a0",
+      "name": " ",
+      "email": "",
+      "phone": "0572415804",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 563.0
+      },
+      "general": {
+        "r": 0,
+        "f": 1,
+        "m": 1,
+        "score": 11,
+        "spend": 563.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Almost Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 563.0
+    },
+    {
+      "id": "a4cdd4065aca9a3c7abb534be3e25a4d",
+      "name": " ",
+      "email": "",
+      "phone": "0551286958",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 3,
+        "f": 2,
+        "m": 2,
+        "score": 322,
+        "spend": 550.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 550.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Almost Loyal",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 550.0
+    },
+    {
+      "id": "ad9f059ed0579eee7e430c21c73f3e18",
+      "name": "Saud Al-Suwailem",
+      "email": "saud.suwailem@hotmail.com",
+      "phone": "966564807553",
+      "dob": "1971-03-11",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 1,
+        "m": 2,
+        "score": 212,
+        "spend": 550.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 0,
+        "f": 0,
+        "m": 1,
+        "score": 1,
+        "spend": 550.0
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 550.0
+    },
+    {
+      "id": "17cac4597495faa9bb77022eee250eae",
+      "name": " ",
+      "email": "",
+      "phone": "0574988034",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 1,
+        "f": 2,
+        "m": 2,
+        "score": 122,
+        "spend": 519.0
+      },
+      "general": {
+        "r": 0,
+        "f": 1,
+        "m": 1,
+        "score": 11,
+        "spend": 519.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Almost Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 519.0
+    },
+    {
+      "id": "246b757c6c24f6dc527f75af1c534c6a",
+      "name": "Saad Al-Muhanna",
+      "email": "saad.muhanna@outlook.com",
+      "phone": "966575529051",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 3,
+        "m": 2,
+        "score": 232,
+        "spend": 515.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 515.0
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 515.0
+    },
+    {
+      "id": "acc7324028ef65b3a6be471c4d5bc950",
+      "name": " ",
+      "email": "",
+      "phone": "0519208698",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 500.0
+      },
+      "general": {
+        "r": 0,
+        "f": 0,
+        "m": 1,
+        "score": 1,
+        "spend": 500.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 500.0
+    },
+    {
+      "id": "dec3fa7fb1e426f975573ad4ce581d25",
+      "name": " ",
+      "email": "",
+      "phone": "0568246664",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 462.0
+      },
+      "general": {
+        "r": 0,
+        "f": 0,
+        "m": 1,
+        "score": 1,
+        "spend": 462.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 462.0
+    },
+    {
+      "id": "8c3ff6b9c71891590282935032605a14",
+      "name": " ",
+      "email": "",
+      "phone": "0521819185",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 1,
+        "f": 1,
+        "m": 2,
+        "score": 112,
+        "spend": 439.0
+      },
+      "general": {
+        "r": 0,
+        "f": 0,
+        "m": 1,
+        "score": 1,
+        "spend": 439.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 439.0
+    },
+    {
+      "id": "487fb00c02625b48abfbd9037fcaf68f",
+      "name": " ",
+      "email": "",
+      "phone": "0571477426",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 427.0
+      },
+      "general": {
+        "r": 1,
+        "f": 0,
+        "m": 0,
+        "score": 100,
+        "spend": 427.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 427.0
+    },
+    {
+      "id": "7a42603489a3de7b2d04a22588ce8df1",
+      "name": " ",
+      "email": "",
+      "phone": "0581249799",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 417.0
+      },
+      "general": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 417.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 417.0
+    },
+    {
+      "id": "a2d9a945c52a386cb7d37cf9061a893e",
+      "name": " ",
+      "email": "",
+      "phone": "0529944139",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 413.0
+      },
+      "general": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 413.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 413.0
+    },
+    {
+      "id": "77506f691318194fb7d34f1fedc41faa",
+      "name": "Haifa Al-Faisal",
+      "email": "haifa.faisal@icloud.com",
+      "phone": "966593176117",
+      "dob": "",
+      "gender": "0",
+      "golf": {
+        "r": 4,
+        "f": 2,
+        "m": 1,
+        "score": 421,
+        "spend": 400.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 0,
+        "score": 110,
+        "spend": 400.0
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 400.0
+    },
+    {
+      "id": "085a8aa3965d3cfc05d579b67ef72d90",
+      "name": " ",
+      "email": "",
+      "phone": "0531257157",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 4,
+        "f": 2,
+        "m": 1,
+        "score": 421,
+        "spend": 397.0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 0,
+        "score": 110,
+        "spend": 397.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Almost Loyal",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 397.0
+    },
+    {
+      "id": "1506be995c3ac3661b6014d8029bc15a",
+      "name": " ",
+      "email": "",
+      "phone": "0553233116",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 3,
+        "f": 1,
+        "m": 1,
+        "score": 311,
+        "spend": 388.0
+      },
+      "general": {
+        "r": 1,
+        "f": 0,
+        "m": 0,
+        "score": 100,
+        "spend": 388.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Occasional",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 388.0
+    },
+    {
+      "id": "d8cb1f5f17fa20dcd95b4ce19f6ca54f",
+      "name": " ",
+      "email": "",
+      "phone": "0533513701",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 380.0
+      },
+      "general": {
+        "r": 1,
+        "f": 0,
+        "m": 0,
+        "score": 100,
+        "spend": 380.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 380.0
+    },
+    {
+      "id": "6843c8e1ea2c7d43cad8f469fe4cda29",
+      "name": "Faisal Al-Faisal",
+      "email": "faisal.faisal@gmail.com",
+      "phone": "966587049595",
+      "dob": "1995-08-11",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 2,
+        "m": 1,
+        "score": 121,
+        "spend": 370.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 0,
+        "f": 1,
+        "m": 0,
+        "score": 10,
+        "spend": 370.0
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 370.0
+    },
+    {
+      "id": "6c2cb3ce6e655f4034d2143b914f8fa3",
+      "name": "Ali Al-Otaibi",
+      "email": "Ali.Otaibi@Outlook.com",
+      "phone": "966566500369",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 250.0
+      },
+      "retail": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 118.91
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 368.91
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "Lost",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 368.91
+    },
+    {
+      "id": "97b45be3a3a034262960473a5374923f",
+      "name": " ",
+      "email": "",
+      "phone": "0546817443",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 1,
+        "f": 2,
+        "m": 1,
+        "score": 121,
+        "spend": 362.0
+      },
+      "general": {
+        "r": 0,
+        "f": 1,
+        "m": 0,
+        "score": 10,
+        "spend": 362.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Almost Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 362.0
+    },
+    {
+      "id": "692f5e93292bbd56aef7ec20343c2908",
+      "name": " ",
+      "email": "",
+      "phone": "0583363160",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 345.0
+      },
+      "general": {
+        "r": 1,
+        "f": 0,
+        "m": 0,
+        "score": 100,
+        "spend": 345.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 345.0
+    },
+    {
+      "id": "7078d9ca166622250b6715b7075bd95e",
+      "name": "Omar AlShammari",
+      "email": "Omar.Shammari@Outlook.com",
+      "phone": "",
+      "dob": "",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 330.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 330.0
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 330.0
+    },
+    {
+      "id": "aec82f5f77a614b0a8ebce65d5bd69dc",
+      "name": " ",
+      "email": "",
+      "phone": "0566500369",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 277.0
+      },
+      "general": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 277.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 277.0
+    },
+    {
+      "id": "8b92b7ae2fb89b98e67d801848cf3f16",
+      "name": "Dana Al-Qahtani",
+      "email": "dana.qahtani@outlook.com",
+      "phone": "966521490777",
+      "dob": "1996-09-25",
+      "gender": "0",
+      "golf": {
+        "r": 1,
+        "f": 2,
+        "m": 1,
+        "score": 121,
+        "spend": 275.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 0,
+        "f": 1,
+        "m": 0,
+        "score": 10,
+        "spend": 275.0
+      },
+      "golf_segment": "Almost Lost",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 275.0
+    },
+    {
+      "id": "aff3b277bd815323b51dadb7908eba7b",
+      "name": " ",
+      "email": "",
+      "phone": "0567805802",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 2,
+        "f": 1,
+        "m": 1,
+        "score": 211,
+        "spend": 272.0
+      },
+      "general": {
+        "r": 1,
+        "f": 0,
+        "m": 0,
+        "score": 100,
+        "spend": 272.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Lost",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 272.0
+    },
+    {
+      "id": "d56a5fb7cfdc681ba4bca4496e450604",
+      "name": "Nasser Al-Naimi",
+      "email": "nasser.naimi@icloud.com",
+      "phone": "966525659979",
+      "dob": "1967-05-16",
+      "gender": "1",
+      "golf": {
+        "r": 4,
+        "f": 2,
+        "m": 1,
+        "score": 421,
+        "spend": 195.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 1,
+        "f": 1,
+        "m": 0,
+        "score": 110,
+        "spend": 195.0
+      },
+      "golf_segment": "Almost Loyal",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 195.0
+    },
+    {
+      "id": "f5a0b74501b9c89a9c83fdc11b37bf41",
+      "name": " ",
+      "email": "",
+      "phone": "0574855088",
+      "dob": "",
+      "gender": "",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 3,
+        "f": 1,
+        "m": 1,
+        "score": 311,
+        "spend": 194.0
+      },
+      "general": {
+        "r": 1,
+        "f": 0,
+        "m": 0,
+        "score": 100,
+        "spend": 194.0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "Occasional",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 194.0
+    },
+    {
+      "id": "687a32cc509db9fbe25edf80d61c0b6e",
+      "name": "Faisal Al-Gosaibi",
+      "email": "faisal.gosaibi@gmail.com",
+      "phone": "966551464269",
+      "dob": "2002-06-24",
+      "gender": "1",
+      "golf": {
+        "r": 1,
+        "f": 1,
+        "m": 1,
+        "score": 111,
+        "spend": 115.0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 115.0
+      },
+      "golf_segment": "Lost",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "Lost",
+      "flagged": false,
+      "total_spend": 115.0
+    },
+    {
+      "id": "97fa881700d059b5dd4cf387f27e8628",
+      "name": "Fahad Al-Qahtani",
+      "email": "fahad.qahtani@icloud.com",
+      "phone": "966593370583",
+      "dob": "1999-04-17",
+      "gender": "MALE",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "No Data",
+      "flagged": false,
+      "total_spend": 0
+    },
+    {
+      "id": "e1330ee1ef641f190d2b726519d499d3",
+      "name": "Sami Al-Fadhli",
+      "email": "sami.fadhli@gmail.com",
+      "phone": "966522489409",
+      "dob": "",
+      "gender": "MALE",
+      "golf": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "retail": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "food": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "general": {
+        "r": 0,
+        "f": 0,
+        "m": 0,
+        "score": 0,
+        "spend": 0
+      },
+      "golf_segment": "No Data",
+      "retail_segment": "No Data",
+      "food_segment": "No Data",
+      "general_segment": "No Data",
+      "flagged": false,
+      "total_spend": 0
+    }
+  ]
+}

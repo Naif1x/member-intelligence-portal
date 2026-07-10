@@ -2,9 +2,9 @@
 
 import { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import type { Member, MemberData, ChannelName } from '@/types';
+import type { Member, MemberData, ChannelName, ChannelMetrics } from '@/types';
 import { SEGMENT_COLORS, CHANNEL_COLORS, CHANNEL_LABELS } from '@/types';
-import { formatCurrency, getMemberName, getSegmentIcon } from '@/lib/data';
+import { formatCurrency, getGenderLabel, getMemberInitials, getSegmentIcon } from '@/lib/data';
 import { generateAgentResponse } from '@/lib/agentforce';
 import {
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
@@ -12,18 +12,18 @@ import {
 } from 'recharts';
 import { motion } from 'framer-motion';
 
-function RFMBadge({ score }: { score: string }) {
+function RFMBadge({ score }: { score: number }) {
   return (
     <span className="rfm-score-cell">
-      {score.split('').map((d, i) => (
+      {String(score).padStart(3, '0').split('').map((d, i) => (
         <span key={i} className={`rfm-digit rfm-${d}`}>{d}</span>
       ))}
     </span>
   );
 }
 
-function ChannelCard({ channel, label, metrics }: { channel: ChannelName; label: string; metrics: Member['channels']['golf'] }) {
-  if (!metrics) return (
+function ChannelCard({ channel, label, metrics, segment }: { channel: ChannelName; label: string; metrics: ChannelMetrics; segment: string }) {
+  if (metrics.score === 0 && metrics.spend === 0) return (
     <div className="slds-card p-4 opacity-50">
       <div className="text-sm font-bold mb-2" style={{ color: CHANNEL_COLORS[channel] }}>{label}</div>
       <div className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>No activity in this channel</div>
@@ -34,27 +34,30 @@ function ChannelCard({ channel, label, metrics }: { channel: ChannelName; label:
     <div className="slds-card p-4">
       <div className="flex items-center justify-between mb-3">
         <div className="text-sm font-bold" style={{ color: CHANNEL_COLORS[channel] }}>{label}</div>
-        <RFMBadge score={metrics.rfmScore} />
+        <RFMBadge score={metrics.score} />
       </div>
       <div className="grid grid-cols-3 gap-3 mb-3">
         <div>
           <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Recency</div>
           <div className="text-lg font-bold" style={{ color: 'var(--sf-primary)' }}>R{metrics.r}</div>
-          <div className="text-[10px]" style={{ color: 'var(--sf-text-secondary)' }}>{metrics.recencyDays}d ago</div>
         </div>
         <div>
           <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Frequency</div>
           <div className="text-lg font-bold" style={{ color: 'var(--sf-primary)' }}>F{metrics.f}</div>
-          <div className="text-[10px]" style={{ color: 'var(--sf-text-secondary)' }}>{metrics.frequency} visits</div>
         </div>
         <div>
           <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Monetary</div>
           <div className="text-lg font-bold" style={{ color: 'var(--sf-primary)' }}>M{metrics.m}</div>
-          <div className="text-[10px]" style={{ color: 'var(--sf-text-secondary)' }}>{formatCurrency(metrics.monetary)}</div>
         </div>
       </div>
-      <div className="text-[10px]" style={{ color: 'var(--sf-text-secondary)' }}>
-        Last activity: {metrics.lastActivity}
+      <div className="flex items-center justify-between">
+        <div className="text-sm font-semibold" style={{ color: 'var(--sf-primary)' }}>{formatCurrency(metrics.spend)}</div>
+        <span
+          className="slds-badge"
+          style={{ background: `${SEGMENT_COLORS[segment]}15`, color: SEGMENT_COLORS[segment] }}
+        >
+          {segment}
+        </span>
       </div>
     </div>
   );
@@ -67,7 +70,7 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/data/members.json')
+    fetch('/data/d360_datagraph_export.json')
       .then(r => r.json())
       .then((data: MemberData) => {
         const found = data.members.find(m => m.id === id);
@@ -95,19 +98,25 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
     );
   }
 
+  const atRiskChannels: ChannelName[] = [];
+  if (member.golf_segment === 'Big Spender at Risk') atRiskChannels.push('golf');
+  if (member.retail_segment === 'Big Spender at Risk') atRiskChannels.push('retail');
+  if (member.food_segment === 'Big Spender at Risk') atRiskChannels.push('food');
+
   const radarData = [
-    { metric: 'Golf R', value: member.channels.golf?.r || 0, fullMark: 4 },
-    { metric: 'Golf F', value: member.channels.golf?.f || 0, fullMark: 4 },
-    { metric: 'Golf M', value: member.channels.golf?.m || 0, fullMark: 4 },
-    { metric: 'Retail R', value: member.channels.retail?.r || 0, fullMark: 4 },
-    { metric: 'Retail F', value: member.channels.retail?.f || 0, fullMark: 4 },
-    { metric: 'Retail M', value: member.channels.retail?.m || 0, fullMark: 4 },
-    { metric: 'F&B R', value: member.channels.food?.r || 0, fullMark: 4 },
-    { metric: 'F&B F', value: member.channels.food?.f || 0, fullMark: 4 },
-    { metric: 'F&B M', value: member.channels.food?.m || 0, fullMark: 4 },
+    { metric: 'Golf R', value: member.golf.r, fullMark: 4 },
+    { metric: 'Golf F', value: member.golf.f, fullMark: 4 },
+    { metric: 'Golf M', value: member.golf.m, fullMark: 4 },
+    { metric: 'Retail R', value: member.retail.r, fullMark: 4 },
+    { metric: 'Retail F', value: member.retail.f, fullMark: 4 },
+    { metric: 'Retail M', value: member.retail.m, fullMark: 4 },
+    { metric: 'F&B R', value: member.food.r, fullMark: 4 },
+    { metric: 'F&B F', value: member.food.f, fullMark: 4 },
+    { metric: 'F&B M', value: member.food.m, fullMark: 4 },
   ];
 
   const quickInsight = generateAgentResponse('recommend next best actions', member);
+  const channelCount = [member.golf, member.retail, member.food].filter((c) => c.score > 0).length;
 
   return (
     <div className="h-screen overflow-y-auto" style={{ background: 'var(--sf-surface)' }}>
@@ -120,7 +129,7 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
       </div>
 
       {/* Alert banner */}
-      {member.atRisk && (
+      {member.flagged && (
         <motion.div
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: 'auto', opacity: 1 }}
@@ -131,7 +140,7 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
           <div>
             <div className="text-sm font-bold" style={{ color: 'var(--sf-error)' }}>At-Risk Alert</div>
             <div className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
-              Declining engagement detected in {member.atRiskChannels.map(c => CHANNEL_LABELS[c]).join(', ')} — high spend but low recency (R≤2, M≥3)
+              Declining engagement detected in {atRiskChannels.length ? atRiskChannels.map(c => CHANNEL_LABELS[c]).join(', ') : 'this member\'s profile'} — high spend but low recency
             </div>
           </div>
         </motion.div>
@@ -145,50 +154,48 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
               className="w-16 h-16 rounded-full flex items-center justify-center text-white text-xl font-bold flex-shrink-0"
               style={{ background: 'var(--sf-secondary)' }}
             >
-              {member.firstName?.[0]}{member.lastName?.[0]}
+              {getMemberInitials(member)}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-3 mb-1">
                 <h2 className="text-lg font-bold" style={{ color: 'var(--sf-primary)' }}>
-                  {getMemberName(member)}
+                  {member.name}
                 </h2>
                 <span
                   className="slds-badge"
-                  style={{ background: `${SEGMENT_COLORS[member.segment]}15`, color: SEGMENT_COLORS[member.segment] }}
+                  style={{ background: `${SEGMENT_COLORS[member.general_segment]}15`, color: SEGMENT_COLORS[member.general_segment] }}
                 >
-                  {getSegmentIcon(member.segment)} {member.segment}
+                  {getSegmentIcon(member.general_segment)} {member.general_segment}
                 </span>
-                {member.atRisk && (
-                  <span className="slds-badge" style={{ background: '#FEE2E2', color: 'var(--sf-error)' }}>At Risk</span>
+                {member.flagged && (
+                  <span className="slds-badge" style={{ background: '#FEE2E2', color: 'var(--sf-error)' }}>Flagged</span>
                 )}
               </div>
               <div className="text-sm" style={{ color: 'var(--sf-text-secondary)' }}>{member.email}</div>
               <div className="flex gap-6 mt-3 flex-wrap">
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Member No</div>
-                  <div className="text-sm font-semibold" style={{ color: 'var(--sf-primary)' }}>{member.membershipNo || '—'}</div>
+                  <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Phone</div>
+                  <div className="text-sm font-semibold" style={{ color: 'var(--sf-primary)' }}>{member.phone || '—'}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Subscription</div>
-                  <div className="text-sm font-semibold" style={{ color: member.subscriptionStatus === 'Active' ? 'var(--sf-success)' : 'var(--sf-text-secondary)' }}>
-                    {member.subscriptionStatus}
-                  </div>
+                  <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Date of Birth</div>
+                  <div className="text-sm font-semibold" style={{ color: 'var(--sf-primary)' }}>{member.dob || '—'}</div>
+                </div>
+                <div>
+                  <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Gender</div>
+                  <div className="text-sm font-semibold" style={{ color: 'var(--sf-primary)' }}>{getGenderLabel(member.gender)}</div>
                 </div>
                 <div>
                   <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>General RFM</div>
-                  <RFMBadge score={member.general.rfmScore} />
+                  <RFMBadge score={member.general.score} />
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Lifetime Value</div>
-                  <div className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>{formatCurrency(member.general.totalMonetary)}</div>
+                  <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Total Spend</div>
+                  <div className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>{formatCurrency(member.total_spend)}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Systems</div>
-                  <div className="flex gap-1 mt-0.5">
-                    {member.systems.map(s => (
-                      <span key={s} className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: '#EBF5FF', color: 'var(--sf-secondary)' }}>{s}</span>
-                    ))}
-                  </div>
+                  <div className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--sf-text-secondary)' }}>Channels</div>
+                  <div className="text-sm font-semibold" style={{ color: 'var(--sf-primary)' }}>{channelCount} active</div>
                 </div>
               </div>
             </div>
@@ -197,9 +204,9 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
 
         {/* Channel Cards */}
         <div className="grid grid-cols-3 gap-4 mb-6">
-          <ChannelCard channel="golf" label="Golf" metrics={member.channels.golf} />
-          <ChannelCard channel="retail" label="Retail" metrics={member.channels.retail} />
-          <ChannelCard channel="food" label="Food & Beverage" metrics={member.channels.food} />
+          <ChannelCard channel="golf" label="Golf" metrics={member.golf} segment={member.golf_segment} />
+          <ChannelCard channel="retail" label="Retail" metrics={member.retail} segment={member.retail_segment} />
+          <ChannelCard channel="food" label="Food & Beverage" metrics={member.food} segment={member.food_segment} />
         </div>
 
         <div className="grid grid-cols-2 gap-4 mb-6">
@@ -235,45 +242,26 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
           </div>
         </div>
 
-        {/* Activity Timeline */}
+        {/* Segment Breakdown */}
         <div className="slds-card p-4">
-          <div className="text-sm font-bold mb-3" style={{ color: 'var(--sf-primary)' }}>Recent Activity</div>
-          <div className="space-y-2 max-h-[300px] overflow-y-auto">
-            {(() => {
-              const allTx: { date: string; channel: string; desc: string; amount: number }[] = [];
-              if (member.channels.golf) {
-                member.channels.golf.transactions.forEach(t => {
-                  allTx.push({ date: t.date, channel: 'Golf', desc: `Golf Round`, amount: t.amount });
-                });
-              }
-              if (member.channels.retail) {
-                member.channels.retail.transactions.forEach(t => {
-                  allTx.push({ date: t.date, channel: 'Retail', desc: `Retail Purchase`, amount: t.amount });
-                });
-              }
-              if (member.channels.food) {
-                member.channels.food.transactions.forEach(t => {
-                  allTx.push({ date: t.date, channel: 'F&B', desc: (t as Record<string, unknown>).item as string || 'F&B Order', amount: t.amount });
-                });
-              }
-              allTx.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-              return allTx.slice(0, 15).map((tx, i) => (
-                <div key={i} className="flex items-center gap-3 py-2 px-3 rounded hover:bg-gray-50" style={{ borderBottom: '1px solid #f0f0f0' }}>
-                  <div className="w-2 h-2 rounded-full flex-shrink-0" style={{
-                    background: tx.channel === 'Golf' ? CHANNEL_COLORS.golf : tx.channel === 'Retail' ? CHANNEL_COLORS.retail : CHANNEL_COLORS.food
-                  }} />
-                  <div className="text-xs w-20 flex-shrink-0" style={{ color: 'var(--sf-text-secondary)' }}>{tx.date}</div>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded flex-shrink-0" style={{
-                    background: tx.channel === 'Golf' ? '#DCFCE7' : tx.channel === 'Retail' ? '#DBEAFE' : '#FEF3C7',
-                    color: tx.channel === 'Golf' ? CHANNEL_COLORS.golf : tx.channel === 'Retail' ? CHANNEL_COLORS.retail : CHANNEL_COLORS.food,
-                  }}>{tx.channel}</span>
-                  <div className="text-sm flex-1 truncate" style={{ color: 'var(--sf-text)' }}>{tx.desc}</div>
-                  <div className="text-sm font-medium flex-shrink-0" style={{ color: 'var(--sf-primary)' }}>
-                    {formatCurrency(tx.amount)}
-                  </div>
-                </div>
-              ));
-            })()}
+          <div className="text-sm font-bold mb-3" style={{ color: 'var(--sf-primary)' }}>D360 Segment Breakdown</div>
+          <div className="grid grid-cols-4 gap-3">
+            {([
+              ['Golf', member.golf_segment],
+              ['Retail', member.retail_segment],
+              ['Food & Beverage', member.food_segment],
+              ['General', member.general_segment],
+            ] as [string, string][]).map(([label, seg]) => (
+              <div key={label} className="p-3 rounded-lg" style={{ background: 'var(--sf-surface)' }}>
+                <div className="text-[10px] uppercase tracking-wider mb-1" style={{ color: 'var(--sf-text-secondary)' }}>{label}</div>
+                <span
+                  className="slds-badge"
+                  style={{ background: `${SEGMENT_COLORS[seg]}15`, color: SEGMENT_COLORS[seg] }}
+                >
+                  {getSegmentIcon(seg)} {seg}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
