@@ -37,7 +37,7 @@ function mockTransactions(channel: ChannelName, metrics: ChannelMetrics) {
     retail: ['Apparel Purchase', 'Golf Glove & Balls', 'Footwear', 'Accessories Bundle', 'Club Fitting Purchase'],
     food: ['Clubhouse Dinner', 'Halfway House Snack', 'Beverage Cart Order', 'Lounge Brunch', 'Grill Room Lunch'],
   };
-  const avg = metrics.frequency_hint;
+  const avg = metrics.spend;
   return items[channel].map((label, i) => ({
     label,
     amount: Math.max(20, Math.round((avg / 5) * (0.6 + Math.random() * 0.8))),
