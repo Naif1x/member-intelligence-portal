@@ -39,7 +39,7 @@ export function SegmentDonut() {
               ))}
             </Pie>
             <Tooltip
-              formatter={(value: number, name: string) => [`${value} members`, name]}
+              formatter={(value) => [`${value} members`]}
               contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid var(--sf-border)' }}
             />
           </PieChart>
@@ -88,7 +88,7 @@ export function ChannelBar() {
             <XAxis type="number" tickFormatter={(v) => `${Math.round(v / 1000)}K`} tick={{ fontSize: 11 }} />
             <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} width={50} />
             <Tooltip
-              formatter={(value: number) => [`SAR ${value.toLocaleString()}`, 'Revenue']}
+              formatter={(value) => [`SAR ${Number(value).toLocaleString()}`, 'Revenue']}
               contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid var(--sf-border)' }}
             />
             <Bar dataKey="value" radius={[0, 4, 4, 0]}>
