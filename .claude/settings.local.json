@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npm install recharts framer-motion csv-parse 2>&1)",
+      "PowerShell(node scripts/process-data.mjs 2>&1)",
+      "Bash(git add *)"
+    ]
+  }
+}

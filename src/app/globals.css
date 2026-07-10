@@ -1,26 +1,103 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --sf-primary: #032D60;
+  --sf-secondary: #0176D3;
+  --sf-accent: #1B96FF;
+  --sf-success: #2E844A;
+  --sf-warning: #DD7A01;
+  --sf-error: #C23934;
+  --sf-surface: #F3F3F3;
+  --sf-white: #FFFFFF;
+  --sf-text: #181818;
+  --sf-text-secondary: #5A5A5A;
+  --sf-border: #DDDBDA;
+  --sf-sidebar-bg: #032D60;
+  --sf-sidebar-text: #FFFFFF;
+  --sf-card-bg: #FFFFFF;
+  --sf-hover: #F3F2F2;
+  --background: #F3F3F3;
+  --foreground: #181818;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-sf-primary: #032D60;
+  --color-sf-secondary: #0176D3;
+  --color-sf-accent: #1B96FF;
+  --color-sf-success: #2E844A;
+  --color-sf-warning: #DD7A01;
+  --color-sf-error: #C23934;
+  --color-sf-surface: #F3F3F3;
+  --color-sf-border: #DDDBDA;
+  --color-sf-text: #181818;
+  --color-sf-text-secondary: #5A5A5A;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Salesforce Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  overflow: hidden;
+  height: 100vh;
 }
+
+#__next, main {
+  height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #C9C7C5;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8B8D8F;
+}
+
+.slds-card {
+  background: var(--sf-card-bg);
+  border: 1px solid var(--sf-border);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.slds-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.rfm-score-cell {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.rfm-digit {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+}
+
+.rfm-1 { background: #C23934; }
+.rfm-2 { background: #DD7A01; }
+.rfm-3 { background: #0176D3; }
+.rfm-4 { background: #2E844A; }
+.rfm-0 { background: #C9C7C5; }
