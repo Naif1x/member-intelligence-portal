@@ -2,12 +2,20 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card, Title, DonutChart, BarChart, TabGroup, TabList, Tab } from '@tremor/react';
+import { Card, Title, DonutChart, BarChart } from '@tremor/react';
 import { useApp, defaultFilters } from '@/lib/store';
 import { computeSummary, SEGMENT_COLORS, SEGMENT_TREMOR_COLORS, SEGMENT_TAB_LABELS, type SegmentTab } from '@/types';
-import { formatCurrency, getMemberName } from '@/lib/data';
+import { getMemberName } from '@/lib/data';
 
 const SEGMENT_TABS: SegmentTab[] = ['general', 'golf', 'retail', 'food'];
+
+// Compact axis/tooltip formatter — "SAR 1,200,000" overflows Tremor's default
+// yAxisWidth and gets clipped, so keep it short (SAR 1.2M / SAR 300K).
+function formatCompactCurrency(v: number): string {
+  if (Math.abs(v) >= 1_000_000) return `SAR ${(v / 1_000_000).toFixed(1)}M`;
+  if (Math.abs(v) >= 1_000) return `SAR ${Math.round(v / 1000)}K`;
+  return `SAR ${v}`;
+}
 
 // Tremor's Legend truncates long labels ("Big Spe..."); this one wraps instead.
 function WrappingLegend({ items }: { items: { name: string }[] }) {
@@ -21,6 +29,30 @@ function WrappingLegend({ items }: { items: { name: string }[] }) {
           />
           <span>{d.name}</span>
         </div>
+      ))}
+    </div>
+  );
+}
+
+// Plain button tab bar — Tremor's TabGroup/TabList/Tab rely on Tailwind
+// utility classes that Tailwind v4's default scanner doesn't pick up from
+// node_modules, so they render unstyled. This avoids that dependency.
+function SegmentTabBar({ activeIndex, onChange }: { activeIndex: number; onChange: (i: number) => void }) {
+  return (
+    <div className="mt-3 inline-flex rounded-lg p-1 gap-1" style={{ background: 'var(--sf-surface)' }}>
+      {SEGMENT_TABS.map((tab, i) => (
+        <button
+          key={tab}
+          onClick={() => onChange(i)}
+          className="px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap"
+          style={
+            i === activeIndex
+              ? { background: 'var(--sf-accent)', color: 'white' }
+              : { color: 'var(--sf-text-secondary)' }
+          }
+        >
+          {SEGMENT_TAB_LABELS[tab]}
+        </button>
       ))}
     </div>
   );
@@ -47,13 +79,7 @@ export function SegmentDonut() {
     <Card>
       <Title>Segment Distribution</Title>
       <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>Click a segment to filter members</p>
-      <TabGroup index={tabIndex} onIndexChange={setTabIndex} className="mt-3">
-        <TabList variant="solid">
-          {SEGMENT_TABS.map((tab) => (
-            <Tab key={tab}>{SEGMENT_TAB_LABELS[tab]}</Tab>
-          ))}
-        </TabList>
-      </TabGroup>
+      <SegmentTabBar activeIndex={tabIndex} onChange={setTabIndex} />
       <DonutChart
         className="mt-4 h-56 cursor-pointer"
         data={chartData}
@@ -99,7 +125,8 @@ export function ChannelBar() {
         index="name"
         categories={['Revenue']}
         colors={['cyan']}
-        valueFormatter={(v) => formatCurrency(v)}
+        valueFormatter={formatCompactCurrency}
+        yAxisWidth={85}
         onValueChange={(v) => onBarClick(v as { name?: string })}
         showLegend={false}
       />
@@ -139,7 +166,8 @@ export function TopMembersBySpend() {
         categories={['Spend']}
         colors={['cyan']}
         layout="vertical"
-        valueFormatter={(v) => formatCurrency(v)}
+        valueFormatter={formatCompactCurrency}
+        yAxisWidth={140}
         onValueChange={(v) => onBarClick(v as { name?: string })}
         showLegend={false}
       />

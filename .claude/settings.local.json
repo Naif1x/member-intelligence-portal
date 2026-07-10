@@ -25,7 +25,8 @@
       "Bash(npm install *)",
       "Bash(node -e \"console.log\\(require\\('@tremor/react/package.json'\\).main\\)\")",
       "Bash(npx tsc *)",
-      "Bash(git fetch *)"
+      "Bash(git fetch *)",
+      "Bash(curl -sS https://member-portal-green.vercel.app/data/d360_datagraph_export.json)"
     ]
   }
 }
