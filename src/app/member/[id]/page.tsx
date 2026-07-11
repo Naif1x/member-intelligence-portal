@@ -3,6 +3,7 @@
 import { use, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Avatar, Button, Card, Chip } from '@heroui/react';
+import { ArrowLeft, AlertTriangle, Bot, ChevronDown, ChevronUp } from 'lucide-react';
 import type { Member, MemberData, ChannelName, ChannelMetrics } from '@/types';
 import { CHANNEL_COLORS, getAtRiskChannels } from '@/types';
 import { formatCurrency, getGenderLabel, getMemberInitials } from '@/lib/data';
@@ -42,7 +43,11 @@ function ChannelCard({
           <div className="flex items-center justify-between mb-3">
             <div className="text-sm font-bold flex items-center gap-1.5" style={{ color: CHANNEL_COLORS[channel] }}>
               {label}
-              <span className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>{expanded ? '▲' : '▼'}</span>
+              {expanded ? (
+                <ChevronUp size={14} strokeWidth={2} style={{ color: 'var(--sf-text-secondary)' }} />
+              ) : (
+                <ChevronDown size={14} strokeWidth={2} style={{ color: 'var(--sf-text-secondary)' }} />
+              )}
             </div>
             <SegmentChip segment={segment} />
           </div>
@@ -86,10 +91,14 @@ function ChannelCard({
                     {hasMore && (
                       <button
                         onClick={() => setShowAll((v) => !v)}
-                        className="mt-2 text-xs font-medium"
+                        className="mt-2 flex items-center gap-1 text-xs font-medium"
                         style={{ color: 'var(--sf-accent-dark)' }}
                       >
-                        {showAll ? 'Show less ▲' : `Show ${activity.length - ACTIVITY_PAGE_SIZE} more ▼`}
+                        {showAll ? (
+                          <>Show less <ChevronUp size={12} strokeWidth={2} /></>
+                        ) : (
+                          <>Show {activity.length - ACTIVITY_PAGE_SIZE} more <ChevronDown size={12} strokeWidth={2} /></>
+                        )}
                       </button>
                     )}
                   </>
@@ -180,8 +189,9 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
     <div className="h-screen overflow-y-auto" style={{ background: 'var(--sf-surface)' }}>
       {/* Top bar */}
       <div className="sticky top-0 z-20 px-6 py-3 flex items-center gap-4" style={{ background: 'var(--sf-primary)' }}>
-        <Button variant="ghost" size="sm" onPress={() => router.push('/')} className="text-white/70 hover:text-white">
-          ← Back to Dashboard
+        <Button variant="ghost" size="sm" onPress={() => router.push('/')} className="text-white/70 hover:text-white gap-1.5">
+          <ArrowLeft size={16} strokeWidth={2} />
+          Back to Dashboard
         </Button>
         <div className="text-white text-sm font-bold">Member 360 Profile</div>
       </div>
@@ -194,7 +204,7 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
           className="px-6 py-3 flex items-center gap-3"
           style={{ background: '#FFF3E0', borderBottom: '2px solid var(--sf-warning)' }}
         >
-          <span className="text-lg">⚠️</span>
+          <AlertTriangle size={20} strokeWidth={2} style={{ color: 'var(--sf-warning)' }} className="flex-shrink-0" />
           <div>
             <div className="text-sm font-bold" style={{ color: 'var(--sf-warning)' }}>At-Risk Alert</div>
             <div className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
@@ -276,9 +286,7 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
           <Card.Content className="p-4">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: 'var(--sf-accent)', color: 'white' }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2z" />
-                </svg>
+                <Bot size={13} strokeWidth={2.25} />
               </div>
               <div className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>Agentforce Recommendations</div>
             </div>
@@ -293,10 +301,11 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
                   <Button
                     size="sm"
                     onPress={() => openChatWithContext(`Help me execute this recommended action for ${member.name}: "${action}". Draft the outreach.`)}
-                    className="text-white flex-shrink-0"
+                    className="text-white flex-shrink-0 gap-1.5"
                     style={{ background: 'var(--sf-accent)' }}
                   >
-                    🤖 Ask Agentforce
+                    <Bot size={14} strokeWidth={2} />
+                    Ask Agentforce
                   </Button>
                 </div>
               ))}

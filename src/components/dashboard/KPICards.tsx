@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import { Card } from '@heroui/react';
+import { Users, AlertTriangle, Trophy, Wallet, TrendingUp, type LucideIcon } from 'lucide-react';
 import { useApp } from '@/lib/store';
 import { formatCompactCurrency, formatNumber } from '@/lib/data';
 import { computeSummary, type DataSummary } from '@/types';
@@ -9,7 +10,7 @@ import { computeSummary, type DataSummary } from '@/types';
 interface KPIDefinition {
   id: string;
   label: string;
-  icon: string;
+  icon: LucideIcon;
   getValue: (summary: DataSummary) => string;
   getSub?: (summary: DataSummary) => string;
 }
@@ -18,47 +19,47 @@ const KPI_DEFINITIONS: KPIDefinition[] = [
   {
     id: 'total-members',
     label: 'Total Members',
-    icon: '👥',
+    icon: Users,
     getValue: (s) => formatNumber(s.totalMembers),
     getSub: () => 'Unified D360 profiles',
   },
   {
     id: 'members-at-risk',
     label: 'Members At Risk',
-    icon: '⚠️',
+    icon: AlertTriangle,
     getValue: (s) => formatNumber(s.flaggedMembers),
     getSub: () => 'Big Spender at Risk flag',
   },
   {
     id: 'champions',
     label: 'Champions',
-    icon: '🏆',
+    icon: Trophy,
     getValue: (s) => formatNumber(s.championMembers),
     getSub: () => 'Highest engagement tier',
   },
   {
     id: 'total-spend',
     label: 'Total Spend',
-    icon: '💰',
+    icon: Wallet,
     getValue: (s) => formatCompactCurrency(s.totalSales),
     getSub: () => 'Across Golf, Retail, F&B',
   },
   {
     id: 'avg-spend-per-member',
     label: 'Avg. Spend / Member',
-    icon: '📈',
+    icon: TrendingUp,
     getValue: (s) => formatCompactCurrency(s.avgTotalSpend),
     getSub: () => 'Total spend / profile',
   },
 ];
 
-function KPICard({ label, value, sub, icon }: { label: string; value: string; sub?: string; icon: string }) {
+function KPICard({ label, value, sub, icon: Icon }: { label: string; value: string; sub?: string; icon: LucideIcon }) {
   return (
     <Card className="border-t-4" style={{ borderTopColor: 'var(--sf-accent)' }}>
       <Card.Content className="p-4">
         <div className="flex flex-row items-start justify-between gap-2">
           <div className="min-w-0 text-sm leading-tight min-h-[2.25rem] flex items-start" style={{ color: 'var(--sf-text-secondary)' }}>{label}</div>
-          <div className="text-xl flex-shrink-0">{icon}</div>
+          <Icon size={20} strokeWidth={2} className="flex-shrink-0" style={{ color: 'var(--sf-accent)' }} />
         </div>
         <div className="text-2xl font-semibold" style={{ color: 'var(--sf-accent-dark)' }}>{value}</div>
         <div className="mt-1 text-xs min-h-[1rem]" style={{ color: 'var(--sf-text-secondary)' }}>{sub}</div>

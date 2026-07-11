@@ -4,9 +4,13 @@ import type { TransactionData } from '@/types/transactions';
 import { computeAtRiskWithRecency, computeCrossSellTargets, computeGolfAttachRate } from './transactions';
 import { formatCurrency } from './data';
 
+export type InsightIcon =
+  | 'trophy' | 'trending-down' | 'alert-triangle' | 'lightbulb'
+  | 'bar-chart' | 'shield' | 'siren' | 'target' | 'flag';
+
 export interface BusinessInsight {
   id: string;
-  icon: string;
+  icon: InsightIcon;
   tone: 'opportunity' | 'risk' | 'info';
   stat: string;
   text: string;
@@ -31,7 +35,7 @@ export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
     const pct = Math.round((championSpend / totalSales) * 100);
     insights.push({
       id: 'champion-concentration',
-      icon: '🏆',
+      icon: 'trophy',
       tone: 'opportunity',
       stat: `${pct}%`,
       text: `of total revenue comes from your ${championMembers.length} Champion members. Recognize them with a personalized appreciation campaign to protect this core revenue.`,
@@ -46,7 +50,7 @@ export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
     const pct = Math.round((lostMembers.length / total) * 100);
     insights.push({
       id: 'churn-risk',
-      icon: '📉',
+      icon: 'trending-down',
       tone: 'risk',
       stat: `${pct}%`,
       text: `of members are Lost or Almost Lost. Retarget them with a free-offer reactivation campaign before they're gone for good.`,
@@ -62,7 +66,7 @@ export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
     const pct = Math.round((flagged.length / total) * 100);
     insights.push({
       id: 'at-risk-value',
-      icon: '⚠️',
+      icon: 'alert-triangle',
       tone: 'risk',
       stat: `${pct}%`,
       text: `of members (${flagged.length}, worth ${formatCurrency(flaggedSpend)}) are flagged Big Spender at Risk — high value, declining engagement. A timely win-back offer could recover a meaningful share before churn.`,
@@ -82,7 +86,7 @@ export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
     if (topPct - lowPct >= 20) {
       insights.push({
         id: 'channel-concentration',
-        icon: '💡',
+        icon: 'lightbulb',
         tone: 'opportunity',
         stat: `${topPct}%`,
         text: `of revenue comes from ${CHANNEL_LABELS[topCh]}, while ${CHANNEL_LABELS[lowCh]} trails at just ${lowPct}%. Promote cross-channel bundles to grow the underperforming channel.`,
@@ -99,7 +103,7 @@ export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
     if (pct >= 5) {
       insights.push({
         id: 'identity-gap',
-        icon: '📊',
+        icon: 'bar-chart',
         tone: 'info',
         stat: `${pct}%`,
         text: `of profiles show a "No Data" segment. Improving identity resolution for these members would unlock personalization and campaign targeting.`,
@@ -116,7 +120,7 @@ export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
     const pct = Math.round((top10Spend / totalSales) * 100);
     insights.push({
       id: 'top-concentration',
-      icon: '🛡️',
+      icon: 'shield',
       tone: 'opportunity',
       stat: `${pct}%`,
       text: `of total revenue (${formatCurrency(top10Spend)}) comes from just your top ${top10.length} members. Protect this concentrated value with proactive VIP retention.`,
@@ -146,7 +150,7 @@ export function computeTransactionInsights(data: MemberData, transactions: Trans
     const more = atRisk.length > 5 ? ` +${atRisk.length - 5} more` : '';
     insights.push({
       id: 'at-risk-recency',
-      icon: '🚨',
+      icon: 'siren',
       tone: 'risk',
       stat: `${atRisk.length}`,
       text: `Big Spender at Risk members, worth ${formatCurrency(totalAtRiskSpend)} combined, verified against real visit history: ${named}${more}. Immediate win-back outreach recommended.`,
@@ -164,7 +168,7 @@ export function computeTransactionInsights(data: MemberData, transactions: Trans
       .join('; ');
     insights.push({
       id: 'cross-sell-targets',
-      icon: '🎯',
+      icon: 'target',
       tone: 'opportunity',
       stat: `${crossSell.length}`,
       text: `members are strong in one channel with zero footprint in another — a ready-made cross-sell target list: ${named}. Prioritize by spend to close the gap fastest.`,
@@ -178,7 +182,7 @@ export function computeTransactionInsights(data: MemberData, transactions: Trans
   if (attach.totalGolfVisits > 0) {
     insights.push({
       id: 'golf-attach-rate',
-      icon: '⛳',
+      icon: 'flag',
       tone: 'info',
       stat: `${attach.attachRate}%`,
       text: `of golf visits (${attach.attachedVisits} of ${attach.totalGolfVisits}) also included Retail or F&B spend within a day — golfers already cross-shop. Promote a bundled "stay and shop" offer at check-in to convert the rest.`,

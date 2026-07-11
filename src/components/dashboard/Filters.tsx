@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Chip, Input } from '@heroui/react';
+import { ChevronUp, ChevronDown, SlidersHorizontal } from 'lucide-react';
 import { useApp } from '@/lib/store';
 import type { FilterState } from '@/lib/store';
 import type { ChannelName } from '@/types';
@@ -74,10 +75,12 @@ export default function Filters() {
         />
         <button
           onClick={() => setExpanded((v) => !v)}
-          className="text-xs font-medium px-3 py-2 rounded-lg whitespace-nowrap flex-shrink-0"
+          className="flex items-center gap-1 text-xs font-medium px-3 py-2 rounded-lg whitespace-nowrap flex-shrink-0"
           style={{ color: 'var(--sf-accent-dark)' }}
         >
-          {expanded ? 'Hide Filters ▲' : 'More Filters ▼'}
+          <SlidersHorizontal size={13} strokeWidth={2} />
+          {expanded ? 'Hide Filters' : 'More Filters'}
+          {expanded ? <ChevronUp size={13} strokeWidth={2} /> : <ChevronDown size={13} strokeWidth={2} />}
         </button>
       </div>
 

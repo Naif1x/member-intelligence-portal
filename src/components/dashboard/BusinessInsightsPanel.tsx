@@ -3,8 +3,9 @@
 import { useMemo } from 'react';
 import { Button, Card } from '@heroui/react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Lightbulb, X, Trophy, TrendingDown, AlertTriangle, BarChart3, ShieldCheck, Siren, Target, Flag, type LucideIcon } from 'lucide-react';
 import { useApp } from '@/lib/store';
-import { computeBusinessInsights, computeTransactionInsights, type BusinessInsight } from '@/lib/insights';
+import { computeBusinessInsights, computeTransactionInsights, type BusinessInsight, type InsightIcon } from '@/lib/insights';
 
 const TONE_COLORS: Record<BusinessInsight['tone'], string> = {
   opportunity: 'var(--sf-accent)',
@@ -12,17 +13,30 @@ const TONE_COLORS: Record<BusinessInsight['tone'], string> = {
   info: '#0EA5E9',
 };
 
+const INSIGHT_ICONS: Record<InsightIcon, LucideIcon> = {
+  trophy: Trophy,
+  'trending-down': TrendingDown,
+  'alert-triangle': AlertTriangle,
+  lightbulb: Lightbulb,
+  'bar-chart': BarChart3,
+  shield: ShieldCheck,
+  siren: Siren,
+  target: Target,
+  flag: Flag,
+};
+
 function InsightCard({ insight, onAction }: { insight: BusinessInsight; onAction: (prompt: string) => void }) {
   const color = TONE_COLORS[insight.tone];
+  const Icon = INSIGHT_ICONS[insight.icon];
   return (
     <Card className="mb-3 border-t-4" style={{ borderTopColor: color }}>
       <Card.Content className="p-4">
         <div className="flex items-start gap-3 mb-3">
           <span
-            className="w-9 h-9 rounded-full flex items-center justify-center text-base flex-shrink-0"
-            style={{ background: `${color}1A` }}
+            className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+            style={{ background: `${color}1A`, color }}
           >
-            {insight.icon}
+            <Icon size={18} strokeWidth={2} />
           </span>
           <p className="text-sm leading-relaxed" style={{ color: 'var(--sf-text)' }}>
             <span className="font-bold" style={{ color }}>{insight.stat}</span> {insight.text}
@@ -79,7 +93,8 @@ export default function BusinessInsightsPanel() {
             <div className="p-4 border-b flex items-center justify-between flex-shrink-0" style={{ borderColor: 'var(--sf-border)', background: 'white' }}>
               <div>
                 <div className="text-sm font-bold flex items-center gap-1.5" style={{ color: 'var(--sf-primary)' }}>
-                  💡 Business Insights
+                  <Lightbulb size={16} strokeWidth={2} style={{ color: 'var(--sf-accent)' }} />
+                  Business Insights
                 </div>
                 <div className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
                   AI-generated, portfolio-wide
@@ -93,7 +108,7 @@ export default function BusinessInsightsPanel() {
                 onPress={() => setBusinessInsightsOpen(false)}
                 className="text-gray-500"
               >
-                ✕
+                <X size={16} strokeWidth={2} />
               </Button>
             </div>
 

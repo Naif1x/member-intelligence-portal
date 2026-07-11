@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, type ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
 import { AppContext, defaultFilters, type FilterState, type ViewMode } from '@/lib/store';
 import type { MemberData, Member } from '@/types';
 import type { TransactionData } from '@/types/transactions';
@@ -23,6 +24,23 @@ export default function AppProvider({ children }: { children: ReactNode }) {
   const [view, setViewState] = useState<ViewMode>(restored?.view || 'dashboard');
   const [filters, setFilters] = useState<FilterState>(restored?.filters || defaultFilters);
   const tableAnchorRef = useRef<HTMLDivElement | null>(null);
+  const pathname = usePathname();
+
+  // AppProvider now lives in the root layout (so the chat can follow you
+  // across routes), which means its state survives navigation instead of
+  // resetting on unmount like it used to. Transient overlays (mobile
+  // sidebar, right panel, business insights) are route-scoped concerns —
+  // left open they can persist invisibly and block clicks on the page you
+  // land on, which is the "stuck, can't get back" bug. Reset them on every
+  // route change. Chat, filters, and view are intentionally left alone —
+  // those are meant to follow you.
+  useEffect(() => {
+    setMobileSidebarOpen(false);
+    setRightPanelOpen(false);
+    setBusinessInsightsOpenState(false);
+    setSelectedMember(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   useEffect(() => {
     fetch('/data/d360_datagraph_export.json')

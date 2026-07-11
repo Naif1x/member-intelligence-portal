@@ -1,18 +1,19 @@
 'use client';
 
-import { Button, Chip } from '@heroui/react';
+import { Button } from '@heroui/react';
+import { LayoutDashboard, Users, Target, Megaphone, Settings, ChevronLeft, ChevronRight, type LucideIcon } from 'lucide-react';
 import { useApp, type ViewMode } from '@/lib/store';
 
-const NAV_ITEMS: { label: string; icon: string; view: ViewMode }[] = [
-  { label: 'Main Dashboard', icon: '📊', view: 'dashboard' },
-  { label: 'Members', icon: '👥', view: 'members' },
-  { label: 'Segments', icon: '🎯', view: 'segments' },
-  { label: 'Campaign Analysis', icon: '📣', view: 'campaigns' },
-  { label: 'Settings', icon: '⚙️', view: 'settings' },
+const NAV_ITEMS: { label: string; icon: LucideIcon; view: ViewMode }[] = [
+  { label: 'Main Dashboard', icon: LayoutDashboard, view: 'dashboard' },
+  { label: 'Members', icon: Users, view: 'members' },
+  { label: 'Segments', icon: Target, view: 'segments' },
+  { label: 'Campaign Analysis', icon: Megaphone, view: 'campaigns' },
+  { label: 'Settings', icon: Settings, view: 'settings' },
 ];
 
 function SidebarContent() {
-  const { sidebarCollapsed, setSidebarCollapsed, data, view, setView, agentEnabled } = useApp();
+  const { sidebarCollapsed, setSidebarCollapsed, view, setView } = useApp();
 
   return (
     <>
@@ -32,7 +33,7 @@ function SidebarContent() {
           className="hidden md:flex"
           style={{ color: 'var(--sf-text-secondary)' }}
         >
-          {sidebarCollapsed ? '▶' : '◀'}
+          {sidebarCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </Button>
       </div>
 
@@ -40,6 +41,7 @@ function SidebarContent() {
       <nav className="flex-1 py-2 flex flex-col">
         {NAV_ITEMS.map((item) => {
           const active = view === item.view;
+          const Icon = item.icon;
           return (
             <Button
               key={item.label}
@@ -51,31 +53,12 @@ function SidebarContent() {
               }`}
               style={{ color: active ? 'var(--sf-accent-dark)' : 'var(--sf-text)' }}
             >
-              <span className="text-base">{item.icon}</span>
+              <Icon size={18} strokeWidth={2} className="flex-shrink-0" />
               {!sidebarCollapsed && <span>{item.label}</span>}
             </Button>
           );
         })}
       </nav>
-
-      {/* System Status */}
-      {!sidebarCollapsed && (
-        <div className="p-4 border-t" style={{ borderColor: 'var(--sf-border)' }}>
-          <div className="flex flex-col gap-1.5">
-            <Chip size="sm" color="success" variant="soft">✓ Connected to D360</Chip>
-            <Chip size="sm" color={agentEnabled ? 'success' : 'default'} variant="soft">
-              {agentEnabled ? '✓ Agentforce Active' : 'Agentforce Disabled'}
-            </Chip>
-          </div>
-          {data && (
-            <div className="mt-3 pt-3 border-t text-[10px]" style={{ borderColor: 'var(--sf-border)', color: 'var(--sf-text-secondary)' }}>
-              {data.metadata.total_unified_profiles} unified profiles
-              <br />
-              from {data.metadata.total_source_records} source records
-            </div>
-          )}
-        </div>
-      )}
     </>
   );
 }

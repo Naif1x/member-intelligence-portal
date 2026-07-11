@@ -15,6 +15,7 @@ import CampaignAnalysis from '@/components/dashboard/CampaignAnalysis';
 import BusinessInsightsPanel from '@/components/dashboard/BusinessInsightsPanel';
 import Settings from '@/components/settings/Settings';
 import { Button } from '@heroui/react';
+import { Lightbulb } from 'lucide-react';
 import { useApp } from '@/lib/store';
 
 function DashboardContent() {
@@ -46,10 +47,11 @@ function DashboardContent() {
         {view !== 'settings' && (
           <Button
             onPress={() => setBusinessInsightsOpen(!businessInsightsOpen)}
-            className="text-white flex-shrink-0"
+            className="text-white flex-shrink-0 gap-1.5"
             style={{ background: 'var(--sf-primary)' }}
           >
-            💡 Business Insights
+            <Lightbulb size={16} strokeWidth={2} />
+            Business Insights
           </Button>
         )}
       </div>

@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Button, Card, Chip } from '@heroui/react';
+import { AlertTriangle, Lightbulb, BarChart3, Trophy, CheckCircle2, X, ArrowRight, type LucideIcon } from 'lucide-react';
 import { useApp } from '@/lib/store';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatCurrency } from '@/lib/data';
@@ -9,19 +10,30 @@ import type { Member, ChannelName } from '@/types';
 import { CHANNEL_LABELS, CHANNEL_SEGMENT_FIELD, getAtRiskChannels } from '@/types';
 import SegmentChip from '@/components/ui/SegmentChip';
 
+type InsightIconKey = 'alert-triangle' | 'lightbulb' | 'bar-chart' | 'trophy' | 'check';
+
+const INSIGHT_ICONS: Record<InsightIconKey, LucideIcon> = {
+  'alert-triangle': AlertTriangle,
+  lightbulb: Lightbulb,
+  'bar-chart': BarChart3,
+  trophy: Trophy,
+  check: CheckCircle2,
+};
+
 interface Insight {
-  icon: string;
+  icon: InsightIconKey;
   text: string;
   actionLabel: string;
   actionPrompt: string;
 }
 
 function InsightCard({ insight, onAction }: { insight: Insight; onAction: (prompt: string) => void }) {
+  const Icon = INSIGHT_ICONS[insight.icon];
   return (
     <Card className="mb-2">
       <Card.Content className="p-3">
         <div className="flex gap-2 mb-2">
-          <span className="text-base flex-shrink-0">{insight.icon}</span>
+          <Icon size={16} strokeWidth={2} className="flex-shrink-0 mt-0.5" style={{ color: 'var(--sf-accent-dark)' }} />
           <p className="text-xs leading-relaxed" style={{ color: 'var(--sf-text)' }}>{insight.text}</p>
         </div>
         <Button
@@ -53,7 +65,7 @@ function buildInsights(member: Member): Insight[] {
     });
     const riskLabel = atRiskChannels.map((c) => CHANNEL_LABELS[c]).join(', ');
     insights.push({
-      icon: '⚠️',
+      icon: 'alert-triangle',
       text: `${firstName} shows declining recency in ${riskLabel} but remains active in ${strong.join(' and ') || 'other channels'}. High churn risk in this channel specifically.`,
       actionLabel: 'Launch Win-Back Agent',
       actionPrompt: `Generate a win-back strategy for ${name}, who is at risk in ${riskLabel}.`,
@@ -69,7 +81,7 @@ function buildInsights(member: Member): Insight[] {
     const missingChannels = (['golf', 'retail', 'food'] as ChannelName[]).filter((ch) => member[ch].score === 0);
     if (pct >= 50 || missingChannels.length > 0) {
       insights.push({
-        icon: '💡',
+        icon: 'lightbulb',
         text: `${pct}% of spend concentrated in ${CHANNEL_LABELS[top[0]]}.${missingChannels.length > 0 ? ` No activity yet in ${missingChannels.map((c) => CHANNEL_LABELS[c]).join(', ')} — cross-sell opportunity.` : ' Consider diversifying engagement across channels.'}`,
         actionLabel: 'Promote Cross-Sell Offer',
         actionPrompt: `Suggest a cross-sell offer for ${name}, whose spend is concentrated in ${CHANNEL_LABELS[top[0]]}.`,
@@ -84,7 +96,7 @@ function buildInsights(member: Member): Insight[] {
     if (member.general.score - lowest.score >= 100) {
       const lowestSegment = member[CHANNEL_SEGMENT_FIELD[lowest.ch]];
       insights.push({
-        icon: '📊',
+        icon: 'bar-chart',
         text: `The overall "${member.general_segment}" standing masks a weaker ${CHANNEL_LABELS[lowest.ch]} position ("${lowestSegment}"). Blended views can hide channel-specific decline.`,
         actionLabel: 'Deep Analysis',
         actionPrompt: `Do a deep analysis for ${name} — their overall segment looks healthy but ${CHANNEL_LABELS[lowest.ch]} shows "${lowestSegment}".`,
@@ -95,7 +107,7 @@ function buildInsights(member: Member): Insight[] {
   // 4. Champion recognition
   if (member.general_segment === 'Champion') {
     insights.push({
-      icon: '🏆',
+      icon: 'trophy',
       text: `${firstName} is a Champion with ${formatCurrency(member.total_spend)} total spend. Protect this relationship with recognition, not discounting.`,
       actionLabel: 'Draft VIP Recognition',
       actionPrompt: `Draft a VIP recognition message for ${name}, a Champion-segment member with ${formatCurrency(member.total_spend)} total spend.`,
@@ -104,7 +116,7 @@ function buildInsights(member: Member): Insight[] {
 
   if (insights.length === 0) {
     insights.push({
-      icon: '✅',
+      icon: 'check',
       text: `${firstName}'s engagement is stable across active channels. Continue current touchpoint cadence.`,
       actionLabel: 'View Full Profile',
       actionPrompt: `Summarize ${name}'s current engagement across all channels.`,
@@ -151,7 +163,7 @@ export default function RightPanel() {
               onPress={() => setRightPanelOpen(false)}
               className="text-gray-500"
             >
-              ✕
+              <X size={16} strokeWidth={2} />
             </Button>
           </div>
 
@@ -187,13 +199,14 @@ export default function RightPanel() {
                   size="sm"
                   variant="outline"
                   fullWidth
-                  className="mt-3"
+                  className="mt-3 gap-1.5"
                   onPress={() => {
                     persistStateForNavigation();
                     router.push(`/member/${selectedMember.id}`);
                   }}
                 >
-                  Open Member 360 →
+                  Open Member 360
+                  <ArrowRight size={14} strokeWidth={2} />
                 </Button>
               </Card.Content>
             </Card>

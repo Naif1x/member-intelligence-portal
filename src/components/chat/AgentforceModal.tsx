@@ -3,6 +3,7 @@
 import { useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Chip, Input } from '@heroui/react';
+import { MessageSquare, Bot, X, RotateCcw } from 'lucide-react';
 import { useApp } from '@/lib/store';
 import { useAgentChat } from '@/hooks/useAgentChat';
 import { buildMemberContext } from '@/lib/agentforce';
@@ -90,9 +91,7 @@ export default function AgentforceModal() {
           }`}
           style={{ background: agentEnabled ? 'var(--sf-accent)' : 'var(--sf-text-secondary)' }}
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          </svg>
+          <MessageSquare size={24} strokeWidth={2} />
         </button>
       )}
 
@@ -111,12 +110,7 @@ export default function AgentforceModal() {
             <div className="px-4 py-3 flex items-center justify-between flex-shrink-0" style={{ background: 'var(--sf-primary)' }}>
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                    <path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2z" />
-                    <path d="M8 14s1.5 2 4 2 4-2 4-2" />
-                    <line x1="9" y1="9" x2="9.01" y2="9" />
-                    <line x1="15" y1="9" x2="15.01" y2="9" />
-                  </svg>
+                  <Bot size={16} strokeWidth={2} color="white" />
                 </div>
                 <div>
                   <div className="text-sm font-bold text-white">Agentforce</div>
@@ -124,11 +118,12 @@ export default function AgentforceModal() {
                 </div>
               </div>
               <div className="flex items-center gap-1">
-                <button onClick={handleNewChat} className="text-white/70 hover:text-white text-xs px-2 py-1">
+                <button onClick={handleNewChat} className="flex items-center gap-1 text-white/70 hover:text-white text-xs px-2 py-1">
+                  <RotateCcw size={12} strokeWidth={2} />
                   New chat
                 </button>
                 <button onClick={() => setChatOpen(false)} className="text-white/70 hover:text-white w-7 h-7 flex items-center justify-center">
-                  ✕
+                  <X size={16} strokeWidth={2} />
                 </button>
               </div>
             </div>

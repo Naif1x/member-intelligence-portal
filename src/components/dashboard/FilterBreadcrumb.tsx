@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Chip } from '@heroui/react';
+import { X } from 'lucide-react';
 import { useApp, defaultFilters } from '@/lib/store';
 import { CHANNEL_LABELS, SEGMENT_TAB_LABELS } from '@/types';
 import { formatCurrency, getGenderLabel } from '@/lib/data';
@@ -61,7 +62,9 @@ export default function FilterBreadcrumb() {
           style={{ background: 'var(--sf-hover)', color: 'var(--sf-accent-dark)', border: '1px solid var(--sf-accent)' }}
         >
           {chip.label}
-          <button onClick={chip.clear} aria-label={`Remove ${chip.label} filter`} className="hover:opacity-70 font-bold leading-none ml-1">×</button>
+          <button onClick={chip.clear} aria-label={`Remove ${chip.label} filter`} className="hover:opacity-70 flex items-center ml-1">
+            <X size={12} strokeWidth={2.5} />
+          </button>
         </Chip>
       ))}
       <Button

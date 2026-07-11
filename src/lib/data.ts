@@ -1,4 +1,5 @@
 import type { MemberData, Member } from '@/types';
+import { Trophy, Gem, TrendingUp, Target, AlertTriangle, TrendingDown, XCircle, MinusCircle, type LucideIcon } from 'lucide-react';
 
 let cachedData: MemberData | null = null;
 
@@ -9,18 +10,19 @@ export async function getMemberData(): Promise<MemberData> {
   return cachedData!;
 }
 
-export function getSegmentIcon(segment: string): string {
-  const icons: Record<string, string> = {
-    Champion: '🏆',
-    Loyal: '💎',
-    'Almost Loyal': '📈',
-    Occasional: '🎯',
-    'Big Spender at Risk': '⚠️',
-    'Almost Lost': '📉',
-    Lost: '❌',
-    'No Data': '•',
-  };
-  return icons[segment] || '•';
+const SEGMENT_ICONS: Record<string, LucideIcon> = {
+  Champion: Trophy,
+  Loyal: Gem,
+  'Almost Loyal': TrendingUp,
+  Occasional: Target,
+  'Big Spender at Risk': AlertTriangle,
+  'Almost Lost': TrendingDown,
+  Lost: XCircle,
+  'No Data': MinusCircle,
+};
+
+export function getSegmentIcon(segment: string): LucideIcon {
+  return SEGMENT_ICONS[segment] || MinusCircle;
 }
 
 export function formatCurrency(amount: number): string {

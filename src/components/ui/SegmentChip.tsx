@@ -21,9 +21,11 @@ export default function SegmentChip({
 }) {
   const color = SEGMENT_COLORS[segment] || '#9CA3AF';
   const style = segment === 'No Data' ? NO_DATA_STYLE : { background: `${color}1A`, color };
+  const Icon = getSegmentIcon(segment);
   return (
-    <Chip size={size} className={`whitespace-nowrap font-semibold ${className}`} style={style}>
-      {showIcon ? `${getSegmentIcon(segment)} ${segment}` : segment}
+    <Chip size={size} className={`whitespace-nowrap font-semibold gap-1 ${className}`} style={style}>
+      {showIcon && <Icon size={12} strokeWidth={2.5} className="flex-shrink-0" />}
+      {segment}
     </Chip>
   );
 }

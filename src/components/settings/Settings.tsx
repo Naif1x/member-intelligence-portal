@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Button, Card, Chip, Input, Switch } from '@heroui/react';
+import { Plug, Eye, EyeOff, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
 import { useApp } from '@/lib/store';
 
 interface AgentConfig {
@@ -36,7 +37,7 @@ function maskId(id: string): string {
   return `${id.slice(0, 4)}${'•'.repeat(Math.max(6, id.length - 8))}${id.slice(-4)}`;
 }
 
-const SUBTABS = [{ id: 'integration', label: 'Integration', icon: '🔌' }] as const;
+const SUBTABS = [{ id: 'integration', label: 'Integration', icon: Plug }] as const;
 
 export default function Settings() {
   const { refreshAgentConfig } = useApp();
@@ -148,21 +149,24 @@ export default function Settings() {
           Settings
         </div>
         <nav className="flex flex-col gap-0.5">
-          {SUBTABS.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setSubtab(tab.id)}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-left transition-colors"
-              style={
-                subtab === tab.id
-                  ? { background: 'var(--sf-hover)', color: 'var(--sf-accent-dark)', fontWeight: 600 }
-                  : { color: 'var(--sf-text)' }
-              }
-            >
-              <span>{tab.icon}</span>
-              {tab.label}
-            </button>
-          ))}
+          {SUBTABS.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setSubtab(tab.id)}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-left transition-colors"
+                style={
+                  subtab === tab.id
+                    ? { background: 'var(--sf-hover)', color: 'var(--sf-accent-dark)', fontWeight: 600 }
+                    : { color: 'var(--sf-text)' }
+                }
+              >
+                <Icon size={16} strokeWidth={2} />
+                {tab.label}
+              </button>
+            );
+          })}
         </nav>
       </div>
 
@@ -249,7 +253,7 @@ export default function Settings() {
                         aria-label={revealAgentId ? 'Hide Agent ID' : 'Show Agent ID'}
                         onPress={() => setRevealAgentId((v) => !v)}
                       >
-                        {revealAgentId ? '🙈' : '👁️'}
+                        {revealAgentId ? <EyeOff size={16} strokeWidth={2} /> : <Eye size={16} strokeWidth={2} />}
                       </Button>
                     </div>
                   </div>
@@ -279,8 +283,9 @@ export default function Settings() {
                       Cancel
                     </Button>
                     {saveMessage && (
-                      <span className="text-xs font-medium" style={{ color: 'var(--sf-success)' }}>
-                        {saveMessage === 'Saved' ? '✓ Saved' : saveMessage}
+                      <span className="text-xs font-medium flex items-center gap-1" style={{ color: saveMessage === 'Saved' ? 'var(--sf-success)' : 'var(--sf-warning)' }}>
+                        {saveMessage === 'Saved' && <CheckCircle2 size={14} strokeWidth={2} />}
+                        {saveMessage}
                       </span>
                     )}
                   </div>
@@ -301,23 +306,33 @@ export default function Settings() {
 
               {testResult && (
                 <div
-                  className="text-sm px-3 py-2 rounded-lg"
+                  className="text-sm px-3 py-2 rounded-lg flex items-start gap-2"
                   style={
                     testResult.ok
                       ? { background: '#E8F5E9', color: 'var(--sf-success)' }
                       : { background: '#FFF3E0', color: 'var(--sf-warning)' }
                   }
                 >
-                  {testResult.ok
-                    ? '✓ Connection successful — token minted and session started.'
-                    : `✗ ${testResult.error || 'Connection failed.'}`}
+                  {testResult.ok ? (
+                    <CheckCircle2 size={16} strokeWidth={2} className="flex-shrink-0 mt-0.5" />
+                  ) : (
+                    <XCircle size={16} strokeWidth={2} className="flex-shrink-0 mt-0.5" />
+                  )}
+                  <span>
+                    {testResult.ok
+                      ? 'Connection successful — token minted and session started.'
+                      : testResult.error || 'Connection failed.'}
+                  </span>
                 </div>
               )}
 
               {!config.hasSecrets && (
-                <div className="text-xs px-3 py-2 rounded-lg" style={{ background: '#FFF3E0', color: 'var(--sf-warning)' }}>
-                  SF_CONSUMER_KEY / SF_CONSUMER_SECRET are not set on the server. Add them to your environment
-                  (never entered here) before testing the connection.
+                <div className="text-xs px-3 py-2 rounded-lg flex items-start gap-2" style={{ background: '#FFF3E0', color: 'var(--sf-warning)' }}>
+                  <AlertTriangle size={14} strokeWidth={2} className="flex-shrink-0 mt-0.5" />
+                  <span>
+                    SF_CONSUMER_KEY / SF_CONSUMER_SECRET are not set on the server. Add them to your environment
+                    (never entered here) before testing the connection.
+                  </span>
                 </div>
               )}
             </Card.Content>
