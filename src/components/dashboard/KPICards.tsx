@@ -69,13 +69,13 @@ function KPICard({ label, value, sub, icon, onClick }: { label: string; value: s
       className="cursor-pointer transition-all hover:shadow-md hover:-translate-y-0.5 border-t-4"
       style={{ borderTopColor: 'var(--sf-accent)' }}
     >
-      <Card.Content className="flex flex-row items-start justify-between gap-2 p-4">
-        <div className="min-w-0">
-          <div className="text-sm" style={{ color: 'var(--sf-text-secondary)' }}>{label}</div>
-          <div className="mt-1 text-2xl font-semibold" style={{ color: 'var(--sf-accent-dark)' }}>{value}</div>
-          {sub && <div className="mt-1 text-xs" style={{ color: 'var(--sf-text-secondary)' }}>{sub}</div>}
+      <Card.Content className="p-4">
+        <div className="flex flex-row items-start justify-between gap-2">
+          <div className="min-w-0 text-sm leading-tight min-h-[2.25rem] flex items-start" style={{ color: 'var(--sf-text-secondary)' }}>{label}</div>
+          <div className="text-xl flex-shrink-0">{icon}</div>
         </div>
-        <div className="text-xl flex-shrink-0">{icon}</div>
+        <div className="text-2xl font-semibold" style={{ color: 'var(--sf-accent-dark)' }}>{value}</div>
+        <div className="mt-1 text-xs min-h-[1rem]" style={{ color: 'var(--sf-text-secondary)' }}>{sub}</div>
       </Card.Content>
     </Card>
   );

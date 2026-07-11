@@ -163,6 +163,17 @@ export function ChannelBar() {
   );
 }
 
+// Truncates on a word boundary instead of mid-word, and only when the name
+// actually overflows the axis label column — most member names (~20 chars)
+// fit as-is.
+function truncateName(name: string, max = 22): string {
+  if (name.length <= max) return name;
+  const clipped = name.slice(0, max);
+  const lastSpace = clipped.lastIndexOf(' ');
+  const base = lastSpace > max * 0.4 ? clipped.slice(0, lastSpace) : clipped;
+  return `${base}…`;
+}
+
 export function TopMembersBySpend() {
   const { data, persistStateForNavigation } = useApp();
   const router = useRouter();
@@ -170,7 +181,7 @@ export function TopMembersBySpend() {
   if (!data || !summary) return null;
 
   const chartData = summary.topMembersBySpend.map((m) => ({
-    name: getMemberName(m).length > 18 ? getMemberName(m).slice(0, 18) + '…' : getMemberName(m),
+    name: truncateName(getMemberName(m)),
     Spend: Math.round(m.total_spend),
     id: m.id,
   }));
@@ -189,14 +200,14 @@ export function TopMembersBySpend() {
       <Title>Top Members by Spend</Title>
       <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>Click a member to open their 360 profile</p>
       <BarChart
-        className="mt-4 h-64 cursor-pointer"
+        className="mt-4 h-[420px] cursor-pointer top-members-chart"
         data={chartData}
         index="name"
         categories={['Spend']}
         colors={['cyan']}
         layout="vertical"
         valueFormatter={formatCompactCurrency}
-        yAxisWidth={140}
+        yAxisWidth={155}
         onValueChange={(v) => onBarClick(v as { name?: string })}
         showLegend={false}
         customTooltip={CurrencyTooltip}

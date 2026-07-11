@@ -93,3 +93,9 @@ body {
 .tremor-tooltip-wrapper {
   z-index: 50;
 }
+
+/* Ten member names on the Y axis need a smaller tick font than Tremor's
+   default to stay legible without crowding or clipping. */
+.top-members-chart .recharts-cartesian-axis-tick text {
+  font-size: 11px;
+}
