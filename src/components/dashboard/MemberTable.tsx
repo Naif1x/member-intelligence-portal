@@ -58,8 +58,19 @@ export default function MemberTable() {
           m.id.toLowerCase().includes(q)
       );
     }
-    if (filters.segment) list = list.filter((m) => m[SEGMENT_FIELD_BY_TAB[filters.segmentTab]] === filters.segment);
-    if (filters.channel) list = list.filter((m) => m[filters.channel as ChannelName].score > 0);
+    if (filters.segments.length) {
+      const field = SEGMENT_FIELD_BY_TAB[filters.segmentTab];
+      list = list.filter((m) => filters.segments.includes(m[field] as string));
+    }
+    if (filters.channels.length) {
+      list = list.filter((m) => {
+        const active = filters.channels.map((c) => m[c].score > 0);
+        return filters.channelMode === 'all' ? active.every(Boolean) : active.some(Boolean);
+      });
+    }
+    if (filters.spendMin !== null) list = list.filter((m) => m.total_spend >= filters.spendMin!);
+    if (filters.spendMax !== null) list = list.filter((m) => m.total_spend <= filters.spendMax!);
+    if (filters.gender) list = list.filter((m) => m.gender === filters.gender);
     if (filters.riskOnly) list = list.filter((m) => m.flagged);
     if (filters.buyingOnly) list = list.filter((m) => m.total_spend > 0);
 
@@ -170,8 +181,8 @@ export default function MemberTable() {
             </Table.ScrollContainer>
           </Table>
 
-          {/* Pagination */}
-          <div className="flex items-center justify-between mt-4 pt-3 border-t" style={{ borderColor: 'var(--sf-border)' }}>
+          {/* Pagination — right-padded so the fixed chat FAB never overlaps Next */}
+          <div className="flex items-center justify-between mt-4 pt-3 pr-16 border-t" style={{ borderColor: 'var(--sf-border)' }}>
             <span className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
               Page {page + 1} of {totalPages}
             </span>

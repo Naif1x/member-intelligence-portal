@@ -69,7 +69,7 @@ export default function CampaignAnalysis() {
                           size="sm"
                           variant="ghost"
                           onPress={() => {
-                            setFilters({ ...defaultFilters, segment: row.segment });
+                            setFilters({ ...defaultFilters, segments: [row.segment], segmentTab: 'general' });
                             setView('members');
                             scrollToTable();
                           }}

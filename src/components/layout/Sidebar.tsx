@@ -2,19 +2,16 @@
 
 import { Button, Chip } from '@heroui/react';
 import { useApp, type ViewMode } from '@/lib/store';
-import { defaultFilters } from '@/lib/store';
 
-const NAV_ITEMS: { label: string; icon: string; view: ViewMode; openFilters?: boolean }[] = [
+const NAV_ITEMS: { label: string; icon: string; view: ViewMode }[] = [
   { label: 'Main Dashboard', icon: '📊', view: 'dashboard' },
-  { label: 'All Dashboards', icon: '🗂️', view: 'dashboard' },
   { label: 'Members', icon: '👥', view: 'members' },
   { label: 'Segments', icon: '🎯', view: 'segments' },
   { label: 'Campaign Analysis', icon: '📣', view: 'campaigns' },
-  { label: 'Filter Members', icon: '🔍', view: 'members', openFilters: true },
 ];
 
 function SidebarContent() {
-  const { sidebarCollapsed, setSidebarCollapsed, data, view, setView, setFiltersOpen, setFilters } = useApp();
+  const { sidebarCollapsed, setSidebarCollapsed, data, view, setView } = useApp();
 
   return (
     <>
@@ -41,21 +38,13 @@ function SidebarContent() {
       {/* Navigation */}
       <nav className="flex-1 py-2 flex flex-col">
         {NAV_ITEMS.map((item) => {
-          const active = view === item.view && !item.openFilters;
+          const active = view === item.view;
           return (
             <Button
               key={item.label}
               variant="ghost"
               fullWidth
-              onPress={() => {
-                if (item.openFilters) {
-                  setFilters(defaultFilters);
-                  setView(item.view);
-                  setFiltersOpen(true);
-                } else {
-                  setView(item.view);
-                }
-              }}
+              onPress={() => setView(item.view)}
               className={`nav-item justify-start gap-3 px-4 py-2.5 h-auto rounded-none text-sm font-normal ${
                 active ? 'nav-item-active font-semibold' : 'hover:bg-black/5'
               }`}

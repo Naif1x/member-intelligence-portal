@@ -3,22 +3,40 @@
 import { Button, Chip } from '@heroui/react';
 import { useApp, defaultFilters } from '@/lib/store';
 import { CHANNEL_LABELS, SEGMENT_TAB_LABELS } from '@/types';
+import { formatCurrency, getGenderLabel } from '@/lib/data';
 
 export default function FilterBreadcrumb() {
   const { filters, setFilters } = useApp();
 
   const chips: { key: string; label: string; clear: () => void }[] = [];
 
-  if (filters.segment) {
+  if (filters.segments.length) {
     const tabLabel = filters.segmentTab !== 'general' ? ` (${SEGMENT_TAB_LABELS[filters.segmentTab]})` : '';
     chips.push({
-      key: 'segment',
-      label: `${filters.segment} segment${tabLabel}`,
-      clear: () => setFilters({ ...filters, segment: '', segmentTab: 'general' }),
+      key: 'segments',
+      label: `${filters.segments.join(', ')}${tabLabel}`,
+      clear: () => setFilters({ ...filters, segments: [], segmentTab: 'general' }),
     });
   }
-  if (filters.channel) {
-    chips.push({ key: 'channel', label: `${CHANNEL_LABELS[filters.channel]} channel`, clear: () => setFilters({ ...filters, channel: '' }) });
+  if (filters.channels.length) {
+    const joiner = filters.channelMode === 'all' ? ' & ' : ' or ';
+    chips.push({
+      key: 'channels',
+      label: `Active in ${filters.channels.map((c) => CHANNEL_LABELS[c]).join(joiner)}`,
+      clear: () => setFilters({ ...filters, channels: [], channelMode: 'any' }),
+    });
+  }
+  if (filters.spendMin !== null || filters.spendMax !== null) {
+    const min = filters.spendMin !== null ? formatCurrency(filters.spendMin) : 'SAR 0';
+    const max = filters.spendMax !== null ? formatCurrency(filters.spendMax) : 'no limit';
+    chips.push({
+      key: 'spend',
+      label: `Spend: ${min} – ${max}`,
+      clear: () => setFilters({ ...filters, spendMin: null, spendMax: null }),
+    });
+  }
+  if (filters.gender) {
+    chips.push({ key: 'gender', label: getGenderLabel(filters.gender), clear: () => setFilters({ ...filters, gender: '' }) });
   }
   if (filters.riskOnly) {
     chips.push({ key: 'risk', label: 'At-risk only', clear: () => setFilters({ ...filters, riskOnly: false }) });

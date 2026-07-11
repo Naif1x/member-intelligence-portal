@@ -1,9 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Card, Title, DonutChart, BarChart, type CustomTooltipProps } from '@tremor/react';
-import { useApp, defaultFilters } from '@/lib/store';
+import { useApp } from '@/lib/store';
 import { computeSummary, SEGMENT_COLORS, SEGMENT_TREMOR_COLORS, SEGMENT_TAB_LABELS, type SegmentTab } from '@/types';
 import { getMemberName, formatCompactCurrency } from '@/lib/data';
 
@@ -85,8 +84,10 @@ function SegmentTabBar({ activeIndex, onChange }: { activeIndex: number; onChang
   );
 }
 
+// Charts are display-only — hover for detail via tooltip, no click-to-filter
+// or click-to-navigate. Segmenting/filtering happens on the Members page.
 export function SegmentDonut() {
-  const { data, setFilters, setView, scrollToTable } = useApp();
+  const { data } = useApp();
   const [tabIndex, setTabIndex] = useState(0);
   const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
   if (!data || !summary) return null;
@@ -95,25 +96,17 @@ export function SegmentDonut() {
   const chartData = Object.entries(summary.segmentDistributionByTab[segmentTab]).map(([name, value]) => ({ name, value }));
   const colors = chartData.map((d) => SEGMENT_TREMOR_COLORS[d.name] || 'slate');
 
-  function onSliceClick(v: { name?: string } | undefined) {
-    if (!v?.name) return;
-    setFilters({ ...defaultFilters, segment: v.name, segmentTab });
-    setView('members');
-    scrollToTable();
-  }
-
   return (
     <Card>
       <Title>Segment Distribution</Title>
-      <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>Click a segment to filter members</p>
+      <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>Hover a segment for details</p>
       <SegmentTabBar activeIndex={tabIndex} onChange={setTabIndex} />
       <DonutChart
-        className="mt-4 h-56 cursor-pointer"
+        className="mt-4 h-56"
         data={chartData}
         category="value"
         index="name"
         colors={colors}
-        onValueChange={(v) => onSliceClick(v as { name?: string })}
         valueFormatter={(v) => `${v} members`}
         customTooltip={MembersTooltip}
       />
@@ -123,7 +116,7 @@ export function SegmentDonut() {
 }
 
 export function ChannelBar() {
-  const { data, setFilters, setView, scrollToTable } = useApp();
+  const { data } = useApp();
   const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
   if (!data || !summary) return null;
 
@@ -133,29 +126,18 @@ export function ChannelBar() {
     { name: 'F&B', Revenue: Math.round(summary.channelSpend.food) },
   ];
 
-  function onBarClick(v: { name?: string } | undefined) {
-    if (!v?.name) return;
-    const map: Record<string, 'golf' | 'retail' | 'food'> = { Golf: 'golf', Retail: 'retail', 'F&B': 'food' };
-    const channel = map[v.name];
-    if (!channel) return;
-    setFilters({ ...defaultFilters, channel });
-    setView('members');
-    scrollToTable();
-  }
-
   return (
     <Card>
       <Title>Revenue by Channel</Title>
-      <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>Click a bar to filter by channel</p>
+      <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>Hover a bar for details</p>
       <BarChart
-        className="mt-4 h-56 cursor-pointer"
+        className="mt-4 h-56"
         data={chartData}
         index="name"
         categories={['Revenue']}
         colors={['cyan']}
         valueFormatter={formatCompactCurrency}
         yAxisWidth={85}
-        onValueChange={(v) => onBarClick(v as { name?: string })}
         showLegend={false}
         customTooltip={CurrencyTooltip}
       />
@@ -175,8 +157,7 @@ function truncateName(name: string, max = 22): string {
 }
 
 export function TopMembersBySpend() {
-  const { data, persistStateForNavigation } = useApp();
-  const router = useRouter();
+  const { data } = useApp();
   const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
   if (!data || !summary) return null;
 
@@ -186,21 +167,12 @@ export function TopMembersBySpend() {
     id: m.id,
   }));
 
-  function onBarClick(v: { name?: string } | undefined) {
-    if (!v?.name) return;
-    const match = chartData.find((d) => d.name === v.name);
-    if (match) {
-      persistStateForNavigation();
-      router.push(`/member/${match.id}`);
-    }
-  }
-
   return (
     <Card>
       <Title>Top Members by Spend</Title>
-      <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>Click a member to open their 360 profile</p>
+      <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>Hover a bar for details</p>
       <BarChart
-        className="mt-4 h-[420px] cursor-pointer top-members-chart"
+        className="mt-4 h-[420px] top-members-chart"
         data={chartData}
         index="name"
         categories={['Spend']}
@@ -208,7 +180,6 @@ export function TopMembersBySpend() {
         layout="vertical"
         valueFormatter={formatCompactCurrency}
         yAxisWidth={155}
-        onValueChange={(v) => onBarClick(v as { name?: string })}
         showLegend={false}
         customTooltip={CurrencyTooltip}
       />

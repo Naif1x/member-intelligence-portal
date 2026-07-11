@@ -10,11 +10,13 @@ import Filters from '@/components/dashboard/Filters';
 import FilterBreadcrumb from '@/components/dashboard/FilterBreadcrumb';
 import MemberTable from '@/components/dashboard/MemberTable';
 import CampaignAnalysis from '@/components/dashboard/CampaignAnalysis';
+import BusinessInsightsPanel from '@/components/dashboard/BusinessInsightsPanel';
 import AgentforceModal from '@/components/chat/AgentforceModal';
+import { Button } from '@heroui/react';
 import { useApp } from '@/lib/store';
 
 function DashboardContent() {
-  const { loading, view } = useApp();
+  const { loading, view, businessInsightsOpen, setBusinessInsightsOpen } = useApp();
 
   if (loading) {
     return (
@@ -28,18 +30,27 @@ function DashboardContent() {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 md:p-6" style={{ background: 'var(--sf-surface)' }}>
+    <div className="flex-1 overflow-y-auto p-4 md:p-6 pb-24" style={{ background: 'var(--sf-surface)' }}>
       {/* Page header */}
-      <div className="mb-6">
-        <h1 className="text-xl font-bold" style={{ color: 'var(--sf-primary)' }}>
-          Member Intelligence Dashboard
-        </h1>
-        <p className="text-sm mt-1" style={{ color: 'var(--sf-text-secondary)' }}>
-          Unified D360 view across Golf, Retail, and F&B channels
-        </p>
+      <div className="mb-6 flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h1 className="text-xl font-bold" style={{ color: 'var(--sf-primary)' }}>
+            Member Intelligence Dashboard
+          </h1>
+          <p className="text-sm mt-1" style={{ color: 'var(--sf-text-secondary)' }}>
+            Unified D360 view across Golf, Retail, and F&B channels
+          </p>
+        </div>
+        <Button
+          onPress={() => setBusinessInsightsOpen(!businessInsightsOpen)}
+          className="text-white flex-shrink-0"
+          style={{ background: 'var(--sf-primary)' }}
+        >
+          💡 Business Insights
+        </Button>
       </div>
 
-      {(view === 'dashboard' || view === 'members') && <KPICards />}
+      {view === 'dashboard' && <KPICards />}
 
       {view === 'dashboard' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
@@ -79,6 +90,7 @@ function Shell() {
         <Sidebar />
         <DashboardContent />
         <RightPanel />
+        <BusinessInsightsPanel />
         <AgentforceModal />
       </div>
     </div>

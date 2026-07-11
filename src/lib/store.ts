@@ -16,14 +16,14 @@ export interface AppState {
   setMobileSidebarOpen: (v: boolean) => void;
   rightPanelOpen: boolean;
   setRightPanelOpen: (v: boolean) => void;
+  businessInsightsOpen: boolean;
+  setBusinessInsightsOpen: (v: boolean) => void;
   chatOpen: boolean;
   setChatOpen: (v: boolean) => void;
   chatSeedPrompt: string | null;
   openChatWithContext: (prompt: string) => void;
   view: ViewMode;
   setView: (v: ViewMode) => void;
-  filtersOpen: boolean;
-  setFiltersOpen: (v: boolean) => void;
   filters: FilterState;
   setFilters: (f: FilterState) => void;
   scrollToTable: () => void;
@@ -33,9 +33,13 @@ export interface AppState {
 
 export interface FilterState {
   search: string;
-  segment: string;
+  segments: string[];
   segmentTab: SegmentTab;
-  channel: ChannelName | '';
+  channels: ChannelName[];
+  channelMode: 'any' | 'all';
+  spendMin: number | null;
+  spendMax: number | null;
+  gender: string;
   riskOnly: boolean;
   buyingOnly: boolean;
   sortBy: string;
@@ -44,9 +48,13 @@ export interface FilterState {
 
 export const defaultFilters: FilterState = {
   search: '',
-  segment: '',
+  segments: [],
   segmentTab: 'general',
-  channel: '',
+  channels: [],
+  channelMode: 'any',
+  spendMin: null,
+  spendMax: null,
+  gender: '',
   riskOnly: false,
   buyingOnly: false,
   sortBy: 'total_spend',
@@ -64,14 +72,14 @@ export const AppContext = createContext<AppState>({
   setMobileSidebarOpen: () => {},
   rightPanelOpen: false,
   setRightPanelOpen: () => {},
+  businessInsightsOpen: false,
+  setBusinessInsightsOpen: () => {},
   chatOpen: false,
   setChatOpen: () => {},
   chatSeedPrompt: null,
   openChatWithContext: () => {},
   view: 'dashboard',
   setView: () => {},
-  filtersOpen: false,
-  setFiltersOpen: () => {},
   filters: defaultFilters,
   setFilters: () => {},
   scrollToTable: () => {},
