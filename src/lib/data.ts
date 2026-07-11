@@ -27,6 +27,15 @@ export function formatCurrency(amount: number): string {
   return `SAR ${amount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 }
 
+// Compact form for large totals — "SAR 1,260,512" reads as noise on a KPI
+// card or chart axis; "SAR 1.3M" reads at a glance.
+export function formatCompactCurrency(amount: number): string {
+  const abs = Math.abs(amount);
+  if (abs >= 1_000_000) return `SAR ${(amount / 1_000_000).toFixed(1)}M`;
+  if (abs >= 1_000) return `SAR ${Math.round(amount / 1000)}K`;
+  return `SAR ${amount}`;
+}
+
 export function formatNumber(n: number): string {
   return n.toLocaleString('en-US');
 }

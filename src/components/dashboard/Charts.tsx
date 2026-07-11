@@ -2,20 +2,47 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card, Title, DonutChart, BarChart } from '@tremor/react';
+import { Card, Title, DonutChart, BarChart, type CustomTooltipProps } from '@tremor/react';
 import { useApp, defaultFilters } from '@/lib/store';
 import { computeSummary, SEGMENT_COLORS, SEGMENT_TREMOR_COLORS, SEGMENT_TAB_LABELS, type SegmentTab } from '@/types';
-import { getMemberName } from '@/lib/data';
+import { getMemberName, formatCompactCurrency } from '@/lib/data';
 
 const SEGMENT_TABS: SegmentTab[] = ['general', 'golf', 'retail', 'food'];
 
-// Compact axis/tooltip formatter — "SAR 1,200,000" overflows Tremor's default
-// yAxisWidth and gets clipped, so keep it short (SAR 1.2M / SAR 300K).
-function formatCompactCurrency(v: number): string {
-  if (Math.abs(v) >= 1_000_000) return `SAR ${(v / 1_000_000).toFixed(1)}M`;
-  if (Math.abs(v) >= 1_000) return `SAR ${Math.round(v / 1000)}K`;
-  return `SAR ${v}`;
+// Tremor's default chart tooltip relies on Tailwind utility classes that
+// Tailwind v4's scanner doesn't pick up from node_modules, so it renders
+// unstyled and overlapping (same root cause as the tab bar). This is a
+// self-contained replacement styled with the app's own tokens.
+function makeChartTooltip(valueFormatter: (v: number) => string, showLabel = true) {
+  return function ChartTooltip({ active, payload, label }: CustomTooltipProps) {
+    if (!active || !payload || payload.length === 0) return null;
+    // Pie/donut payloads repeat the slice name as both label and entry name —
+    // skip the redundant header line in that case.
+    const showHeader = showLabel && label && !(payload.length === 1 && payload[0].name === label);
+    return (
+      <div
+        className="rounded-lg px-3 py-2 text-xs"
+        style={{ background: 'white', border: '1px solid var(--sf-border)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+      >
+        {showHeader && (
+          <div className="font-semibold mb-1 whitespace-nowrap" style={{ color: 'var(--sf-primary)' }}>
+            {label}
+          </div>
+        )}
+        {payload.map((p, i) => (
+          <div key={i} className="flex items-center gap-1.5 whitespace-nowrap">
+            {p.color && <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: p.color }} />}
+            <span style={{ color: 'var(--sf-text-secondary)' }}>{p.name}:</span>
+            <span className="font-semibold" style={{ color: 'var(--sf-text)' }}>{valueFormatter(Number(p.value))}</span>
+          </div>
+        ))}
+      </div>
+    );
+  };
 }
+
+const CurrencyTooltip = makeChartTooltip(formatCompactCurrency);
+const MembersTooltip = makeChartTooltip((v) => `${v} members`);
 
 // Tremor's Legend truncates long labels ("Big Spe..."); this one wraps instead.
 function WrappingLegend({ items }: { items: { name: string }[] }) {
@@ -88,6 +115,7 @@ export function SegmentDonut() {
         colors={colors}
         onValueChange={(v) => onSliceClick(v as { name?: string })}
         valueFormatter={(v) => `${v} members`}
+        customTooltip={MembersTooltip}
       />
       <WrappingLegend items={chartData} />
     </Card>
@@ -129,6 +157,7 @@ export function ChannelBar() {
         yAxisWidth={85}
         onValueChange={(v) => onBarClick(v as { name?: string })}
         showLegend={false}
+        customTooltip={CurrencyTooltip}
       />
     </Card>
   );
@@ -170,6 +199,7 @@ export function TopMembersBySpend() {
         yAxisWidth={140}
         onValueChange={(v) => onBarClick(v as { name?: string })}
         showLegend={false}
+        customTooltip={CurrencyTooltip}
       />
     </Card>
   );

@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { Card } from '@heroui/react';
 import { useApp } from '@/lib/store';
-import { formatCurrency, formatNumber } from '@/lib/data';
+import { formatCompactCurrency, formatNumber } from '@/lib/data';
 import { computeSummary, type DataSummary } from '@/types';
 import { defaultFilters, type FilterState } from '@/lib/store';
 
@@ -45,7 +45,7 @@ const KPI_DEFINITIONS: KPIDefinition[] = [
     id: 'total-spend',
     label: 'Total Spend',
     icon: '💰',
-    getValue: (s) => formatCurrency(s.totalSales),
+    getValue: (s) => formatCompactCurrency(s.totalSales),
     getSub: () => 'Across Golf, Retail, F&B',
     filter: {},
   },
@@ -53,7 +53,7 @@ const KPI_DEFINITIONS: KPIDefinition[] = [
     id: 'avg-spend-per-member',
     label: 'Avg. Spend / Member',
     icon: '📈',
-    getValue: (s) => formatCurrency(s.avgTotalSpend),
+    getValue: (s) => formatCompactCurrency(s.avgTotalSpend),
     getSub: () => 'Total spend / profile',
     filter: {},
   },
