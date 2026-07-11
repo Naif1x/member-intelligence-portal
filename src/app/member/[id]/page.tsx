@@ -11,17 +11,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 import SegmentChip from '@/components/ui/SegmentChip';
 
 // Illustrative transaction rows for the expanded channel card — the D360 export
-// contains channel aggregates only, not per-transaction line items.
+// contains channel aggregates only, not per-transaction line items. Amounts are
+// randomly split but always sum to the real channel spend shown above them.
 function mockTransactions(channel: ChannelName, metrics: ChannelMetrics) {
   const items: Record<ChannelName, string[]> = {
     golf: ['18-Hole Round + Cart', 'Driving Range Bucket', '9-Hole Twilight Round', 'Pro Shop Green Fee', '18-Hole Round'],
     retail: ['Apparel Purchase', 'Golf Glove & Balls', 'Footwear', 'Accessories Bundle', 'Club Fitting Purchase'],
     food: ['Clubhouse Dinner', 'Halfway House Snack', 'Beverage Cart Order', 'Lounge Brunch', 'Grill Room Lunch'],
   };
-  const avg = metrics.spend;
-  return items[channel].map((label, i) => ({
+  const labels = items[channel];
+  const total = Math.round(metrics.spend);
+
+  const weights = labels.map(() => 0.5 + Math.random());
+  const weightSum = weights.reduce((a, b) => a + b, 0);
+  const amounts = weights.map((w) => Math.round((w / weightSum) * total));
+  amounts[amounts.length - 1] += total - amounts.reduce((a, b) => a + b, 0);
+
+  return labels.map((label, i) => ({
     label,
-    amount: Math.max(20, Math.round((avg / 5) * (0.6 + Math.random() * 0.8))),
+    amount: amounts[i],
     daysAgo: (i + 1) * Math.max(3, Math.round(30 / Math.max(metrics.r, 1))),
   }));
 }
