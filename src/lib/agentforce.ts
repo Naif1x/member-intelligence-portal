@@ -29,6 +29,33 @@ function getAtRiskChannels(m: Member): ChannelName[] {
   return channels;
 }
 
+// Shared with both the canned "recommend next actions" chat reply and the
+// per-recommendation buttons on the Member 360 page, so the two surfaces
+// never drift apart.
+export function getNextBestActions(member: Member): string[] {
+  const atRiskChannels = getAtRiskChannels(member);
+  const actions: string[] = [];
+  if (member.flagged) actions.push(`Re-engage in ${labelChannels(atRiskChannels) || 'their core channel'} with a personalized offer`);
+  if (member.golf.score > 0 && member.retail.score === 0) actions.push('Cross-sell retail products during next golf visit');
+  if (member.retail.score > 0 && member.food.score === 0) actions.push('Introduce F&B experience with a complimentary appetizer');
+  if (actions.length === 0) actions.push('Send loyalty milestone recognition', 'Invite to exclusive member event');
+  return actions;
+}
+
+// Invisible-to-the-user context prefix injected into the first message of a
+// chat session opened while a member's profile is in view, so "tell me
+// about this customer" actually resolves to someone instead of nothing —
+// Agentforce only ever sees what's in the message text, not the page you're on.
+export function buildMemberContext(member: Member): string {
+  const atRiskChannels = getAtRiskChannels(member);
+  const channelParts: string[] = [];
+  if (member.golf.score > 0) channelParts.push(`Golf: ${member.golf_segment} (${formatCurrency(member.golf.spend)})`);
+  if (member.retail.score > 0) channelParts.push(`Retail: ${member.retail_segment} (${formatCurrency(member.retail.spend)})`);
+  if (member.food.score > 0) channelParts.push(`F&B: ${member.food_segment} (${formatCurrency(member.food.spend)})`);
+
+  return `[Context: the user is viewing this member's profile in the portal — ${member.name}, overall segment "${member.general_segment}", total spend ${formatCurrency(member.total_spend)}${member.flagged ? `, flagged Big Spender at Risk in ${labelChannels(atRiskChannels) || 'a channel'}` : ''}.${channelParts.length ? ` Channel detail — ${channelParts.join('; ')}.` : ''} Treat this member as the subject of the user's question unless they clearly ask about someone or something else.]`;
+}
+
 export function generateAgentResponse(input: string, member?: Member | null): string {
   const lower = input.toLowerCase();
 
@@ -89,11 +116,7 @@ export function generateAgentResponse(input: string, member?: Member | null): st
     }
 
     if (lower.includes('recommend') || lower.includes('next best') || lower.includes('action')) {
-      const actions: string[] = [];
-      if (member.flagged) actions.push(`Re-engage in ${labelChannels(atRiskChannels) || 'their core channel'} with a personalized offer`);
-      if (member.golf.score > 0 && member.retail.score === 0) actions.push('Cross-sell retail products during next golf visit');
-      if (member.retail.score > 0 && member.food.score === 0) actions.push('Introduce F&B experience with a complimentary appetizer');
-      if (actions.length === 0) actions.push('Send loyalty milestone recognition', 'Invite to exclusive member event');
+      const actions = getNextBestActions(member);
       return `Next Best Actions for ${name}:\n${actions.map((a, i) => `${i + 1}. ${a}`).join('\n')}\n\nShall I create a Salesforce Flow to automate any of these?`;
     }
 

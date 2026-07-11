@@ -26,7 +26,14 @@
       "Bash(node -e \"console.log\\(require\\('@tremor/react/package.json'\\).main\\)\")",
       "Bash(npx tsc *)",
       "Bash(git fetch *)",
-      "Bash(curl -sS https://member-portal-green.vercel.app/data/d360_datagraph_export.json)"
+      "Bash(curl -sS https://member-portal-green.vercel.app/data/d360_datagraph_export.json)",
+      "Bash(wc -l \"/c/Users/NaifAlmatari/OneDrive - Trustangle/trustangle/Salesforce/unified_transactions_header.csv\" \"/c/Users/NaifAlmatari/OneDrive - Trustangle/trustangle/Salesforce/unified_transaction_items.csv\")",
+      "Bash(awk -F',' '{sum+=$7} END {print sum, NR}')",
+      "Bash(awk -F',' '{sub+=$7; tot+=$9} END {print \"subtotal_sum=\"sub, \"total_sum=\"tot}')",
+      "Bash(cp \"/c/Users/NaifAlmatari/OneDrive - Trustangle/trustangle/Salesforce/unified_transactions_header.csv\" data/source/)",
+      "Bash(cp \"/c/Users/NaifAlmatari/OneDrive - Trustangle/trustangle/Salesforce/unified_transaction_items.csv\" data/source/)",
+      "Bash(node scripts/build-transactions.mjs)",
+      "Bash(node -e \"const t = require\\('@tremor/react'\\); console.log\\(Object.keys\\(t\\).filter\\(k => /Chart/.test\\(k\\)\\)\\);\")"
     ]
   }
 }

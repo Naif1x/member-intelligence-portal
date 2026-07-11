@@ -33,7 +33,7 @@ export function formatCompactCurrency(amount: number): string {
   const abs = Math.abs(amount);
   if (abs >= 1_000_000) return `SAR ${(amount / 1_000_000).toFixed(1)}M`;
   if (abs >= 1_000) return `SAR ${Math.round(amount / 1000)}K`;
-  return `SAR ${amount}`;
+  return `SAR ${Math.round(amount)}`;
 }
 
 export function formatNumber(n: number): string {

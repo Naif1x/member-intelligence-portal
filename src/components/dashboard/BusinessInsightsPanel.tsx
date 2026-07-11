@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { Button, Card } from '@heroui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '@/lib/store';
-import { computeBusinessInsights, type BusinessInsight } from '@/lib/insights';
+import { computeBusinessInsights, computeTransactionInsights, type BusinessInsight } from '@/lib/insights';
 
 const TONE_COLORS: Record<BusinessInsight['tone'], string> = {
   opportunity: 'var(--sf-accent)',
@@ -42,8 +42,15 @@ function InsightCard({ insight, onAction }: { insight: BusinessInsight; onAction
 }
 
 export default function BusinessInsightsPanel() {
-  const { businessInsightsOpen, setBusinessInsightsOpen, data, openChatWithContext } = useApp();
-  const insights = useMemo(() => (data ? computeBusinessInsights(data) : []), [data]);
+  const { businessInsightsOpen, setBusinessInsightsOpen, data, transactions, openChatWithContext } = useApp();
+  const insights = useMemo(() => {
+    if (!data) return [];
+    const base = computeBusinessInsights(data);
+    const txn = transactions ? computeTransactionInsights(data, transactions) : [];
+    // Transaction-backed insights (real visit history) lead, since they're
+    // the most concrete/actionable for the demo.
+    return [...txn, ...base];
+  }, [data, transactions]);
 
   return (
     <AnimatePresence>
@@ -61,12 +68,12 @@ export default function BusinessInsightsPanel() {
           />
           <motion.aside
             key="panel"
-            initial={{ x: 380, opacity: 0 }}
+            initial={{ x: 440, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: 380, opacity: 0 }}
+            exit={{ x: 440, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed top-0 right-0 h-full z-50 border-l overflow-y-auto hidden lg:flex lg:flex-col shadow-2xl"
-            style={{ width: 380, borderColor: 'var(--sf-border)', background: 'var(--sf-surface)' }}
+            style={{ width: 440, borderColor: 'var(--sf-border)', background: 'var(--sf-surface)' }}
           >
             {/* Header */}
             <div className="p-4 border-b flex items-center justify-between flex-shrink-0" style={{ borderColor: 'var(--sf-border)', background: 'white' }}>

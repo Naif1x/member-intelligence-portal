@@ -8,10 +8,11 @@ const NAV_ITEMS: { label: string; icon: string; view: ViewMode }[] = [
   { label: 'Members', icon: '👥', view: 'members' },
   { label: 'Segments', icon: '🎯', view: 'segments' },
   { label: 'Campaign Analysis', icon: '📣', view: 'campaigns' },
+  { label: 'Settings', icon: '⚙️', view: 'settings' },
 ];
 
 function SidebarContent() {
-  const { sidebarCollapsed, setSidebarCollapsed, data, view, setView } = useApp();
+  const { sidebarCollapsed, setSidebarCollapsed, data, view, setView, agentEnabled } = useApp();
 
   return (
     <>
@@ -62,7 +63,9 @@ function SidebarContent() {
         <div className="p-4 border-t" style={{ borderColor: 'var(--sf-border)' }}>
           <div className="flex flex-col gap-1.5">
             <Chip size="sm" color="success" variant="soft">✓ Connected to D360</Chip>
-            <Chip size="sm" color="success" variant="soft">✓ Agentforce Active</Chip>
+            <Chip size="sm" color={agentEnabled ? 'success' : 'default'} variant="soft">
+              {agentEnabled ? '✓ Agentforce Active' : 'Agentforce Disabled'}
+            </Chip>
           </div>
           {data && (
             <div className="mt-3 pt-3 border-t text-[10px]" style={{ borderColor: 'var(--sf-border)', color: 'var(--sf-text-secondary)' }}>

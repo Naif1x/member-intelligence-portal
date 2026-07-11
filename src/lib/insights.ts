@@ -1,5 +1,7 @@
 import type { MemberData, ChannelName } from '@/types';
 import { computeSummary, CHANNEL_LABELS } from '@/types';
+import type { TransactionData } from '@/types/transactions';
+import { computeAtRiskWithRecency, computeCrossSellTargets, computeGolfAttachRate } from './transactions';
 import { formatCurrency } from './data';
 
 export interface BusinessInsight {
@@ -120,6 +122,68 @@ export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
       text: `of total revenue (${formatCurrency(top10Spend)}) comes from just your top ${top10.length} members. Protect this concentrated value with proactive VIP retention.`,
       actionLabel: 'Draft VIP Retention Plan',
       actionPrompt: `Draft a VIP retention plan for our top ${top10.length} members by spend, who together represent ${pct}% of total revenue (${formatCurrency(top10Spend)}).`,
+    });
+  }
+
+  return insights;
+}
+
+// Transaction-derived insights — need real visit/purchase history on top of
+// the datagraph's RFM segments, so these are computed separately and merged
+// alongside computeBusinessInsights() in the panel.
+export function computeTransactionInsights(data: MemberData, transactions: TransactionData): BusinessInsight[] {
+  const insights: BusinessInsight[] = [];
+  const asOfDate = transactions.dateRange.max;
+
+  // 1. Big Spender at Risk — named, with real recency
+  const atRisk = computeAtRiskWithRecency(data.members, transactions.headers, asOfDate);
+  if (atRisk.length > 0) {
+    const totalAtRiskSpend = atRisk.reduce((s, m) => s + m.totalSpend, 0);
+    const named = atRisk
+      .slice(0, 5)
+      .map((m) => `${m.name} (${formatCurrency(m.totalSpend)}, ${m.daysSinceLastVisit ?? '—'}d since last visit)`)
+      .join('; ');
+    const more = atRisk.length > 5 ? ` +${atRisk.length - 5} more` : '';
+    insights.push({
+      id: 'at-risk-recency',
+      icon: '🚨',
+      tone: 'risk',
+      stat: `${atRisk.length}`,
+      text: `Big Spender at Risk members, worth ${formatCurrency(totalAtRiskSpend)} combined, verified against real visit history: ${named}${more}. Immediate win-back outreach recommended.`,
+      actionLabel: 'Launch Win-Back Campaign',
+      actionPrompt: `Draft a win-back campaign for our top at-risk members by spend: ${atRisk.slice(0, 5).map((m) => `${m.name} (${formatCurrency(m.totalSpend)}, ${m.daysSinceLastVisit ?? 'unknown'} days since last visit)`).join('; ')}. Total exposure: ${formatCurrency(totalAtRiskSpend)}.`,
+    });
+  }
+
+  // 2. Channel cross-sell targets — proven in one channel, absent in another
+  const crossSell = computeCrossSellTargets(data.members, 8);
+  if (crossSell.length > 0) {
+    const top = crossSell.slice(0, 5);
+    const named = top
+      .map((t) => `${t.name} (${formatCurrency(t.strongSpend)} ${CHANNEL_LABELS[t.strongChannel]}, zero ${t.missingChannels.map((c) => CHANNEL_LABELS[c]).join('/')})`)
+      .join('; ');
+    insights.push({
+      id: 'cross-sell-targets',
+      icon: '🎯',
+      tone: 'opportunity',
+      stat: `${crossSell.length}`,
+      text: `members are strong in one channel with zero footprint in another — a ready-made cross-sell target list: ${named}. Prioritize by spend to close the gap fastest.`,
+      actionLabel: 'Draft Cross-Sell Outreach',
+      actionPrompt: `Draft a cross-sell outreach plan for these members, each strong in one channel but inactive in another: ${top.map((t) => `${t.name} — ${CHANNEL_LABELS[t.strongChannel]} spend ${formatCurrency(t.strongSpend)}, no ${t.missingChannels.map((c) => CHANNEL_LABELS[c]).join('/')} activity`).join('; ')}.`,
+    });
+  }
+
+  // 3. Golf attach rate — proves the cross-channel story with real baskets
+  const attach = computeGolfAttachRate(transactions.headers);
+  if (attach.totalGolfVisits > 0) {
+    insights.push({
+      id: 'golf-attach-rate',
+      icon: '⛳',
+      tone: 'info',
+      stat: `${attach.attachRate}%`,
+      text: `of golf visits (${attach.attachedVisits} of ${attach.totalGolfVisits}) also included Retail or F&B spend within a day — golfers already cross-shop. Promote a bundled "stay and shop" offer at check-in to convert the rest.`,
+      actionLabel: 'Draft Bundle Promotion',
+      actionPrompt: `Draft a "stay and shop" bundle promotion for golfers. Currently ${attach.attachRate}% of golf visits (${attach.attachedVisits} of ${attach.totalGolfVisits}) also include Retail or F&B spend within a day — the goal is converting more of the remaining ${attach.totalGolfVisits - attach.attachedVisits} golf-only visits.`,
     });
   }
 

@@ -41,7 +41,7 @@ function ToggleChip({ active, onClick, children }: { active: boolean; onClick: (
 
 export default function Filters() {
   const { filters, setFilters } = useApp();
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   function update(partial: Partial<FilterState>) {
     setFilters({ ...filters, ...partial });

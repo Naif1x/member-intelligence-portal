@@ -1,17 +1,19 @@
 'use client';
 
-import AppProvider from '@/components/layout/AppProvider';
 import Sidebar from '@/components/layout/Sidebar';
 import TopNav from '@/components/layout/TopNav';
 import RightPanel from '@/components/layout/RightPanel';
 import KPICards from '@/components/dashboard/KPICards';
-import { SegmentDonut, ChannelBar, TopMembersBySpend } from '@/components/dashboard/Charts';
+import {
+  SegmentDonut, RevenueDonut, TopMembersBySpend,
+  CrossChannelValueChart, TopItemsChart, SpendTrendChart,
+} from '@/components/dashboard/Charts';
 import Filters from '@/components/dashboard/Filters';
 import FilterBreadcrumb from '@/components/dashboard/FilterBreadcrumb';
 import MemberTable from '@/components/dashboard/MemberTable';
 import CampaignAnalysis from '@/components/dashboard/CampaignAnalysis';
 import BusinessInsightsPanel from '@/components/dashboard/BusinessInsightsPanel';
-import AgentforceModal from '@/components/chat/AgentforceModal';
+import Settings from '@/components/settings/Settings';
 import { Button } from '@heroui/react';
 import { useApp } from '@/lib/store';
 
@@ -41,35 +43,42 @@ function DashboardContent() {
             Unified D360 view across Golf, Retail, and F&B channels
           </p>
         </div>
-        <Button
-          onPress={() => setBusinessInsightsOpen(!businessInsightsOpen)}
-          className="text-white flex-shrink-0"
-          style={{ background: 'var(--sf-primary)' }}
-        >
-          💡 Business Insights
-        </Button>
+        {view !== 'settings' && (
+          <Button
+            onPress={() => setBusinessInsightsOpen(!businessInsightsOpen)}
+            className="text-white flex-shrink-0"
+            style={{ background: 'var(--sf-primary)' }}
+          >
+            💡 Business Insights
+          </Button>
+        )}
       </div>
 
       {view === 'dashboard' && <KPICards />}
 
       {view === 'dashboard' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-          <SegmentDonut />
-          <ChannelBar />
-          <div className="lg:col-span-2">
-            <TopMembersBySpend />
+        <div className="flex flex-col gap-4 mb-6">
+          <CrossChannelValueChart />
+          <SpendTrendChart />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <SegmentDonut />
+            <RevenueDonut />
           </div>
+          <TopItemsChart />
+          <TopMembersBySpend />
         </div>
       )}
 
       {view === 'segments' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
           <SegmentDonut />
-          <ChannelBar />
+          <RevenueDonut />
         </div>
       )}
 
-      {view === 'campaigns' ? (
+      {view === 'settings' ? (
+        <Settings />
+      ) : view === 'campaigns' ? (
         <CampaignAnalysis />
       ) : view === 'segments' ? null : (
         <>
@@ -91,16 +100,11 @@ function Shell() {
         <DashboardContent />
         <RightPanel />
         <BusinessInsightsPanel />
-        <AgentforceModal />
       </div>
     </div>
   );
 }
 
 export default function Home() {
-  return (
-    <AppProvider>
-      <Shell />
-    </AppProvider>
-  );
+  return <Shell />;
 }

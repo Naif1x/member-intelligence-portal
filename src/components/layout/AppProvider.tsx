@@ -3,18 +3,22 @@
 import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { AppContext, defaultFilters, type FilterState, type ViewMode } from '@/lib/store';
 import type { MemberData, Member } from '@/types';
+import type { TransactionData } from '@/types/transactions';
 import { loadDashboardState, saveDashboardState } from '@/lib/uiState';
 
 export default function AppProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<MemberData | null>(null);
+  const [transactions, setTransactions] = useState<TransactionData | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [chatContextMember, setChatContextMember] = useState<Member | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [rightPanelOpen, setRightPanelOpen] = useState(false);
   const [businessInsightsOpen, setBusinessInsightsOpenState] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [chatSeedPrompt, setChatSeedPrompt] = useState<string | null>(null);
+  const [agentEnabled, setAgentEnabled] = useState(true);
   const restored = loadDashboardState();
   const [view, setViewState] = useState<ViewMode>(restored?.view || 'dashboard');
   const [filters, setFilters] = useState<FilterState>(restored?.filters || defaultFilters);
@@ -27,6 +31,27 @@ export default function AppProvider({ children }: { children: ReactNode }) {
         setData(d);
         setLoading(false);
       });
+    fetch('/data/transactions.json')
+      .then((r) => r.json())
+      .then((t: TransactionData) => setTransactions(t))
+      .catch(() => {});
+  }, []);
+
+  function refreshAgentConfig() {
+    fetch('/api/agent/config')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((cfg) => {
+        // "Active" means the toggle is on AND the integration is actually
+        // usable (secrets + Agent ID + My Domain present) — not just the
+        // toggle state, so the FAB and sidebar chip don't lie about a
+        // half-configured integration.
+        if (cfg) setAgentEnabled(Boolean(cfg.enabled && cfg.hasSecrets && cfg.agentId && cfg.myDomain));
+      })
+      .catch(() => {});
+  }
+
+  useEffect(() => {
+    refreshAgentConfig();
   }, []);
 
   function scrollToTable() {
@@ -60,6 +85,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
     <AppContext.Provider
       value={{
         data,
+        transactions,
         loading,
         selectedMember,
         setSelectedMember: (m) => {
@@ -69,6 +95,8 @@ export default function AppProvider({ children }: { children: ReactNode }) {
             setBusinessInsightsOpenState(false);
           }
         },
+        chatContextMember,
+        setChatContextMember,
         sidebarCollapsed,
         setSidebarCollapsed,
         mobileSidebarOpen,
@@ -81,6 +109,8 @@ export default function AppProvider({ children }: { children: ReactNode }) {
         setChatOpen,
         chatSeedPrompt,
         openChatWithContext,
+        agentEnabled,
+        refreshAgentConfig,
         view,
         setView,
         filters,

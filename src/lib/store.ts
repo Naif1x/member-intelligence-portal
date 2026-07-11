@@ -2,14 +2,22 @@
 
 import { createContext, useContext } from 'react';
 import type { MemberData, Member, ChannelName, SegmentTab } from '@/types';
+import type { TransactionData } from '@/types/transactions';
 
-export type ViewMode = 'dashboard' | 'members' | 'segments' | 'campaigns';
+export type ViewMode = 'dashboard' | 'members' | 'segments' | 'campaigns' | 'settings';
 
 export interface AppState {
   data: MemberData | null;
+  transactions: TransactionData | null;
   loading: boolean;
   selectedMember: Member | null;
   setSelectedMember: (m: Member | null) => void;
+  // Lightweight, side-effect-free member context for the chat (used by
+  // pages like Member 360 that aren't part of the dashboard's selected-row
+  // flow and shouldn't trigger the right-panel-opening behavior of
+  // setSelectedMember).
+  chatContextMember: Member | null;
+  setChatContextMember: (m: Member | null) => void;
   sidebarCollapsed: boolean;
   setSidebarCollapsed: (v: boolean) => void;
   mobileSidebarOpen: boolean;
@@ -22,6 +30,8 @@ export interface AppState {
   setChatOpen: (v: boolean) => void;
   chatSeedPrompt: string | null;
   openChatWithContext: (prompt: string) => void;
+  agentEnabled: boolean;
+  refreshAgentConfig: () => void;
   view: ViewMode;
   setView: (v: ViewMode) => void;
   filters: FilterState;
@@ -63,9 +73,12 @@ export const defaultFilters: FilterState = {
 
 export const AppContext = createContext<AppState>({
   data: null,
+  transactions: null,
   loading: true,
   selectedMember: null,
   setSelectedMember: () => {},
+  chatContextMember: null,
+  setChatContextMember: () => {},
   sidebarCollapsed: false,
   setSidebarCollapsed: () => {},
   mobileSidebarOpen: false,
@@ -78,6 +91,8 @@ export const AppContext = createContext<AppState>({
   setChatOpen: () => {},
   chatSeedPrompt: null,
   openChatWithContext: () => {},
+  agentEnabled: true,
+  refreshAgentConfig: () => {},
   view: 'dashboard',
   setView: () => {},
   filters: defaultFilters,
