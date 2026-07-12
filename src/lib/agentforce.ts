@@ -53,7 +53,7 @@ export function buildMemberContext(member: Member): string {
   if (member.retail.score > 0) channelParts.push(`Retail: ${member.retail_segment} (${formatCurrency(member.retail.spend)})`);
   if (member.food.score > 0) channelParts.push(`F&B: ${member.food_segment} (${formatCurrency(member.food.spend)})`);
 
-  return `[Context: the user is viewing this customer's profile in the portal — ${member.name}, overall segment "${member.general_segment}", total spend ${formatCurrency(member.total_spend)}${member.flagged ? `, flagged Big Spender at Risk in ${labelChannels(atRiskChannels) || 'a channel'}` : ''}.${channelParts.length ? ` Channel detail — ${channelParts.join('; ')}.` : ''} Treat this customer as the subject of the user's question unless they clearly ask about someone or something else.]`;
+  return `[Context: the user is viewing this customer's profile in the portal — ${member.name} (customer ID ${member.id}), overall segment "${member.general_segment}", total spend ${formatCurrency(member.total_spend)}${member.flagged ? `, flagged Big Spender at Risk in ${labelChannels(atRiskChannels) || 'a channel'}` : ''}.${channelParts.length ? ` Channel detail — ${channelParts.join('; ')}.` : ''} Treat this customer as the subject of the user's question unless they clearly ask about someone or something else.]`;
 }
 
 export function generateAgentResponse(input: string, member?: Member | null): string {
