@@ -8,7 +8,7 @@ const NAV_ITEMS: { label: string; icon: LucideIcon; view: ViewMode }[] = [
   { label: 'Main Dashboard', icon: LayoutDashboard, view: 'dashboard' },
   { label: 'Members', icon: Users, view: 'members' },
   { label: 'Segments', icon: Target, view: 'segments' },
-  { label: 'Campaign Analysis', icon: Megaphone, view: 'campaigns' },
+  { label: 'Action Center', icon: Megaphone, view: 'campaigns' },
   { label: 'Settings', icon: Settings, view: 'settings' },
 ];
 

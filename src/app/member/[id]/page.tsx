@@ -6,26 +6,28 @@ import { Avatar, Button, Card, Chip } from '@heroui/react';
 import { ArrowLeft, AlertTriangle, Bot, ChevronDown, ChevronUp } from 'lucide-react';
 import type { Member, MemberData, ChannelName, ChannelMetrics } from '@/types';
 import { CHANNEL_COLORS, getAtRiskChannels } from '@/types';
-import { formatCurrency, getGenderLabel, getMemberInitials } from '@/lib/data';
+import { formatCurrency, getGenderLabel, getMemberInitials, humanizeDaysAgo } from '@/lib/data';
 import { getNextBestActions } from '@/lib/agentforce';
 import { getMemberChannelActivity, type ActivityRow } from '@/lib/transactions';
-import { motion, AnimatePresence } from 'framer-motion';
 import SegmentChip from '@/components/ui/SegmentChip';
 import { useApp } from '@/lib/store';
 
 const ACTIVITY_PAGE_SIZE = 5;
 
 function ChannelCard({
-  channel, label, metrics, segment, activity, expanded, onToggle,
+  channel, label, metrics, segment, activity,
 }: {
   channel: ChannelName; label: string; metrics: ChannelMetrics; segment: string;
-  activity: ActivityRow[]; expanded: boolean; onToggle: () => void;
+  activity: ActivityRow[];
 }) {
+  // Each card owns its own expansion state — expanding one card must never
+  // collapse another.
+  const [expanded, setExpanded] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const hasData = metrics.score > 0 || metrics.spend > 0;
 
   if (!hasData) return (
-    <Card className="opacity-50">
+    <Card className="opacity-50 self-stretch">
       <Card.Content className="p-4">
         <div className="text-sm font-bold mb-2" style={{ color: CHANNEL_COLORS[channel] }}>{label}</div>
         <div className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>No activity in this channel</div>
@@ -37,9 +39,13 @@ function ChannelCard({
   const visibleRows = showAll ? activity : activity.slice(0, ACTIVITY_PAGE_SIZE);
 
   return (
-    <Card>
+    // self-stretch (with auto height) lets the grid row equalize all three
+    // cards: expanding one channel grows the row and the siblings fill the
+    // extra space instead of leaving a ragged layout. h-full would be
+    // circular here (row height ← item height ← row height) and clips.
+    <Card className="self-stretch">
       <Card.Content className="p-4">
-        <button className="w-full text-left cursor-pointer" onClick={onToggle}>
+        <button className="w-full text-left cursor-pointer" onClick={() => setExpanded((v) => !v)}>
           <div className="flex items-center justify-between mb-3">
             <div className="text-sm font-bold flex items-center gap-1.5" style={{ color: CHANNEL_COLORS[channel] }}>
               {label}
@@ -57,14 +63,11 @@ function ChannelCard({
           </div>
         </button>
 
-        <AnimatePresence>
-          {expanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden"
-            >
+        {/* Plain conditional render — the height:auto motion animation was
+            unreliable here (stuck at its initial 0px, leaving the panel
+            invisible while mounted), and correctness beats the flourish. */}
+        {expanded && (
+          <div>
               <div className="mt-3 pt-3 border-t" style={{ borderColor: 'var(--sf-border)' }}>
                 <div className="text-[10px] uppercase tracking-wider mb-2" style={{ color: 'var(--sf-text-secondary)' }}>
                   Recent Activity
@@ -77,14 +80,14 @@ function ChannelCard({
                       {visibleRows.map((tx, i) => (
                         <div
                           key={tx.id}
-                          className="flex items-center gap-2 py-1.5 text-xs"
+                          className="grid grid-cols-[minmax(0,1fr)_4.75rem_5.5rem] items-center gap-2 py-1.5 text-xs"
                           style={{ borderBottom: i < visibleRows.length - 1 ? '1px solid var(--sf-border)' : 'none' }}
                         >
-                          <span className="truncate flex-1 min-w-0" title={tx.label} style={{ color: 'var(--sf-text)' }}>
+                          <span className="truncate" title={tx.label} style={{ color: 'var(--sf-text)' }}>
                             {tx.label}
                           </span>
-                          <span className="flex-shrink-0 whitespace-nowrap" style={{ color: 'var(--sf-text-secondary)' }}>{tx.daysAgo}d ago</span>
-                          <span className="font-medium flex-shrink-0 whitespace-nowrap" style={{ color: 'var(--sf-primary)' }}>{formatCurrency(tx.amount)}</span>
+                          <span className="text-right whitespace-nowrap tabular-nums" style={{ color: 'var(--sf-text-secondary)' }}>{humanizeDaysAgo(tx.daysAgo)}</span>
+                          <span className="font-medium text-right whitespace-nowrap tabular-nums" style={{ color: 'var(--sf-primary)' }}>{formatCurrency(tx.amount)}</span>
                         </div>
                       ))}
                     </div>
@@ -104,9 +107,8 @@ function ChannelCard({
                   </>
                 )}
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          </div>
+        )}
       </Card.Content>
     </Card>
   );
@@ -118,7 +120,6 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
   const { transactions, setChatContextMember, openChatWithContext } = useApp();
   const [member, setMember] = useState<Member | null>(null);
   const [loading, setLoading] = useState(true);
-  const [expandedChannel, setExpandedChannel] = useState<ChannelName | null>(null);
 
   useEffect(() => {
     fetch('/data/d360_datagraph_export.json')
@@ -198,9 +199,7 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
 
       {/* Alert banner */}
       {member.flagged && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
+        <div
           className="px-6 py-3 flex items-center gap-3"
           style={{ background: '#FFF3E0', borderBottom: '2px solid var(--sf-warning)' }}
         >
@@ -211,7 +210,7 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
               Declining engagement detected in {atRiskChannels.length ? atRiskChannels.map(c => CHANNEL_LABEL_MAP[c]).join(', ') : 'this member\'s profile'} — high spend but low recency
             </div>
           </div>
-        </motion.div>
+        </div>
       )}
 
       <div className="p-6">
@@ -267,17 +266,14 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
           <ChannelCard
             channel="golf" label="Golf" metrics={member.golf} segment={member.golf_segment}
             activity={activityByChannel?.golf ?? []}
-            expanded={expandedChannel === 'golf'} onToggle={() => setExpandedChannel(expandedChannel === 'golf' ? null : 'golf')}
           />
           <ChannelCard
             channel="retail" label="Retail" metrics={member.retail} segment={member.retail_segment}
             activity={activityByChannel?.retail ?? []}
-            expanded={expandedChannel === 'retail'} onToggle={() => setExpandedChannel(expandedChannel === 'retail' ? null : 'retail')}
           />
           <ChannelCard
             channel="food" label="Food & Beverage" metrics={member.food} segment={member.food_segment}
             activity={activityByChannel?.food ?? []}
-            expanded={expandedChannel === 'food'} onToggle={() => setExpandedChannel(expandedChannel === 'food' ? null : 'food')}
           />
         </div>
 

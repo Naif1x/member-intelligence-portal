@@ -34,9 +34,9 @@ export default function CampaignAnalysis() {
   return (
     <Card>
       <Card.Header className="flex flex-col items-start gap-0.5 pb-0">
-        <Card.Title className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>Campaign Analysis by Segment</Card.Title>
+        <Card.Title className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>Action Center</Card.Title>
         <Card.Description className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
-          Aggregated spend and recommended campaign action per D360 segment
+          Recommended next action per segment — spend, member counts, and one-click Agentforce handoff
         </Card.Description>
       </Card.Header>
       <Card.Content>

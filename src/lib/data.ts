@@ -34,12 +34,29 @@ export function formatCurrency(amount: number): string {
 export function formatCompactCurrency(amount: number): string {
   const abs = Math.abs(amount);
   if (abs >= 1_000_000) return `SAR ${(amount / 1_000_000).toFixed(1)}M`;
-  if (abs >= 1_000) return `SAR ${Math.round(amount / 1000)}K`;
+  if (abs >= 10_000) return `SAR ${Math.round(amount / 1000)}K`;
+  // One decimal below 10K — otherwise adjacent axis ticks like 1.5K and
+  // 2.25K both round to "2K" and the axis shows duplicates.
+  if (abs >= 1_000) return `SAR ${(amount / 1000).toFixed(1).replace(/\.0$/, '')}K`;
   return `SAR ${Math.round(amount)}`;
 }
 
 export function formatNumber(n: number): string {
   return n.toLocaleString('en-US');
+}
+
+// Humanized recency: days only when recent, then weeks/months/years —
+// "234d ago" reads like a log file, "8 mo ago" reads like a product.
+export function humanizeDaysAgo(days: number): string {
+  if (days <= 0) return 'today';
+  if (days < 7) return `${days}d ago`;
+  if (days < 30) return `${Math.round(days / 7)}w ago`;
+  if (days < 365) return `${Math.round(days / 30.44)} mo ago`;
+  const years = Math.floor(days / 365.25);
+  const months = Math.round((days - years * 365.25) / 30.44);
+  if (months <= 0) return `${years}y ago`;
+  if (months >= 12) return `${years + 1}y ago`;
+  return `${years}y ${months}mo ago`;
 }
 
 export function getMemberName(m: Member): string {

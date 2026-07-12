@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { Button, Card, Chip, Input, Switch } from '@heroui/react';
-import { Plug, Eye, EyeOff, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
+import {
+  Plug, Eye, EyeOff, CheckCircle2, XCircle, AlertTriangle,
+  User, Users, Database, Bell, CreditCard, Lock, type LucideIcon,
+} from 'lucide-react';
 import { useApp } from '@/lib/store';
 
 interface AgentConfig {
@@ -37,11 +40,107 @@ function maskId(id: string): string {
   return `${id.slice(0, 4)}${'•'.repeat(Math.max(6, id.length - 8))}${id.slice(-4)}`;
 }
 
-const SUBTABS = [{ id: 'integration', label: 'Integration', icon: Plug }] as const;
+type SubtabId = 'account' | 'users' | 'datasources' | 'notifications' | 'integration' | 'billing';
+
+const SUBTABS: { id: SubtabId; label: string; icon: LucideIcon }[] = [
+  { id: 'account', label: 'Account', icon: User },
+  { id: 'users', label: 'Users & Roles', icon: Users },
+  { id: 'datasources', label: 'Data Sources', icon: Database },
+  { id: 'notifications', label: 'Notifications', icon: Bell },
+  { id: 'integration', label: 'Integrations', icon: Plug },
+  { id: 'billing', label: 'Billing', icon: CreditCard },
+];
+
+// Static informational rows for the placeholder tabs — visual depth only;
+// the Integrations tab is the functional one.
+function PlaceholderRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between py-2.5 border-b last:border-b-0" style={{ borderColor: 'var(--sf-border)' }}>
+      <span className="text-sm" style={{ color: 'var(--sf-text-secondary)' }}>{label}</span>
+      <span className="text-sm font-medium" style={{ color: 'var(--sf-text)' }}>{value}</span>
+    </div>
+  );
+}
+
+function PlaceholderTab({ title, description, rows }: { title: string; description: string; rows: { label: string; value: string }[] }) {
+  return (
+    <Card>
+      <Card.Header className="flex flex-row items-center justify-between gap-3 pb-0">
+        <div>
+          <Card.Title className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>{title}</Card.Title>
+          <Card.Description className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>{description}</Card.Description>
+        </div>
+        <Chip size="sm" variant="soft" className="gap-1" style={{ color: 'var(--sf-text-secondary)' }}>
+          <Lock size={11} strokeWidth={2.5} />
+          Admin managed
+        </Chip>
+      </Card.Header>
+      <Card.Content className="pt-2">
+        {rows.map((r) => <PlaceholderRow key={r.label} label={r.label} value={r.value} />)}
+      </Card.Content>
+    </Card>
+  );
+}
+
+const PLACEHOLDER_TABS: Record<Exclude<SubtabId, 'integration'>, { title: string; description: string; rows: { label: string; value: string }[] }> = {
+  account: {
+    title: 'Account',
+    description: 'Organization profile and workspace preferences',
+    rows: [
+      { label: 'Organization', value: 'Luxury Golf' },
+      { label: 'Workspace region', value: 'Middle East (me-central)' },
+      { label: 'Default currency', value: 'SAR — Saudi Riyal' },
+      { label: 'Time zone', value: 'Asia/Riyadh (GMT+3)' },
+      { label: 'Fiscal year start', value: 'January' },
+    ],
+  },
+  users: {
+    title: 'Users & Roles',
+    description: 'Team access and permission levels',
+    rows: [
+      { label: 'Active users', value: '8' },
+      { label: 'Administrators', value: '2' },
+      { label: 'Analysts', value: '4' },
+      { label: 'Viewers', value: '2' },
+      { label: 'SSO enforcement', value: 'Enabled (SAML 2.0)' },
+    ],
+  },
+  datasources: {
+    title: 'Data Sources',
+    description: 'Connected systems feeding the unified member graph',
+    rows: [
+      { label: 'Salesforce Data Cloud (D360)', value: 'Connected · syncs hourly' },
+      { label: 'Golf tee-sheet system', value: 'Connected · syncs daily' },
+      { label: 'Pro Shop POS', value: 'Connected · syncs daily' },
+      { label: 'F&B POS', value: 'Connected · syncs daily' },
+      { label: 'Identity resolution', value: 'Fuzzy match · 160 unified profiles' },
+    ],
+  },
+  notifications: {
+    title: 'Notifications',
+    description: 'Alerting rules and delivery channels',
+    rows: [
+      { label: 'At-risk member alerts', value: 'Email + in-app · daily digest' },
+      { label: 'Campaign performance', value: 'Weekly summary' },
+      { label: 'Data sync failures', value: 'Immediate · email' },
+      { label: 'New member signups', value: 'In-app only' },
+    ],
+  },
+  billing: {
+    title: 'Billing',
+    description: 'Subscription plan and usage',
+    rows: [
+      { label: 'Plan', value: 'Enterprise' },
+      { label: 'Billing cycle', value: 'Annual' },
+      { label: 'Member profiles', value: '160 of 5,000 included' },
+      { label: 'Next renewal', value: 'January 15, 2027' },
+    ],
+  },
+};
 
 export default function Settings() {
   const { refreshAgentConfig } = useApp();
-  const [subtab, setSubtab] = useState<(typeof SUBTABS)[number]['id']>('integration');
+  const [subtab, setSubtab] = useState<SubtabId>('integration');
   const [config, setConfig] = useState<AgentConfig | null>(null);
   const [editing, setEditing] = useState(false);
   const [agentId, setAgentId] = useState('');
@@ -172,6 +271,9 @@ export default function Settings() {
 
       {/* Content */}
       <div className="flex-1 max-w-2xl">
+        {subtab !== 'integration' && (
+          <PlaceholderTab {...PLACEHOLDER_TABS[subtab]} />
+        )}
         {subtab === 'integration' && (
           <Card>
             <Card.Header className="flex flex-row items-center justify-between gap-3 pb-0">

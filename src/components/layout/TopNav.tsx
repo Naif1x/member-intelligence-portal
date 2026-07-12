@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Avatar, Button, Card, Chip, Input } from '@heroui/react';
+import { Avatar, Button, Card, Input } from '@heroui/react';
 import { Flag, Menu, Search, Bell } from 'lucide-react';
 import { useApp } from '@/lib/store';
 import { getMemberName } from '@/lib/data';
@@ -107,13 +107,6 @@ export default function TopNav() {
 
       {/* Right side */}
       <div className="flex items-center gap-3 flex-shrink-0">
-        <Chip
-          size="sm"
-          className="hidden sm:inline-flex font-bold text-white"
-          style={{ background: 'var(--sf-accent)' }}
-        >
-          DEMO
-        </Chip>
         <Button
           isIconOnly
           variant="ghost"

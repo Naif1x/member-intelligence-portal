@@ -6,6 +6,9 @@ import type { TransactionData } from '@/types/transactions';
 
 export type ViewMode = 'dashboard' | 'members' | 'segments' | 'campaigns' | 'settings';
 
+// Channel scope for the main dashboard — filters every widget at once.
+export type DashboardChannel = ChannelName | 'all';
+
 export interface AppState {
   data: MemberData | null;
   transactions: TransactionData | null;
@@ -34,6 +37,8 @@ export interface AppState {
   refreshAgentConfig: () => void;
   view: ViewMode;
   setView: (v: ViewMode) => void;
+  dashboardChannel: DashboardChannel;
+  setDashboardChannel: (c: DashboardChannel) => void;
   filters: FilterState;
   setFilters: (f: FilterState) => void;
   scrollToTable: () => void;
@@ -95,6 +100,8 @@ export const AppContext = createContext<AppState>({
   refreshAgentConfig: () => {},
   view: 'dashboard',
   setView: () => {},
+  dashboardChannel: 'all',
+  setDashboardChannel: () => {},
   filters: defaultFilters,
   setFilters: () => {},
   scrollToTable: () => {},

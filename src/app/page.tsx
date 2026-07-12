@@ -5,8 +5,9 @@ import TopNav from '@/components/layout/TopNav';
 import RightPanel from '@/components/layout/RightPanel';
 import KPICards from '@/components/dashboard/KPICards';
 import {
-  SegmentDonut, RevenueDonut, TopMembersBySpend,
-  CrossChannelValueChart, TopItemsChart, SpendTrendChart,
+  SegmentDonut, TopMembersBySpend, CrossChannelValueChart, TopItemsChart,
+  SpendTrendChart, AtRiskRevenueWidget, RfmScatterChart, CrossShopWidget,
+  DashboardChannelFilter,
 } from '@/components/dashboard/Charts';
 import Filters from '@/components/dashboard/Filters';
 import FilterBreadcrumb from '@/components/dashboard/FilterBreadcrumb';
@@ -56,25 +57,30 @@ function DashboardContent() {
         )}
       </div>
 
-      {view === 'dashboard' && <KPICards />}
-
       {view === 'dashboard' && (
-        <div className="flex flex-col gap-4 mb-6">
-          <CrossChannelValueChart />
-          <SpendTrendChart />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <SegmentDonut />
-            <RevenueDonut />
+        <>
+          <DashboardChannelFilter />
+          <KPICards />
+          <div className="flex flex-col gap-4 mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <CrossChannelValueChart />
+              <AtRiskRevenueWidget />
+            </div>
+            <RfmScatterChart />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <CrossShopWidget />
+              <SpendTrendChart />
+            </div>
+            <TopItemsChart />
+            <TopMembersBySpend />
           </div>
-          <TopItemsChart />
-          <TopMembersBySpend />
-        </div>
+        </>
       )}
 
       {view === 'segments' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
           <SegmentDonut />
-          <RevenueDonut />
+          <AtRiskRevenueWidget />
         </div>
       )}
 

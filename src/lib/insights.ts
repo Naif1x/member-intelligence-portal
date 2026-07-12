@@ -1,12 +1,16 @@
-import type { MemberData, ChannelName } from '@/types';
+import type { MemberData } from '@/types';
 import { computeSummary, CHANNEL_LABELS } from '@/types';
 import type { TransactionData } from '@/types/transactions';
-import { computeAtRiskWithRecency, computeCrossSellTargets, computeGolfAttachRate } from './transactions';
+import {
+  computeAtRiskWithRecency, computeCrossSellTargets, computeGolfAttachRate,
+  computeGolfDayBasket, computeRepeatItemLoyalty, computeRecencyCliff,
+} from './transactions';
 import { formatCurrency } from './data';
 
 export type InsightIcon =
   | 'trophy' | 'trending-down' | 'alert-triangle' | 'lightbulb'
-  | 'bar-chart' | 'shield' | 'siren' | 'target' | 'flag';
+  | 'bar-chart' | 'shield' | 'siren' | 'target' | 'flag'
+  | 'repeat' | 'shopping-basket' | 'clock';
 
 export interface BusinessInsight {
   id: string;
@@ -18,17 +22,15 @@ export interface BusinessInsight {
   actionPrompt: string;
 }
 
-// Rule-based, computed directly from the current dataset — every number in
-// every insight traces back to computeSummary()/raw member fields, nothing
-// is hardcoded or illustrative.
+// Portfolio-level context insights. Everything traces to raw member fields —
+// nothing hardcoded or illustrative.
 export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
   const { members } = data;
   const summary = computeSummary(members);
   const insights: BusinessInsight[] = [];
-  const total = summary.totalMembers;
   const totalSales = summary.totalSales;
 
-  // 1. Champion revenue concentration
+  // Champion revenue concentration
   const championMembers = members.filter((m) => m.general_segment === 'Champion');
   const championSpend = championMembers.reduce((s, m) => s + m.total_spend, 0);
   if (totalSales > 0 && championMembers.length > 0) {
@@ -44,76 +46,7 @@ export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
     });
   }
 
-  // 2. Lost / Almost Lost churn exposure
-  const lostMembers = members.filter((m) => m.general_segment === 'Lost' || m.general_segment === 'Almost Lost');
-  if (lostMembers.length > 0) {
-    const pct = Math.round((lostMembers.length / total) * 100);
-    insights.push({
-      id: 'churn-risk',
-      icon: 'trending-down',
-      tone: 'risk',
-      stat: `${pct}%`,
-      text: `of members are Lost or Almost Lost. Retarget them with a free-offer reactivation campaign before they're gone for good.`,
-      actionLabel: 'Launch Win-Back Campaign',
-      actionPrompt: `Design a reactivation campaign targeting our ${lostMembers.length} Lost/Almost Lost members (${pct}% of the base).`,
-    });
-  }
-
-  // 3. At-risk high-value members
-  const flagged = members.filter((m) => m.flagged);
-  if (flagged.length > 0) {
-    const flaggedSpend = flagged.reduce((s, m) => s + m.total_spend, 0);
-    const pct = Math.round((flagged.length / total) * 100);
-    insights.push({
-      id: 'at-risk-value',
-      icon: 'alert-triangle',
-      tone: 'risk',
-      stat: `${pct}%`,
-      text: `of members (${flagged.length}, worth ${formatCurrency(flaggedSpend)}) are flagged Big Spender at Risk — high value, declining engagement. A timely win-back offer could recover a meaningful share before churn.`,
-      actionLabel: 'Launch Win-Back Agent',
-      actionPrompt: `Generate a win-back strategy for our ${flagged.length} Big Spender at Risk members, representing ${formatCurrency(flaggedSpend)} in historical spend.`,
-    });
-  }
-
-  // 4. Channel concentration / cross-sell opportunity
-  const channelEntries = (['golf', 'retail', 'food'] as ChannelName[]).map((ch) => [ch, summary.channelSpend[ch]] as const);
-  const sortedChannels = [...channelEntries].sort((a, b) => b[1] - a[1]);
-  const [topCh, topSpend] = sortedChannels[0];
-  const [lowCh, lowSpend] = sortedChannels[sortedChannels.length - 1];
-  if (totalSales > 0 && topSpend > 0) {
-    const topPct = Math.round((topSpend / totalSales) * 100);
-    const lowPct = Math.round((lowSpend / totalSales) * 100);
-    if (topPct - lowPct >= 20) {
-      insights.push({
-        id: 'channel-concentration',
-        icon: 'lightbulb',
-        tone: 'opportunity',
-        stat: `${topPct}%`,
-        text: `of revenue comes from ${CHANNEL_LABELS[topCh]}, while ${CHANNEL_LABELS[lowCh]} trails at just ${lowPct}%. Promote cross-channel bundles to grow the underperforming channel.`,
-        actionLabel: 'Promote Cross-Sell Offer',
-        actionPrompt: `Suggest a cross-sell campaign to grow ${CHANNEL_LABELS[lowCh]} engagement, which currently trails ${CHANNEL_LABELS[topCh]} at only ${lowPct}% of revenue vs ${topPct}%.`,
-      });
-    }
-  }
-
-  // 5. Identity resolution gap
-  const noDataMembers = members.filter((m) => m.general_segment === 'No Data');
-  if (noDataMembers.length > 0) {
-    const pct = Math.round((noDataMembers.length / total) * 100);
-    if (pct >= 5) {
-      insights.push({
-        id: 'identity-gap',
-        icon: 'bar-chart',
-        tone: 'info',
-        stat: `${pct}%`,
-        text: `of profiles show a "No Data" segment. Improving identity resolution for these members would unlock personalization and campaign targeting.`,
-        actionLabel: 'Review Identity Resolution',
-        actionPrompt: `We have ${noDataMembers.length} member profiles (${pct}%) with insufficient signal for segmentation. Suggest concrete steps to improve identity resolution coverage.`,
-      });
-    }
-  }
-
-  // 6. Revenue concentration in top spenders
+  // Revenue concentration in top spenders
   const top10 = summary.topMembersBySpend;
   const top10Spend = top10.reduce((s, m) => s + m.total_spend, 0);
   if (totalSales > 0 && top10.length > 0) {
@@ -132,62 +65,103 @@ export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
   return insights;
 }
 
-// Transaction-derived insights — need real visit/purchase history on top of
-// the datagraph's RFM segments, so these are computed separately and merged
-// alongside computeBusinessInsights() in the panel.
+// Transaction-mined insights — each one carries a hard number from the raw
+// transaction data, the behavior it reveals, and a concrete action.
 export function computeTransactionInsights(data: MemberData, transactions: TransactionData): BusinessInsight[] {
   const insights: BusinessInsight[] = [];
   const asOfDate = transactions.dateRange.max;
 
-  // 1. Big Spender at Risk — named, with real recency
+  // 1. Big Spender at Risk — sized against real visit recency. The visible
+  // text stays brief; the named breakdown rides along in the agent prompt.
   const atRisk = computeAtRiskWithRecency(data.members, transactions.headers, asOfDate);
   if (atRisk.length > 0) {
     const totalAtRiskSpend = atRisk.reduce((s, m) => s + m.totalSpend, 0);
-    const named = atRisk
-      .slice(0, 5)
-      .map((m) => `${m.name} (${formatCurrency(m.totalSpend)}, ${m.daysSinceLastVisit ?? '—'}d since last visit)`)
-      .join('; ');
-    const more = atRisk.length > 5 ? ` +${atRisk.length - 5} more` : '';
     insights.push({
       id: 'at-risk-recency',
       icon: 'siren',
       tone: 'risk',
       stat: `${atRisk.length}`,
-      text: `Big Spender at Risk members, worth ${formatCurrency(totalAtRiskSpend)} combined, verified against real visit history: ${named}${more}. Immediate win-back outreach recommended.`,
+      text: `Big Spender at Risk members worth ${formatCurrency(totalAtRiskSpend)} combined, verified against real visit history. Immediate win-back outreach recommended.`,
       actionLabel: 'Launch Win-Back Campaign',
       actionPrompt: `Draft a win-back campaign for our top at-risk members by spend: ${atRisk.slice(0, 5).map((m) => `${m.name} (${formatCurrency(m.totalSpend)}, ${m.daysSinceLastVisit ?? 'unknown'} days since last visit)`).join('; ')}. Total exposure: ${formatCurrency(totalAtRiskSpend)}.`,
     });
   }
 
-  // 2. Channel cross-sell targets — proven in one channel, absent in another
+  // 2. Recency cliff — high-value members whose silence just crossed the line
+  const cliff = computeRecencyCliff(data.members, transactions.headers, asOfDate, 10_000, 60);
+  if (cliff.length > 0) {
+    const cliffSpend = cliff.reduce((s, m) => s + m.totalSpend, 0);
+    insights.push({
+      id: 'recency-cliff',
+      icon: 'clock',
+      tone: 'risk',
+      stat: `${cliff.length}`,
+      text: `members with SAR 10K+ lifetime spend haven't visited in 60+ days — ${formatCurrency(cliffSpend)} quietly walking out the door. Trigger win-back at day 45, before the cliff.`,
+      actionLabel: 'Set 45-Day Win-Back Trigger',
+      actionPrompt: `Design an automated win-back trigger that fires when a SAR 10K+ member goes 45 days without a visit. Current backlog crossing 60 days: ${cliff.slice(0, 5).map((m) => `${m.name} (${formatCurrency(m.totalSpend)}, ${m.daysSinceLastVisit} days)`).join('; ')}. Combined value ${formatCurrency(cliffSpend)}.`,
+    });
+  }
+
+  // 3. Channel cross-sell targets — proven in one channel, absent in another
   const crossSell = computeCrossSellTargets(data.members, 8);
   if (crossSell.length > 0) {
     const top = crossSell.slice(0, 5);
-    const named = top
-      .map((t) => `${t.name} (${formatCurrency(t.strongSpend)} ${CHANNEL_LABELS[t.strongChannel]}, zero ${t.missingChannels.map((c) => CHANNEL_LABELS[c]).join('/')})`)
-      .join('; ');
+    const provenSpend = crossSell.reduce((s, t) => s + t.strongSpend, 0);
     insights.push({
       id: 'cross-sell-targets',
       icon: 'target',
       tone: 'opportunity',
       stat: `${crossSell.length}`,
-      text: `members are strong in one channel with zero footprint in another — a ready-made cross-sell target list: ${named}. Prioritize by spend to close the gap fastest.`,
+      text: `members are proven spenders in one channel (${formatCurrency(provenSpend)} combined) with zero footprint in another — a ready-made cross-sell target list. Prioritize by spend.`,
       actionLabel: 'Draft Cross-Sell Outreach',
       actionPrompt: `Draft a cross-sell outreach plan for these members, each strong in one channel but inactive in another: ${top.map((t) => `${t.name} — ${CHANNEL_LABELS[t.strongChannel]} spend ${formatCurrency(t.strongSpend)}, no ${t.missingChannels.map((c) => CHANNEL_LABELS[c]).join('/')} activity`).join('; ')}.`,
     });
   }
 
-  // 3. Golf attach rate — proves the cross-channel story with real baskets
+  // 4. Golf bundle opportunity — attach rate, expanded with where it happens
   const attach = computeGolfAttachRate(transactions.headers);
+  const basket = computeGolfDayBasket(transactions.headers, transactions.items);
   if (attach.totalGolfVisits > 0) {
+    const outlets = basket.topOutlets.map((o) => `${o.outlet} (${o.checks} checks, ${formatCurrency(o.revenue)})`).join(', ');
+    const topOutlet = basket.topOutlets[0]?.outlet;
     insights.push({
       id: 'golf-attach-rate',
       icon: 'flag',
       tone: 'info',
       stat: `${attach.attachRate}%`,
-      text: `of golf visits (${attach.attachedVisits} of ${attach.totalGolfVisits}) also included Retail or F&B spend within a day — golfers already cross-shop. Promote a bundled "stay and shop" offer at check-in to convert the rest.`,
+      text: `of golf visits (${attach.attachedVisits} of ${attach.totalGolfVisits}) include same-day Retail or F&B spend worth ${formatCurrency(basket.attachRevenue)}${topOutlet ? `, mostly at ${topOutlet}` : ''}. Promote a "stay and shop" bundle at check-in to convert the other ${100 - attach.attachRate}%.`,
       actionLabel: 'Draft Bundle Promotion',
-      actionPrompt: `Draft a "stay and shop" bundle promotion for golfers. Currently ${attach.attachRate}% of golf visits (${attach.attachedVisits} of ${attach.totalGolfVisits}) also include Retail or F&B spend within a day — the goal is converting more of the remaining ${attach.totalGolfVisits - attach.attachedVisits} golf-only visits.`,
+      actionPrompt: `Draft a "stay and shop" bundle promotion for golfers. ${attach.attachRate}% of golf visits (${attach.attachedVisits} of ${attach.totalGolfVisits}) already include same-day Retail/F&B spend worth ${formatCurrency(basket.attachRevenue)}, mostly at ${outlets || 'the clubhouse'}. Goal: convert more of the remaining ${attach.totalGolfVisits - attach.attachedVisits} golf-only visits.`,
+    });
+  }
+
+  // 5. Basket composition — what golfers actually buy alongside a round
+  if (basket.topItems.length > 0) {
+    const items = basket.topItems.map((i) => `${i.name} (${i.count}×, ${formatCurrency(i.revenue)})`).join(', ');
+    insights.push({
+      id: 'golf-basket',
+      icon: 'shopping-basket',
+      tone: 'opportunity',
+      stat: formatCurrency(basket.attachRevenue),
+      text: `in same-day attach revenue rides along with golf rounds across ${basket.attachChecks} baskets, led by ${basket.topItems[0].name}. Merchandise the top attach items at the pro-shop counter and cart menu.`,
+      actionLabel: 'Optimize Attach Placement',
+      actionPrompt: `Golfers spend ${formatCurrency(basket.attachRevenue)} same-day across ${basket.attachChecks} attached baskets. Top items bought alongside a round: ${items}. Suggest merchandising and menu-placement moves to grow this attach revenue.`,
+    });
+  }
+
+  // 6. Repeat-item loyalty — the auto-replenish / subscription hook
+  const repeats = computeRepeatItemLoyalty(transactions.items, 3);
+  if (repeats.memberCount > 0) {
+    const tops = repeats.topItems.map((t) => `${t.name} (${t.members} members, ${t.purchases} purchases)`).join('; ');
+    const topHabit = repeats.topItems[0];
+    insights.push({
+      id: 'repeat-item-loyalty',
+      icon: 'repeat',
+      tone: 'opportunity',
+      stat: `${repeats.memberCount}`,
+      text: `members bought the same item 3+ times (${repeats.pairCount} repeat habits), led by ${topHabit.name} (${topHabit.members} members). A built-in auto-replenish or "member favorite" offer.`,
+      actionLabel: 'Design Replenish Offer',
+      actionPrompt: `${repeats.memberCount} members have repeat-purchase habits (${repeats.pairCount} member-item pairs bought 3+ times). Top habits: ${tops}. Design an auto-replenish / favorites subscription offer around these items.`,
     });
   }
 

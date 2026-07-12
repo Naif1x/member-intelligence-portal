@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { Button, Card } from '@heroui/react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lightbulb, X, Trophy, TrendingDown, AlertTriangle, BarChart3, ShieldCheck, Siren, Target, Flag, type LucideIcon } from 'lucide-react';
+import { Lightbulb, X, Trophy, TrendingDown, AlertTriangle, BarChart3, ShieldCheck, Siren, Target, Flag, Repeat, ShoppingBasket, Clock, type LucideIcon } from 'lucide-react';
 import { useApp } from '@/lib/store';
 import { computeBusinessInsights, computeTransactionInsights, type BusinessInsight, type InsightIcon } from '@/lib/insights';
 
@@ -23,6 +23,9 @@ const INSIGHT_ICONS: Record<InsightIcon, LucideIcon> = {
   siren: Siren,
   target: Target,
   flag: Flag,
+  repeat: Repeat,
+  'shopping-basket': ShoppingBasket,
+  clock: Clock,
 };
 
 function InsightCard({ insight, onAction }: { insight: BusinessInsight; onAction: (prompt: string) => void }) {

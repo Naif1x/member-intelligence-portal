@@ -3,55 +3,37 @@
 import { useMemo } from 'react';
 import { Card } from '@heroui/react';
 import { Users, AlertTriangle, Trophy, Wallet, TrendingUp, type LucideIcon } from 'lucide-react';
-import { useApp } from '@/lib/store';
+import { useApp, type DashboardChannel } from '@/lib/store';
 import { formatCompactCurrency, formatNumber } from '@/lib/data';
-import { computeSummary, type DataSummary } from '@/types';
+import { CHANNEL_LABELS, type Member } from '@/types';
+import { memberActiveIn, memberSpendFor, memberSegmentFor } from '@/lib/transactions';
 
-interface KPIDefinition {
-  id: string;
-  label: string;
-  icon: LucideIcon;
-  getValue: (summary: DataSummary) => string;
-  getSub?: (summary: DataSummary) => string;
+interface ScopedSummary {
+  members: number;
+  atRisk: number;
+  champions: number;
+  totalSpend: number;
+  avgSpend: number;
 }
 
-const KPI_DEFINITIONS: KPIDefinition[] = [
-  {
-    id: 'total-members',
-    label: 'Total Members',
-    icon: Users,
-    getValue: (s) => formatNumber(s.totalMembers),
-    getSub: () => 'Unified D360 profiles',
-  },
-  {
-    id: 'members-at-risk',
-    label: 'Members At Risk',
-    icon: AlertTriangle,
-    getValue: (s) => formatNumber(s.flaggedMembers),
-    getSub: () => 'Big Spender at Risk flag',
-  },
-  {
-    id: 'champions',
-    label: 'Champions',
-    icon: Trophy,
-    getValue: (s) => formatNumber(s.championMembers),
-    getSub: () => 'Highest engagement tier',
-  },
-  {
-    id: 'total-spend',
-    label: 'Total Spend',
-    icon: Wallet,
-    getValue: (s) => formatCompactCurrency(s.totalSales),
-    getSub: () => 'Across Golf, Retail, F&B',
-  },
-  {
-    id: 'avg-spend-per-member',
-    label: 'Avg. Spend / Member',
-    icon: TrendingUp,
-    getValue: (s) => formatCompactCurrency(s.avgTotalSpend),
-    getSub: () => 'Total spend / profile',
-  },
-];
+function computeScoped(members: Member[], ch: DashboardChannel): ScopedSummary {
+  let count = 0, atRisk = 0, champions = 0, totalSpend = 0;
+  for (const m of members) {
+    if (!memberActiveIn(m, ch)) continue;
+    count++;
+    const segment = memberSegmentFor(m, ch);
+    if (ch === 'all' ? m.flagged : segment === 'Big Spender at Risk') atRisk++;
+    if (segment === 'Champion') champions++;
+    totalSpend += memberSpendFor(m, ch);
+  }
+  return {
+    members: count,
+    atRisk,
+    champions,
+    totalSpend: Math.round(totalSpend),
+    avgSpend: count ? Math.round(totalSpend / count) : 0,
+  };
+}
 
 function KPICard({ label, value, sub, icon: Icon }: { label: string; value: string; sub?: string; icon: LucideIcon }) {
   return (
@@ -69,21 +51,24 @@ function KPICard({ label, value, sub, icon: Icon }: { label: string; value: stri
 }
 
 export default function KPICards() {
-  const { data } = useApp();
-  const summary = useMemo(() => (data ? computeSummary(data.members) : null), [data]);
+  const { data, dashboardChannel } = useApp();
+  const summary = useMemo(
+    () => (data ? computeScoped(data.members, dashboardChannel) : null),
+    [data, dashboardChannel]
+  );
   if (!data || !summary) return null;
+
+  const scopeLabel = dashboardChannel === 'all' ? 'Across Golf, Retail, F&B' : `${CHANNEL_LABELS[dashboardChannel]} channel`;
+  const membersLabel = dashboardChannel === 'all' ? 'Total Members' : 'Active Members';
+  const membersSub = dashboardChannel === 'all' ? 'Unified D360 profiles' : `Active in ${CHANNEL_LABELS[dashboardChannel]}`;
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
-      {KPI_DEFINITIONS.map((kpi) => (
-        <KPICard
-          key={kpi.id}
-          label={kpi.label}
-          value={kpi.getValue(summary)}
-          sub={kpi.getSub?.(summary)}
-          icon={kpi.icon}
-        />
-      ))}
+      <KPICard label={membersLabel} value={formatNumber(summary.members)} sub={membersSub} icon={Users} />
+      <KPICard label="Members At Risk" value={formatNumber(summary.atRisk)} sub="Big Spender at Risk" icon={AlertTriangle} />
+      <KPICard label="Champions" value={formatNumber(summary.champions)} sub="Highest engagement tier" icon={Trophy} />
+      <KPICard label="Total Spend" value={formatCompactCurrency(summary.totalSpend)} sub={scopeLabel} icon={Wallet} />
+      <KPICard label="Avg. Spend / Member" value={formatCompactCurrency(summary.avgSpend)} sub="Spend / active member" icon={TrendingUp} />
     </div>
   );
 }

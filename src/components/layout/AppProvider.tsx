@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
-import { AppContext, defaultFilters, type FilterState, type ViewMode } from '@/lib/store';
+import { AppContext, defaultFilters, type FilterState, type ViewMode, type DashboardChannel } from '@/lib/store';
 import type { MemberData, Member } from '@/types';
 import type { TransactionData } from '@/types/transactions';
 import { loadDashboardState, saveDashboardState } from '@/lib/uiState';
@@ -22,6 +22,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
   const [agentEnabled, setAgentEnabled] = useState(true);
   const restored = loadDashboardState();
   const [view, setViewState] = useState<ViewMode>(restored?.view || 'dashboard');
+  const [dashboardChannel, setDashboardChannel] = useState<DashboardChannel>('all');
   const [filters, setFilters] = useState<FilterState>(restored?.filters || defaultFilters);
   const tableAnchorRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();
@@ -131,6 +132,8 @@ export default function AppProvider({ children }: { children: ReactNode }) {
         refreshAgentConfig,
         view,
         setView,
+        dashboardChannel,
+        setDashboardChannel,
         filters,
         setFilters,
         scrollToTable,

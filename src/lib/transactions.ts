@@ -11,18 +11,17 @@ export async function getTransactionData(): Promise<TransactionData> {
   return cachedTransactions!;
 }
 
-// The datagraph's per-channel member.spend figures were generated with an
-// inconsistent tax convention upstream: golf and food are pre-tax
-// (subtotal), retail is tax-inclusive (total_amount) — verified across
-// every member/channel combination in the dataset (0 exceptions). Matching
-// it exactly here is what makes every new figure tie back to the
-// datagraph to the cent, per the reconciliation requirement.
+// Agreed tax basis so every figure ties to the datagraph to the cent:
+// Food = pre-tax (subtotal), Retail & Golf = tax-inclusive (total_amount).
+// Golf transactions carry zero tax in this dataset, so its subtotal and
+// total are identical — verified across every member/channel combination
+// (0 exceptions).
 export function getHeaderEffectiveAmount(h: TransactionHeader): number {
-  return h.channel === 'retail' ? h.total_amount : h.subtotal;
+  return h.channel === 'food' ? h.subtotal : h.total_amount;
 }
 
 export function getItemEffectiveAmount(it: TransactionItem): number {
-  return it.channel === 'retail' ? it.line_amount + it.line_tax : it.line_amount;
+  return it.channel === 'food' ? it.line_amount : it.line_amount + it.line_tax;
 }
 
 export interface ActivityRow {
@@ -224,4 +223,347 @@ export function computeGolfAttachRate(headers: TransactionHeader[]): AttachRateR
     attachedVisits,
     attachRate: totalGolfVisits ? Math.round((attachedVisits / totalGolfVisits) * 100) : 0,
   };
+}
+
+// ---- Dashboard channel scoping ----------------------------------------
+// 'all' | ChannelName drives every widget on the main dashboard at once.
+import type { DashboardChannel } from '@/lib/store';
+import { CHANNEL_SEGMENT_FIELD } from '@/types';
+
+export function scopeHeaders(headers: TransactionHeader[], ch: DashboardChannel): TransactionHeader[] {
+  return ch === 'all' ? headers : headers.filter((h) => h.channel === ch);
+}
+
+export function scopeItems(items: TransactionItem[], ch: DashboardChannel): TransactionItem[] {
+  return ch === 'all' ? items : items.filter((it) => it.channel === ch);
+}
+
+export function memberActiveIn(m: Member, ch: DashboardChannel): boolean {
+  if (ch === 'all') return true;
+  return hasChannelData(m, ch);
+}
+
+export function memberSpendFor(m: Member, ch: DashboardChannel): number {
+  return ch === 'all' ? m.total_spend : m[ch].spend;
+}
+
+export function memberSegmentFor(m: Member, ch: DashboardChannel): string {
+  return ch === 'all' ? m.general_segment : (m[CHANNEL_SEGMENT_FIELD[ch]] as string);
+}
+
+// ---- Segment revenue concentration (the "recoverable revenue" widget) --
+
+export const AT_RISK_SEGMENTS = ['Big Spender at Risk', 'Almost Lost'];
+
+export interface SegmentRevenueRow {
+  segment: string;
+  revenue: number;
+  members: number;
+  atRisk: boolean;
+}
+
+export interface SegmentRevenueResult {
+  rows: SegmentRevenueRow[];
+  totalRevenue: number;
+  recoverableRevenue: number;
+  recoverableMembers: number;
+}
+
+export function computeSegmentRevenue(members: Member[], ch: DashboardChannel): SegmentRevenueResult {
+  const bySegment = new Map<string, { revenue: number; members: number }>();
+  let totalRevenue = 0;
+
+  for (const m of members) {
+    if (!memberActiveIn(m, ch)) continue;
+    const segment = memberSegmentFor(m, ch);
+    if (!segment || segment === 'No Data') continue;
+    const spend = memberSpendFor(m, ch);
+    if (!bySegment.has(segment)) bySegment.set(segment, { revenue: 0, members: 0 });
+    const b = bySegment.get(segment)!;
+    b.revenue += spend;
+    b.members++;
+    totalRevenue += spend;
+  }
+
+  const rows = [...bySegment.entries()]
+    .map(([segment, b]) => ({
+      segment,
+      revenue: Math.round(b.revenue),
+      members: b.members,
+      atRisk: AT_RISK_SEGMENTS.includes(segment),
+    }))
+    .sort((a, b) => b.revenue - a.revenue);
+
+  const recoverable = rows.filter((r) => r.atRisk);
+  return {
+    rows,
+    totalRevenue: Math.round(totalRevenue),
+    recoverableRevenue: recoverable.reduce((s, r) => s + r.revenue, 0),
+    recoverableMembers: recoverable.reduce((s, r) => s + r.members, 0),
+  };
+}
+
+// ---- RFM scatter (visits vs spend, real transaction counts) ------------
+
+export interface ScatterPoint {
+  name: string;
+  visits: number;
+  spend: number;
+  segment: string;
+}
+
+export function computeRfmScatter(
+  members: Member[],
+  headers: TransactionHeader[],
+  ch: DashboardChannel
+): ScatterPoint[] {
+  const visitCounts = new Map<string, number>();
+  for (const h of scopeHeaders(headers, ch)) {
+    visitCounts.set(h.unified_id, (visitCounts.get(h.unified_id) ?? 0) + 1);
+  }
+
+  const points: ScatterPoint[] = [];
+  for (const m of members) {
+    if (!memberActiveIn(m, ch)) continue;
+    const segment = memberSegmentFor(m, ch);
+    if (!segment || segment === 'No Data') continue;
+    const visits = visitCounts.get(m.id) ?? 0;
+    const spend = Math.round(memberSpendFor(m, ch));
+    if (visits === 0 && spend === 0) continue;
+    points.push({ name: m.name || m.id, visits, spend, segment });
+  }
+  return points;
+}
+
+// ---- Cross-shop overlaps (the bundling story, made visual) -------------
+
+export interface CrossShopOverlap {
+  label: string;
+  members: number;
+  avgSpend: number;
+}
+
+export interface CrossShopResult {
+  overlaps: CrossShopOverlap[];
+  sameDayVisits: number; // distinct member-days with 2+ channels transacted
+  activeInScope: number;
+}
+
+export function computeCrossShop(
+  members: Member[],
+  headers: TransactionHeader[],
+  ch: DashboardChannel,
+  channelLabels: Record<ChannelName, string>
+): CrossShopResult {
+  const channels: ChannelName[] = ['golf', 'retail', 'food'];
+  const active = (m: Member, c: ChannelName) => hasChannelData(m, c);
+
+  function overlapRow(label: string, predicate: (m: Member) => boolean): CrossShopOverlap {
+    const group = members.filter(predicate);
+    const spend = group.reduce((s, m) => s + m.total_spend, 0);
+    return { label, members: group.length, avgSpend: group.length ? spend / group.length : 0 };
+  }
+
+  let overlaps: CrossShopOverlap[];
+  if (ch === 'all') {
+    overlaps = [
+      overlapRow(`${channelLabels.golf} + ${channelLabels.retail}`, (m) => active(m, 'golf') && active(m, 'retail')),
+      overlapRow(`${channelLabels.golf} + ${channelLabels.food}`, (m) => active(m, 'golf') && active(m, 'food')),
+      overlapRow(`${channelLabels.retail} + ${channelLabels.food}`, (m) => active(m, 'retail') && active(m, 'food')),
+      overlapRow('All three channels', (m) => channels.every((c) => active(m, c))),
+    ];
+  } else {
+    const others = channels.filter((c) => c !== ch);
+    overlaps = [
+      ...others.map((o) =>
+        overlapRow(`${channelLabels[ch]} + ${channelLabels[o]}`, (m) => active(m, ch) && active(m, o))
+      ),
+      overlapRow(`${channelLabels[ch]} only`, (m) => active(m, ch) && others.every((o) => !active(m, o))),
+    ];
+  }
+
+  // Distinct member-days where the member transacted in 2+ channels.
+  const dayChannels = new Map<string, Set<ChannelName>>();
+  for (const h of headers) {
+    if (ch !== 'all' && h.channel !== ch) {
+      // In scoped mode still count cross-shop days that involve the scoped
+      // channel — so only skip days that never touch it (handled below).
+    }
+    const key = `${h.unified_id}|${h.date}`;
+    if (!dayChannels.has(key)) dayChannels.set(key, new Set());
+    dayChannels.get(key)!.add(h.channel);
+  }
+  let sameDayVisits = 0;
+  for (const set of dayChannels.values()) {
+    if (set.size >= 2 && (ch === 'all' || set.has(ch))) sameDayVisits++;
+  }
+
+  const activeInScope = ch === 'all' ? members.length : members.filter((m) => active(m, ch)).length;
+  return { overlaps, sameDayVisits, activeInScope };
+}
+
+// ---- Cross-channel value, scoped variant --------------------------------
+
+export interface ScopedValueBucket {
+  label: string;
+  count: number;
+  avgSpend: number;
+}
+
+// In 'all' mode: 1/2/3-channel buckets. Scoped: members of that channel,
+// split by how many channels they're in overall — same "more channels =
+// more value" story, anchored on the selected channel.
+export function computeCrossChannelValueScoped(members: Member[], ch: DashboardChannel): ScopedValueBucket[] {
+  const channels: ChannelName[] = ['golf', 'retail', 'food'];
+  const countChannels = (m: Member) => channels.filter((c) => hasChannelData(m, c)).length;
+
+  const pool = ch === 'all' ? members : members.filter((m) => hasChannelData(m, ch));
+  // Short labels — long tick labels get skipped by the axis auto-interval.
+  const labels = ch === 'all'
+    ? { 1: '1 Channel', 2: '2 Channels', 3: '3 Channels' }
+    : { 1: 'This only', 2: '+1 channel', 3: 'All 3' };
+
+  const buckets: Record<1 | 2 | 3, { count: number; spend: number }> = {
+    1: { count: 0, spend: 0 }, 2: { count: 0, spend: 0 }, 3: { count: 0, spend: 0 },
+  };
+  for (const m of pool) {
+    const n = countChannels(m);
+    if (n < 1 || n > 3) continue;
+    buckets[n as 1 | 2 | 3].count++;
+    buckets[n as 1 | 2 | 3].spend += m.total_spend;
+  }
+  return ([1, 2, 3] as const).map((n) => ({
+    label: labels[n],
+    count: buckets[n].count,
+    avgSpend: buckets[n].count ? buckets[n].spend / buckets[n].count : 0,
+  }));
+}
+
+// ---- Repeat-item loyalty (bought 3+ times by the same member) -----------
+
+export interface RepeatItemStats {
+  pairCount: number;       // member×item combinations with 3+ purchases
+  memberCount: number;     // distinct members with at least one such item
+  topItems: { name: string; members: number; purchases: number }[];
+}
+
+export function computeRepeatItemLoyalty(items: TransactionItem[], minRepeats = 3): RepeatItemStats {
+  // Count distinct transactions per member×item (quantity within one
+  // check/basket isn't a repeat purchase).
+  const txnsPerPair = new Map<string, Set<string>>();
+  for (const it of items) {
+    const key = `${it.unified_id}|${it.item_name}`;
+    if (!txnsPerPair.has(key)) txnsPerPair.set(key, new Set());
+    txnsPerPair.get(key)!.add(it.transaction_id);
+  }
+
+  const repeatMembers = new Set<string>();
+  const byItem = new Map<string, { members: number; purchases: number }>();
+  let pairCount = 0;
+  for (const [key, txns] of txnsPerPair) {
+    if (txns.size < minRepeats) continue;
+    pairCount++;
+    const [memberId, itemName] = [key.slice(0, key.indexOf('|')), key.slice(key.indexOf('|') + 1)];
+    repeatMembers.add(memberId);
+    if (!byItem.has(itemName)) byItem.set(itemName, { members: 0, purchases: 0 });
+    const b = byItem.get(itemName)!;
+    b.members++;
+    b.purchases += txns.size;
+  }
+
+  const topItems = [...byItem.entries()]
+    .map(([name, b]) => ({ name, ...b }))
+    .sort((a, b) => b.members - a.members || b.purchases - a.purchases)
+    .slice(0, 3);
+
+  return { pairCount, memberCount: repeatMembers.size, topItems };
+}
+
+// ---- Golf-day basket (what golfers buy alongside a round) ---------------
+
+export interface GolfDayBasket {
+  attachRevenue: number;
+  attachChecks: number;
+  topItems: { name: string; revenue: number; count: number }[];
+  topOutlets: { outlet: string; checks: number; revenue: number }[];
+}
+
+export function computeGolfDayBasket(headers: TransactionHeader[], items: TransactionItem[]): GolfDayBasket {
+  // Set of member-days that include a golf round.
+  const golfDays = new Set<string>();
+  for (const h of headers) {
+    if (h.channel === 'golf') golfDays.add(`${h.unified_id}|${h.date}`);
+  }
+
+  // Non-golf transactions on those same days = the attached basket.
+  const attachedTxnIds = new Set<string>();
+  let attachRevenue = 0;
+  const byOutlet = new Map<string, { checks: number; revenue: number }>();
+  for (const h of headers) {
+    if (h.channel === 'golf') continue;
+    if (!golfDays.has(`${h.unified_id}|${h.date}`)) continue;
+    attachedTxnIds.add(h.transaction_id);
+    const amount = getHeaderEffectiveAmount(h);
+    attachRevenue += amount;
+    if (!byOutlet.has(h.outlet)) byOutlet.set(h.outlet, { checks: 0, revenue: 0 });
+    const o = byOutlet.get(h.outlet)!;
+    o.checks++;
+    o.revenue += amount;
+  }
+
+  const byItem = new Map<string, { revenue: number; count: number }>();
+  for (const it of items) {
+    if (!attachedTxnIds.has(it.transaction_id)) continue;
+    if (!byItem.has(it.item_name)) byItem.set(it.item_name, { revenue: 0, count: 0 });
+    const b = byItem.get(it.item_name)!;
+    b.revenue += getItemEffectiveAmount(it);
+    b.count++;
+  }
+
+  return {
+    attachRevenue: Math.round(attachRevenue),
+    attachChecks: attachedTxnIds.size,
+    topItems: [...byItem.entries()]
+      .map(([name, b]) => ({ name, revenue: Math.round(b.revenue), count: b.count }))
+      .sort((a, b) => b.revenue - a.revenue)
+      .slice(0, 3),
+    topOutlets: [...byOutlet.entries()]
+      .map(([outlet, o]) => ({ outlet, checks: o.checks, revenue: Math.round(o.revenue) }))
+      .sort((a, b) => b.revenue - a.revenue)
+      .slice(0, 3),
+  };
+}
+
+// ---- Recency cliff (high-value members going quiet) ----------------------
+
+export interface RecencyCliffMember {
+  id: string;
+  name: string;
+  totalSpend: number;
+  daysSinceLastVisit: number;
+}
+
+export function computeRecencyCliff(
+  members: Member[],
+  headers: TransactionHeader[],
+  asOfDate: string,
+  minSpend = 10_000,
+  minDays = 60
+): RecencyCliffMember[] {
+  const lastVisitByMember = new Map<string, string>();
+  for (const h of headers) {
+    const current = lastVisitByMember.get(h.unified_id);
+    if (!current || h.date > current) lastVisitByMember.set(h.unified_id, h.date);
+  }
+
+  const result: RecencyCliffMember[] = [];
+  for (const m of members) {
+    if (m.total_spend < minSpend) continue;
+    const lastVisit = lastVisitByMember.get(m.id);
+    if (!lastVisit) continue;
+    const days = daysBetween(lastVisit, asOfDate);
+    if (days < minDays) continue;
+    result.push({ id: m.id, name: m.name, totalSpend: m.total_spend, daysSinceLastVisit: days });
+  }
+  return result.sort((a, b) => b.totalSpend - a.totalSpend);
 }
