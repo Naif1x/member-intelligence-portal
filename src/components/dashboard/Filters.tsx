@@ -68,7 +68,7 @@ export default function Filters() {
         <Input
           type="text"
           placeholder="Search by name, email, or ID..."
-          aria-label="Search members"
+          aria-label="Search customers"
           value={filters.search}
           onChange={(e) => update({ search: e.target.value })}
           className="flex-1 min-w-[200px]"
@@ -204,7 +204,7 @@ export default function Filters() {
                 onChange={(e) => update({ buyingOnly: e.target.checked })}
                 className="accent-cyan-500"
               />
-              Buying Members Only
+              Buying Customers Only
             </label>
           </div>
         </div>

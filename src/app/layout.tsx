@@ -4,8 +4,8 @@ import AppProvider from '@/components/layout/AppProvider';
 import AgentforceModal from '@/components/chat/AgentforceModal';
 
 export const metadata: Metadata = {
-  title: 'Member D360 | Intelligence Platform',
-  description: 'Salesforce Data Cloud 360 — Member Intelligence Platform',
+  title: 'Customer D360 | Intelligence Platform',
+  description: 'Salesforce Data Cloud 360 — Customer Intelligence Platform',
 };
 
 export default function RootLayout({

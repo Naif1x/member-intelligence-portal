@@ -43,7 +43,7 @@ export default function FilterBreadcrumb() {
     chips.push({ key: 'risk', label: 'At-risk only', clear: () => setFilters({ ...filters, riskOnly: false }) });
   }
   if (filters.buyingOnly) {
-    chips.push({ key: 'buying', label: 'Buying members only', clear: () => setFilters({ ...filters, buyingOnly: false }) });
+    chips.push({ key: 'buying', label: 'Buying customers only', clear: () => setFilters({ ...filters, buyingOnly: false }) });
   }
   if (filters.search) {
     chips.push({ key: 'search', label: `"${filters.search}"`, clear: () => setFilters({ ...filters, search: '' }) });

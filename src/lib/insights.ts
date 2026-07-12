@@ -22,7 +22,7 @@ export interface BusinessInsight {
   actionPrompt: string;
 }
 
-// Portfolio-level context insights. Everything traces to raw member fields —
+// Portfolio-level context insights. Everything traces to raw customer fields —
 // nothing hardcoded or illustrative.
 export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
   const { members } = data;
@@ -40,9 +40,9 @@ export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
       icon: 'trophy',
       tone: 'opportunity',
       stat: `${pct}%`,
-      text: `of total revenue comes from your ${championMembers.length} Champion members. Recognize them with a personalized appreciation campaign to protect this core revenue.`,
+      text: `of total revenue comes from your ${championMembers.length} Champion customers. Recognize them with a personalized appreciation campaign to protect this core revenue.`,
       actionLabel: 'Send Appreciation Campaign',
-      actionPrompt: `Draft a personalized appreciation campaign for our ${championMembers.length} Champion members, who together generate ${pct}% of total revenue (${formatCurrency(championSpend)}).`,
+      actionPrompt: `Draft a personalized appreciation campaign for our ${championMembers.length} Champion customers, who together generate ${pct}% of total revenue (${formatCurrency(championSpend)}).`,
     });
   }
 
@@ -56,9 +56,9 @@ export function computeBusinessInsights(data: MemberData): BusinessInsight[] {
       icon: 'shield',
       tone: 'opportunity',
       stat: `${pct}%`,
-      text: `of total revenue (${formatCurrency(top10Spend)}) comes from just your top ${top10.length} members. Protect this concentrated value with proactive VIP retention.`,
+      text: `of total revenue (${formatCurrency(top10Spend)}) comes from just your top ${top10.length} customers. Protect this concentrated value with proactive VIP retention.`,
       actionLabel: 'Draft VIP Retention Plan',
-      actionPrompt: `Draft a VIP retention plan for our top ${top10.length} members by spend, who together represent ${pct}% of total revenue (${formatCurrency(top10Spend)}).`,
+      actionPrompt: `Draft a VIP retention plan for our top ${top10.length} customers by spend, who together represent ${pct}% of total revenue (${formatCurrency(top10Spend)}).`,
     });
   }
 
@@ -81,13 +81,13 @@ export function computeTransactionInsights(data: MemberData, transactions: Trans
       icon: 'siren',
       tone: 'risk',
       stat: `${atRisk.length}`,
-      text: `Big Spender at Risk members worth ${formatCurrency(totalAtRiskSpend)} combined, verified against real visit history. Immediate win-back outreach recommended.`,
+      text: `Big Spender at Risk customers worth ${formatCurrency(totalAtRiskSpend)} combined, verified against real visit history. Immediate win-back outreach recommended.`,
       actionLabel: 'Launch Win-Back Campaign',
-      actionPrompt: `Draft a win-back campaign for our top at-risk members by spend: ${atRisk.slice(0, 5).map((m) => `${m.name} (${formatCurrency(m.totalSpend)}, ${m.daysSinceLastVisit ?? 'unknown'} days since last visit)`).join('; ')}. Total exposure: ${formatCurrency(totalAtRiskSpend)}.`,
+      actionPrompt: `Draft a win-back campaign for our top at-risk customers by spend: ${atRisk.slice(0, 5).map((m) => `${m.name} (${formatCurrency(m.totalSpend)}, ${m.daysSinceLastVisit ?? 'unknown'} days since last visit)`).join('; ')}. Total exposure: ${formatCurrency(totalAtRiskSpend)}.`,
     });
   }
 
-  // 2. Recency cliff — high-value members whose silence just crossed the line
+  // 2. Recency cliff — high-value customers whose silence just crossed the line
   const cliff = computeRecencyCliff(data.members, transactions.headers, asOfDate, 10_000, 60);
   if (cliff.length > 0) {
     const cliffSpend = cliff.reduce((s, m) => s + m.totalSpend, 0);
@@ -96,9 +96,9 @@ export function computeTransactionInsights(data: MemberData, transactions: Trans
       icon: 'clock',
       tone: 'risk',
       stat: `${cliff.length}`,
-      text: `members with SAR 10K+ lifetime spend haven't visited in 60+ days — ${formatCurrency(cliffSpend)} quietly walking out the door. Trigger win-back at day 45, before the cliff.`,
+      text: `customers with SAR 10K+ lifetime spend haven't visited in 60+ days — ${formatCurrency(cliffSpend)} quietly walking out the door. Trigger win-back at day 45, before the cliff.`,
       actionLabel: 'Set 45-Day Win-Back Trigger',
-      actionPrompt: `Design an automated win-back trigger that fires when a SAR 10K+ member goes 45 days without a visit. Current backlog crossing 60 days: ${cliff.slice(0, 5).map((m) => `${m.name} (${formatCurrency(m.totalSpend)}, ${m.daysSinceLastVisit} days)`).join('; ')}. Combined value ${formatCurrency(cliffSpend)}.`,
+      actionPrompt: `Design an automated win-back trigger that fires when a SAR 10K+ customer goes 45 days without a visit. Current backlog crossing 60 days: ${cliff.slice(0, 5).map((m) => `${m.name} (${formatCurrency(m.totalSpend)}, ${m.daysSinceLastVisit} days)`).join('; ')}. Combined value ${formatCurrency(cliffSpend)}.`,
     });
   }
 
@@ -112,9 +112,9 @@ export function computeTransactionInsights(data: MemberData, transactions: Trans
       icon: 'target',
       tone: 'opportunity',
       stat: `${crossSell.length}`,
-      text: `members are proven spenders in one channel (${formatCurrency(provenSpend)} combined) with zero footprint in another — a ready-made cross-sell target list. Prioritize by spend.`,
+      text: `customers are proven spenders in one channel (${formatCurrency(provenSpend)} combined) with zero footprint in another — a ready-made cross-sell target list. Prioritize by spend.`,
       actionLabel: 'Draft Cross-Sell Outreach',
-      actionPrompt: `Draft a cross-sell outreach plan for these members, each strong in one channel but inactive in another: ${top.map((t) => `${t.name} — ${CHANNEL_LABELS[t.strongChannel]} spend ${formatCurrency(t.strongSpend)}, no ${t.missingChannels.map((c) => CHANNEL_LABELS[c]).join('/')} activity`).join('; ')}.`,
+      actionPrompt: `Draft a cross-sell outreach plan for these customers, each strong in one channel but inactive in another: ${top.map((t) => `${t.name} — ${CHANNEL_LABELS[t.strongChannel]} spend ${formatCurrency(t.strongSpend)}, no ${t.missingChannels.map((c) => CHANNEL_LABELS[c]).join('/')} activity`).join('; ')}.`,
     });
   }
 
@@ -152,16 +152,16 @@ export function computeTransactionInsights(data: MemberData, transactions: Trans
   // 6. Repeat-item loyalty — the auto-replenish / subscription hook
   const repeats = computeRepeatItemLoyalty(transactions.items, 3);
   if (repeats.memberCount > 0) {
-    const tops = repeats.topItems.map((t) => `${t.name} (${t.members} members, ${t.purchases} purchases)`).join('; ');
+    const tops = repeats.topItems.map((t) => `${t.name} (${t.members} customers, ${t.purchases} purchases)`).join('; ');
     const topHabit = repeats.topItems[0];
     insights.push({
       id: 'repeat-item-loyalty',
       icon: 'repeat',
       tone: 'opportunity',
       stat: `${repeats.memberCount}`,
-      text: `members bought the same item 3+ times (${repeats.pairCount} repeat habits), led by ${topHabit.name} (${topHabit.members} members). A built-in auto-replenish or "member favorite" offer.`,
+      text: `customers bought the same item 3+ times (${repeats.pairCount} repeat habits), led by ${topHabit.name} (${topHabit.members} customers). A built-in auto-replenish or "customer favorite" offer.`,
       actionLabel: 'Design Replenish Offer',
-      actionPrompt: `${repeats.memberCount} members have repeat-purchase habits (${repeats.pairCount} member-item pairs bought 3+ times). Top habits: ${tops}. Design an auto-replenish / favorites subscription offer around these items.`,
+      actionPrompt: `${repeats.memberCount} customers have repeat-purchase habits (${repeats.pairCount} customer-item pairs bought 3+ times). Top habits: ${tops}. Design an auto-replenish / favorites subscription offer around these items.`,
     });
   }
 

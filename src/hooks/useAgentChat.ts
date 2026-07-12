@@ -28,7 +28,7 @@ export function useAgentChat() {
   const send = useCallback(
     // apiText, when provided, is what's actually sent to Salesforce, while
     // `text` is what renders in the chat bubble — lets a caller attach
-    // invisible context (e.g. which member profile is in view) without it
+    // invisible context (e.g. which customer profile is in view) without it
     // cluttering the visible conversation.
     async (text: string, apiText?: string) => {
       const trimmed = text.trim();

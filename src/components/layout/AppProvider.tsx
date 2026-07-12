@@ -89,7 +89,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
     setChatOpen(true);
   }
 
-  // The member-insights panel and the portfolio-wide insights panel share
+  // The customer-insights panel and the portfolio-wide insights panel share
   // the same dock, so opening one closes the other.
   function setBusinessInsightsOpen(v: boolean) {
     setBusinessInsightsOpenState(v);

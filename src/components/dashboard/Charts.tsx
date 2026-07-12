@@ -52,7 +52,7 @@ function makeChartTooltip(valueFormatter: (v: number) => string, showLabel = tru
 }
 
 const CurrencyTooltip = makeChartTooltip(formatCompactCurrency);
-const MembersTooltip = makeChartTooltip((v) => `${v} members`);
+const MembersTooltip = makeChartTooltip((v) => `${v} customers`);
 
 // Tremor's Legend truncates long labels ("Big Spe..."); this one wraps instead.
 function WrappingLegend({ items }: { items: { name: string }[] }) {
@@ -127,7 +127,7 @@ export function DashboardChannelFilter() {
 }
 
 // Charts are display-only — hover for detail via tooltip, no click-to-filter
-// or click-to-navigate. Segmenting/filtering happens on the Members page.
+// or click-to-navigate. Segmenting/filtering happens on the Customers page.
 export function SegmentDonut() {
   const { data } = useApp();
   const [tabIndex, setTabIndex] = useState(0);
@@ -151,7 +151,7 @@ export function SegmentDonut() {
         category="value"
         index="name"
         colors={colors}
-        valueFormatter={(v) => `${v} members`}
+        valueFormatter={(v) => `${v} customers`}
         customTooltip={MembersTooltip}
       />
       <WrappingLegend items={chartData} />
@@ -159,7 +159,7 @@ export function SegmentDonut() {
   );
 }
 
-// ---- Cross-channel member value ------------------------------------------
+// ---- Cross-channel customer value ------------------------------------------
 
 export function CrossChannelValueChart() {
   const { data, dashboardChannel } = useApp();
@@ -169,29 +169,29 @@ export function CrossChannelValueChart() {
   );
   if (!data || !buckets) return null;
 
-  const chartData = buckets.map((b) => ({ name: b.label, Members: b.count }));
+  const chartData = buckets.map((b) => ({ name: b.label, Customers: b.count }));
   const single = buckets[0];
   const tri = buckets[2];
   const multiplier = single.avgSpend > 0 ? tri.avgSpend / single.avgSpend : 0;
 
   return (
     <Card>
-      <Title>Cross-Channel Member Value</Title>
+      <Title>Cross-Channel Customer Value</Title>
       <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>
-        {dashboardChannel === 'all' ? 'Members active in 1, 2, or 3 channels' : `${CHANNEL_LABELS[dashboardChannel]} members, by how many channels they use`}
+        {dashboardChannel === 'all' ? 'Customers active in 1, 2, or 3 channels' : `${CHANNEL_LABELS[dashboardChannel]} customers, by how many channels they use`}
       </p>
 
       <div className="mt-3 mb-4 p-3 rounded-lg text-sm leading-relaxed" style={{ background: 'var(--sf-hover)', color: 'var(--sf-text)' }}>
         {tri.count > 0 && single.count > 0 ? (
           <>
-            Members in all 3 channels average{' '}
+            Customers in all 3 channels average{' '}
             <strong style={{ color: 'var(--sf-accent-dark)' }}>{formatCompactCurrency(tri.avgSpend)}</strong> in spend —{' '}
             <strong style={{ color: 'var(--sf-accent-dark)' }}>{multiplier.toFixed(1)}×</strong>{' '}
-            {dashboardChannel === 'all' ? 'single-channel members' : `${CHANNEL_LABELS[dashboardChannel]}-only members`}{' '}
-            ({formatCompactCurrency(single.avgSpend)}, {single.count} members).
+            {dashboardChannel === 'all' ? 'single-channel customers' : `${CHANNEL_LABELS[dashboardChannel]}-only customers`}{' '}
+            ({formatCompactCurrency(single.avgSpend)}, {single.count} customers).
           </>
         ) : (
-          <>Every additional channel a member uses multiplies their lifetime value.</>
+          <>Every additional channel a customer uses multiplies their lifetime value.</>
         )}
       </div>
 
@@ -199,7 +199,7 @@ export function CrossChannelValueChart() {
         className="h-48"
         data={chartData}
         index="name"
-        categories={['Members']}
+        categories={['Customers']}
         colors={['cyan']}
         showLegend={false}
         customTooltip={MembersTooltip}
@@ -230,7 +230,7 @@ export function AtRiskRevenueWidget() {
 
       <div className="mt-3 mb-4 p-3 rounded-lg text-sm leading-relaxed" style={{ background: '#FFF3E0', color: 'var(--sf-text)' }}>
         <strong style={{ color: 'var(--sf-warning)' }}>{formatCompactCurrency(result.recoverableRevenue)} recoverable</strong>{' '}
-        — {recoverablePct}% of revenue sits with {result.recoverableMembers} members in Big Spender at Risk or Almost Lost.
+        — {recoverablePct}% of revenue sits with {result.recoverableMembers} customers in Big Spender at Risk or Almost Lost.
         Protect Champions; win these back first.
       </div>
 
@@ -258,7 +258,7 @@ export function AtRiskRevenueWidget() {
   );
 }
 
-// ---- Member value map (RFM scatter) ---------------------------------------
+// ---- Customer value map (RFM scatter) ---------------------------------------
 
 function ScatterTooltip({ active, payload }: CustomTooltipProps) {
   const point = payload?.[0]?.payload as { name?: string; segment?: string; visits?: number; spend?: number } | undefined;
@@ -295,9 +295,9 @@ export function RfmScatterChart() {
 
   return (
     <Card>
-      <Title>Member Value Map</Title>
+      <Title>Customer Value Map</Title>
       <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>
-        Visits vs spend — every bubble is a member; size = spend, color = segment. Whales top-right, at-risk clusters in amber.
+        Visits vs spend — every bubble is a customer; size = spend, color = segment. Whales top-right, at-risk clusters in amber.
       </p>
       <ScatterChart
         className="mt-4 h-80"
@@ -334,7 +334,7 @@ export function CrossShopWidget() {
     <Card>
       <Title>Cross-Channel Cross-Shop</Title>
       <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>
-        How members overlap across Golf, Retail, and F&B — the bundling opportunity
+        How customers overlap across Golf, Retail, and F&B — the bundling opportunity
       </p>
 
       <div className="mt-3 mb-4 flex flex-wrap gap-2">
@@ -344,7 +344,7 @@ export function CrossShopWidget() {
         </span>
         <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg" style={{ background: 'var(--sf-surface)', color: 'var(--sf-text-secondary)' }}>
           <Users size={13} strokeWidth={2} />
-          {result.activeInScope} members in scope
+          {result.activeInScope} customers in scope
         </span>
       </div>
 
@@ -372,7 +372,7 @@ export function CrossShopWidget() {
 // ---- Top items --------------------------------------------------------------
 
 // Truncates on a word boundary instead of mid-word, and only when the name
-// actually overflows the axis label column — most member names (~20 chars)
+// actually overflows the axis label column — most customer names (~20 chars)
 // fit as-is.
 function truncateName(name: string, max = 22): string {
   if (name.length <= max) return name;
@@ -414,7 +414,7 @@ export function TopItemsChart() {
   );
 }
 
-// ---- Top members -------------------------------------------------------------
+// ---- Top customers -------------------------------------------------------------
 
 export function TopMembersBySpend() {
   const { data, dashboardChannel } = useApp();
@@ -435,7 +435,7 @@ export function TopMembersBySpend() {
 
   return (
     <Card>
-      <Title>Top Members by Spend</Title>
+      <Title>Top Customers by Spend</Title>
       <p className="text-xs mt-0.5" style={{ color: 'var(--sf-text-secondary)' }}>
         {dashboardChannel === 'all' ? 'Lifetime spend across all channels' : `${CHANNEL_LABELS[dashboardChannel]} spend`} — hover a bar for details
       </p>

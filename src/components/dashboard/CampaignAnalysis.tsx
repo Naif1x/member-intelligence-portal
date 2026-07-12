@@ -36,7 +36,7 @@ export default function CampaignAnalysis() {
       <Card.Header className="flex flex-col items-start gap-0.5 pb-0">
         <Card.Title className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>Action Center</Card.Title>
         <Card.Description className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
-          Recommended next action per segment — spend, member counts, and one-click Agentforce handoff
+          Recommended next action per segment — spend, customer counts, and one-click Agentforce handoff
         </Card.Description>
       </Card.Header>
       <Card.Content>
@@ -45,7 +45,7 @@ export default function CampaignAnalysis() {
             <Table.Content aria-label="Campaign analysis by segment">
               <Table.Header>
                 <Table.Column isRowHeader>Segment</Table.Column>
-                <Table.Column>Members</Table.Column>
+                <Table.Column>Customers</Table.Column>
                 <Table.Column>Total Spend</Table.Column>
                 <Table.Column>Avg. Spend</Table.Column>
                 <Table.Column>Recommended Action</Table.Column>
@@ -75,12 +75,12 @@ export default function CampaignAnalysis() {
                           }}
                           style={{ color: 'var(--sf-accent-dark)' }}
                         >
-                          View Members
+                          View Customers
                         </Button>
                         <Button
                           size="sm"
                           variant="ghost"
-                          onPress={() => openChatWithContext(`Generate a campaign brief for the "${row.segment}" segment (${row.count} members, ${formatCurrency(row.totalSpend)} total spend).`)}
+                          onPress={() => openChatWithContext(`Generate a campaign brief for the "${row.segment}" segment (${row.count} customers, ${formatCurrency(row.totalSpend)} total spend).`)}
                           style={{ color: 'var(--sf-accent-dark)' }}
                         >
                           Ask Agentforce

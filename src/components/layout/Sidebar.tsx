@@ -6,7 +6,7 @@ import { useApp, type ViewMode } from '@/lib/store';
 
 const NAV_ITEMS: { label: string; icon: LucideIcon; view: ViewMode }[] = [
   { label: 'Main Dashboard', icon: LayoutDashboard, view: 'dashboard' },
-  { label: 'Members', icon: Users, view: 'members' },
+  { label: 'Customers', icon: Users, view: 'members' },
   { label: 'Segments', icon: Target, view: 'segments' },
   { label: 'Action Center', icon: Megaphone, view: 'campaigns' },
   { label: 'Settings', icon: Settings, view: 'settings' },

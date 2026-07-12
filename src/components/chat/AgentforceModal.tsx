@@ -17,11 +17,11 @@ export default function AgentforceModal() {
   const contextSentRef = useRef(false);
   const contextMemberIdRef = useRef<string | null>(null);
 
-  // Prefer the page-level context (e.g. viewing a Member 360 profile) over
-  // the dashboard's row-selected member.
+  // Prefer the page-level context (e.g. viewing a Customer 360 profile) over
+  // the dashboard's row-selected customer.
   const contextMember = chatContextMember ?? selectedMember;
 
-  // A different member coming into view (e.g. navigating to another
+  // A different customer coming into view (e.g. navigating to another
   // profile mid-session) earns its own context injection.
   useEffect(() => {
     const id = contextMember?.id ?? null;
@@ -36,7 +36,7 @@ export default function AgentforceModal() {
   }, [messages, isLoading]);
 
   // Silently prefixes the first message of a session with the in-view
-  // member's details — Agentforce only ever sees message text, not the
+  // customer's details — Agentforce only ever sees message text, not the
   // page the user is on, so without this "tell me about this customer"
   // has nothing to resolve to.
   function sendWithContext(text: string) {
@@ -72,11 +72,11 @@ export default function AgentforceModal() {
 
   const suggestions = contextMember
     ? ['Analyze segment profile', 'Check risk status', 'Recommend next actions', 'Show spending breakdown']
-    : ['Show at-risk members', 'Explain segments', 'What can you do?'];
+    : ['Show at-risk customers', 'Explain segments', 'What can you do?'];
 
   const welcomeText = contextMember
-    ? `I've loaded ${contextMember.name}'s D360 profile. How can I help you with this member?`
-    : 'Welcome to Agentforce D360. I can analyze member profiles, segments, at-risk patterns, and recommend next best actions. How can I help?';
+    ? `I've loaded ${contextMember.name}'s D360 profile. How can I help you with this customer?`
+    : 'Welcome to Agentforce D360. I can analyze customer profiles, segments, at-risk patterns, and recommend next best actions. How can I help?';
 
   return (
     <>

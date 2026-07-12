@@ -110,7 +110,7 @@ function buildInsights(member: Member): Insight[] {
       icon: 'trophy',
       text: `${firstName} is a Champion with ${formatCurrency(member.total_spend)} total spend. Protect this relationship with recognition, not discounting.`,
       actionLabel: 'Draft VIP Recognition',
-      actionPrompt: `Draft a VIP recognition message for ${name}, a Champion-segment member with ${formatCurrency(member.total_spend)} total spend.`,
+      actionPrompt: `Draft a VIP recognition message for ${name}, a Champion-segment customer with ${formatCurrency(member.total_spend)} total spend.`,
     });
   }
 
@@ -167,7 +167,7 @@ export default function RightPanel() {
             </Button>
           </div>
 
-          {/* Member Quick Stats */}
+          {/* Customer Quick Stats */}
           <div className="p-4 overflow-y-auto">
             <Card className="mb-3">
               <Card.Content className="p-3">
@@ -205,7 +205,7 @@ export default function RightPanel() {
                     router.push(`/member/${selectedMember.id}`);
                   }}
                 >
-                  Open Member 360
+                  Open Customer 360
                   <ArrowRight size={14} strokeWidth={2} />
                 </Button>
               </Card.Content>

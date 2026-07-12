@@ -70,8 +70,8 @@ export default function TopNav() {
             value={query}
             onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
             onFocus={() => setOpen(true)}
-            placeholder="Find Member..."
-            aria-label="Find member"
+            placeholder="Find Customer..."
+            aria-label="Find customer"
             fullWidth
             className="pl-9 bg-white/95 focus:bg-white"
           />
@@ -80,7 +80,7 @@ export default function TopNav() {
         {open && query.trim().length >= 2 && (
           <Card className="absolute top-full mt-1 left-0 right-0 overflow-hidden max-h-80 overflow-y-auto z-40 p-0">
             {results.length === 0 ? (
-              <div className="px-4 py-3 text-sm" style={{ color: 'var(--sf-text-secondary)' }}>No members found</div>
+              <div className="px-4 py-3 text-sm" style={{ color: 'var(--sf-text-secondary)' }}>No customers found</div>
             ) : (
               results.map((m) => (
                 <button

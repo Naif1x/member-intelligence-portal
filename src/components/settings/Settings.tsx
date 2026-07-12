@@ -107,7 +107,7 @@ const PLACEHOLDER_TABS: Record<Exclude<SubtabId, 'integration'>, { title: string
   },
   datasources: {
     title: 'Data Sources',
-    description: 'Connected systems feeding the unified member graph',
+    description: 'Connected systems feeding the unified customer graph',
     rows: [
       { label: 'Salesforce Data Cloud (D360)', value: 'Connected · syncs hourly' },
       { label: 'Golf tee-sheet system', value: 'Connected · syncs daily' },
@@ -120,10 +120,10 @@ const PLACEHOLDER_TABS: Record<Exclude<SubtabId, 'integration'>, { title: string
     title: 'Notifications',
     description: 'Alerting rules and delivery channels',
     rows: [
-      { label: 'At-risk member alerts', value: 'Email + in-app · daily digest' },
+      { label: 'At-risk customer alerts', value: 'Email + in-app · daily digest' },
       { label: 'Campaign performance', value: 'Weekly summary' },
       { label: 'Data sync failures', value: 'Immediate · email' },
-      { label: 'New member signups', value: 'In-app only' },
+      { label: 'New customer signups', value: 'In-app only' },
     ],
   },
   billing: {
@@ -132,7 +132,7 @@ const PLACEHOLDER_TABS: Record<Exclude<SubtabId, 'integration'>, { title: string
     rows: [
       { label: 'Plan', value: 'Enterprise' },
       { label: 'Billing cycle', value: 'Annual' },
-      { label: 'Member profiles', value: '160 of 5,000 included' },
+      { label: 'Customer profiles', value: '160 of 5,000 included' },
       { label: 'Next renewal', value: 'January 15, 2027' },
     ],
   },

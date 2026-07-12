@@ -15,8 +15,8 @@ export interface AppState {
   loading: boolean;
   selectedMember: Member | null;
   setSelectedMember: (m: Member | null) => void;
-  // Lightweight, side-effect-free member context for the chat (used by
-  // pages like Member 360 that aren't part of the dashboard's selected-row
+  // Lightweight, side-effect-free customer context for the chat (used by
+  // pages like Customer 360 that aren't part of the dashboard's selected-row
   // flow and shouldn't trigger the right-panel-opening behavior of
   // setSelectedMember).
   chatContextMember: Member | null;

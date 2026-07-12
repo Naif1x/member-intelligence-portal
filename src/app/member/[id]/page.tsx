@@ -149,7 +149,7 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
       food: getMemberChannelActivity(transactions.items, member.id, 'food', asOfDate),
     };
     // Sanity check: activity rows should sum to the datagraph's channel
-    // spend for this member (same reconciliation verified dataset-wide).
+    // spend for this customer (same reconciliation verified dataset-wide).
     if (process.env.NODE_ENV !== 'production') {
       (['golf', 'retail', 'food'] as ChannelName[]).forEach((ch) => {
         const sum = result[ch].reduce((s, r) => s + r.amount, 0);
@@ -173,7 +173,7 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
   if (!member) {
     return (
       <div className="flex flex-col items-center justify-center h-screen gap-4" style={{ background: 'var(--sf-surface)' }}>
-        <div className="text-lg font-bold" style={{ color: 'var(--sf-primary)' }}>Member not found</div>
+        <div className="text-lg font-bold" style={{ color: 'var(--sf-primary)' }}>Customer not found</div>
         <Button onPress={() => router.push('/')} className="text-white" style={{ background: 'var(--sf-accent)' }}>
           Back to Dashboard
         </Button>
@@ -194,7 +194,7 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
           <ArrowLeft size={16} strokeWidth={2} />
           Back to Dashboard
         </Button>
-        <div className="text-white text-sm font-bold">Member 360 Profile</div>
+        <div className="text-white text-sm font-bold">Customer 360 Profile</div>
       </div>
 
       {/* Alert banner */}
@@ -207,7 +207,7 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
           <div>
             <div className="text-sm font-bold" style={{ color: 'var(--sf-warning)' }}>At-Risk Alert</div>
             <div className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
-              Declining engagement detected in {atRiskChannels.length ? atRiskChannels.map(c => CHANNEL_LABEL_MAP[c]).join(', ') : 'this member\'s profile'} — high spend but low recency
+              Declining engagement detected in {atRiskChannels.length ? atRiskChannels.map(c => CHANNEL_LABEL_MAP[c]).join(', ') : 'this customer\'s profile'} — high spend but low recency
             </div>
           </div>
         </div>

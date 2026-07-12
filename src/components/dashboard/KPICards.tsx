@@ -59,16 +59,16 @@ export default function KPICards() {
   if (!data || !summary) return null;
 
   const scopeLabel = dashboardChannel === 'all' ? 'Across Golf, Retail, F&B' : `${CHANNEL_LABELS[dashboardChannel]} channel`;
-  const membersLabel = dashboardChannel === 'all' ? 'Total Members' : 'Active Members';
+  const membersLabel = dashboardChannel === 'all' ? 'Total Customers' : 'Active Customers';
   const membersSub = dashboardChannel === 'all' ? 'Unified D360 profiles' : `Active in ${CHANNEL_LABELS[dashboardChannel]}`;
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
       <KPICard label={membersLabel} value={formatNumber(summary.members)} sub={membersSub} icon={Users} />
-      <KPICard label="Members At Risk" value={formatNumber(summary.atRisk)} sub="Big Spender at Risk" icon={AlertTriangle} />
+      <KPICard label="Customers At Risk" value={formatNumber(summary.atRisk)} sub="Big Spender at Risk" icon={AlertTriangle} />
       <KPICard label="Champions" value={formatNumber(summary.champions)} sub="Highest engagement tier" icon={Trophy} />
       <KPICard label="Total Spend" value={formatCompactCurrency(summary.totalSpend)} sub={scopeLabel} icon={Wallet} />
-      <KPICard label="Avg. Spend / Member" value={formatCompactCurrency(summary.avgSpend)} sub="Spend / active member" icon={TrendingUp} />
+      <KPICard label="Avg. Spend / Customer" value={formatCompactCurrency(summary.avgSpend)} sub="Spend / active customer" icon={TrendingUp} />
     </div>
   );
 }

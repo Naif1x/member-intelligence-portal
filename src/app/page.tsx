@@ -27,7 +27,7 @@ function DashboardContent() {
       <div className="flex-1 flex items-center justify-center" style={{ background: 'var(--sf-surface)' }}>
         <div className="text-center">
           <div className="w-10 h-10 border-3 rounded-full animate-spin mx-auto mb-3" style={{ borderColor: 'var(--sf-border)', borderTopColor: 'var(--sf-accent)' }} />
-          <div className="text-sm" style={{ color: 'var(--sf-text-secondary)' }}>Loading member data...</div>
+          <div className="text-sm" style={{ color: 'var(--sf-text-secondary)' }}>Loading customer data...</div>
         </div>
       </div>
     );
@@ -39,7 +39,7 @@ function DashboardContent() {
       <div className="mb-6 flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 className="text-xl font-bold" style={{ color: 'var(--sf-primary)' }}>
-            Member Intelligence Dashboard
+            Customer Intelligence Dashboard
           </h1>
           <p className="text-sm mt-1" style={{ color: 'var(--sf-text-secondary)' }}>
             Unified D360 view across Golf, Retail, and F&B channels

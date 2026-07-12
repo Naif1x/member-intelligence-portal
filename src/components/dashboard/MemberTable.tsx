@@ -21,7 +21,7 @@ const SORT_FIELDS: Record<string, (m: Member) => number | string> = {
 };
 
 const COLUMNS: { id: string; label: string; sortable: boolean }[] = [
-  { id: 'name', label: 'Member', sortable: true },
+  { id: 'name', label: 'Customer', sortable: true },
   { id: 'golf_segment', label: 'Golf Segment', sortable: true },
   { id: 'retail_segment', label: 'Retail Segment', sortable: true },
   { id: 'food_segment', label: 'Food Segment', sortable: true },
@@ -107,16 +107,16 @@ export default function MemberTable() {
     <div ref={tableAnchorRef} id="members" className="scroll-mt-4">
       <Card>
         <Card.Header className="flex flex-row items-baseline gap-2 pb-0">
-          <Card.Title className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>Member Directory</Card.Title>
+          <Card.Title className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>Customer Directory</Card.Title>
           <span className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
-            Showing {filtered.length === 0 ? 0 : page * PAGE_SIZE + 1}-{Math.min((page + 1) * PAGE_SIZE, filtered.length)} of {filtered.length} members
+            Showing {filtered.length === 0 ? 0 : page * PAGE_SIZE + 1}-{Math.min((page + 1) * PAGE_SIZE, filtered.length)} of {filtered.length} customers
           </span>
         </Card.Header>
         <Card.Content>
           <Table>
             <Table.ScrollContainer className="max-h-[560px] overflow-auto">
               <Table.Content
-                aria-label="Member directory"
+                aria-label="Customer directory"
                 sortDescriptor={sortDescriptor}
                 onSortChange={onSortChange}
                 onRowAction={(key) => {
