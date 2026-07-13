@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Chip, Input, Switch } from '@heroui/react';
 import {
-  Plug, Bot, Eye, EyeOff, CheckCircle2, XCircle, AlertTriangle,
-  User, Users, Bell, CreditCard, Lock, Database, type LucideIcon,
+  Bot, Eye, EyeOff, CheckCircle2, XCircle, AlertTriangle,
+  User, Users, Bell, Lock, Database, type LucideIcon,
 } from 'lucide-react';
 import { useApp } from '@/lib/store';
 
@@ -43,7 +43,7 @@ function maskId(id: string): string {
   return `${id.slice(0, 4)}${'•'.repeat(Math.max(6, id.length - 8))}${id.slice(-4)}`;
 }
 
-type SubtabId = 'account' | 'users' | 'notifications' | 'agentforce' | 'data360' | 'billing';
+type SubtabId = 'account' | 'users' | 'notifications' | 'agentforce' | 'data360';
 
 const SUBTABS: { id: SubtabId; label: string; icon: LucideIcon }[] = [
   { id: 'account', label: 'Account', icon: User },
@@ -51,7 +51,6 @@ const SUBTABS: { id: SubtabId; label: string; icon: LucideIcon }[] = [
   { id: 'notifications', label: 'Notifications', icon: Bell },
   { id: 'agentforce', label: 'Agentforce', icon: Bot },
   { id: 'data360', label: 'Data Cloud 360', icon: Database },
-  { id: 'billing', label: 'Billing', icon: CreditCard },
 ];
 
 // Static informational rows for the placeholder tabs — visual depth only;
@@ -118,29 +117,11 @@ const PLACEHOLDER_TABS: Record<Exclude<SubtabId, 'agentforce' | 'data360'>, { ti
       { label: 'New customer signups', value: 'In-app only' },
     ],
   },
-  billing: {
-    title: 'Billing',
-    description: 'Subscription plan and usage',
-    rows: [
-      { label: 'Plan', value: 'Enterprise' },
-      { label: 'Billing cycle', value: 'Annual' },
-      { label: 'Customer profiles', value: '160 of 5,000 included' },
-      { label: 'Next renewal', value: 'January 15, 2027' },
-    ],
-  },
 };
 
 // A demo Salesforce Org ID (18-char case-sensitive format: 00D + 15) —
 // cosmetic, not a real org.
 const DEMO_ORG_ID = '00DAj000000fx2VMAQ';
-
-const DATA_STREAMS = [
-  { label: 'Unified Customer Profile', detail: '160 resolved profiles · identity resolution: fuzzy match' },
-  { label: 'Golf Transactions', detail: 'Tee-sheet + Pro Shop POS · syncs daily' },
-  { label: 'Retail Transactions', detail: 'Pro Shop POS · syncs daily' },
-  { label: 'F&B Transactions', detail: 'F&B POS · syncs daily' },
-  { label: 'Calculated Insight: RFM Segments', detail: 'Per-channel + general segment, recomputed nightly' },
-];
 
 // Data Cloud 360 tab: presented like a live Salesforce integration (org ID,
 // domain, data streams, test button) but is entirely UI-only — no backend
@@ -296,29 +277,6 @@ function DataCloudTab({ myDomain }: { myDomain: string }) {
             </div>
           </>
         )}
-
-        <div className="h-px" style={{ background: 'var(--sf-border)' }} />
-
-        <div>
-          <div className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--sf-text-secondary)' }}>
-            Connected Data Streams
-          </div>
-          <div className="flex flex-col">
-            {DATA_STREAMS.map((s, i) => (
-              <div
-                key={s.label}
-                className="flex items-center justify-between gap-3 py-2"
-                style={{ borderBottom: i < DATA_STREAMS.length - 1 ? '1px solid var(--sf-border)' : 'none' }}
-              >
-                <div>
-                  <div className="text-sm font-medium" style={{ color: 'var(--sf-text)' }}>{s.label}</div>
-                  <div className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>{s.detail}</div>
-                </div>
-                <Chip size="sm" color="success" variant="soft" className="flex-shrink-0">Active</Chip>
-              </div>
-            ))}
-          </div>
-        </div>
 
         <div className="h-px" style={{ background: 'var(--sf-border)' }} />
 
