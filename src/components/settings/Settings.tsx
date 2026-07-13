@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Chip, Input, Switch } from '@heroui/react';
 import {
-  Plug, Eye, EyeOff, CheckCircle2, XCircle, AlertTriangle,
-  User, Users, Database, Bell, CreditCard, Lock, type LucideIcon,
+  Plug, Bot, Eye, EyeOff, CheckCircle2, XCircle, AlertTriangle,
+  User, Users, Bell, CreditCard, Lock, Database, type LucideIcon,
 } from 'lucide-react';
 import { useApp } from '@/lib/store';
 
@@ -25,11 +25,14 @@ const STATUS_META: Record<ConnectionStatus, { label: string; color: 'success' | 
   testing: { label: 'Testing…', color: 'default' },
 };
 
+// Configured server-side credentials mean the integration IS live — an
+// unexercised "Test Connection" button shouldn't read as disconnected.
+// Only an explicit failed test flips the badge to disconnected.
 function deriveStatus(cfg: AgentConfig, testingNow: boolean): ConnectionStatus {
   if (testingNow) return 'testing';
   if (!cfg.hasSecrets || !cfg.agentId || !cfg.myDomain) return 'not_configured';
   if (!cfg.enabled) return 'disconnected';
-  return cfg.lastTestOk ? 'connected' : 'disconnected';
+  return cfg.lastTestOk === false ? 'disconnected' : 'connected';
 }
 
 // Shows only the first/last few characters — enough to recognize the value
@@ -40,19 +43,19 @@ function maskId(id: string): string {
   return `${id.slice(0, 4)}${'•'.repeat(Math.max(6, id.length - 8))}${id.slice(-4)}`;
 }
 
-type SubtabId = 'account' | 'users' | 'datasources' | 'notifications' | 'integration' | 'billing';
+type SubtabId = 'account' | 'users' | 'notifications' | 'agentforce' | 'data360' | 'billing';
 
 const SUBTABS: { id: SubtabId; label: string; icon: LucideIcon }[] = [
   { id: 'account', label: 'Account', icon: User },
   { id: 'users', label: 'Users & Roles', icon: Users },
-  { id: 'datasources', label: 'Data Sources', icon: Database },
   { id: 'notifications', label: 'Notifications', icon: Bell },
-  { id: 'integration', label: 'Integrations', icon: Plug },
+  { id: 'agentforce', label: 'Agentforce', icon: Bot },
+  { id: 'data360', label: 'Data Cloud 360', icon: Database },
   { id: 'billing', label: 'Billing', icon: CreditCard },
 ];
 
 // Static informational rows for the placeholder tabs — visual depth only;
-// the Integrations tab is the functional one.
+// Agentforce and Data Cloud 360 are the two "live" looking tabs.
 function PlaceholderRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between py-2.5 border-b last:border-b-0" style={{ borderColor: 'var(--sf-border)' }}>
@@ -82,7 +85,7 @@ function PlaceholderTab({ title, description, rows }: { title: string; descripti
   );
 }
 
-const PLACEHOLDER_TABS: Record<Exclude<SubtabId, 'integration'>, { title: string; description: string; rows: { label: string; value: string }[] }> = {
+const PLACEHOLDER_TABS: Record<Exclude<SubtabId, 'agentforce' | 'data360'>, { title: string; description: string; rows: { label: string; value: string }[] }> = {
   account: {
     title: 'Account',
     description: 'Organization profile and workspace preferences',
@@ -103,17 +106,6 @@ const PLACEHOLDER_TABS: Record<Exclude<SubtabId, 'integration'>, { title: string
       { label: 'Analysts', value: '4' },
       { label: 'Viewers', value: '2' },
       { label: 'SSO enforcement', value: 'Enabled (SAML 2.0)' },
-    ],
-  },
-  datasources: {
-    title: 'Data Sources',
-    description: 'Connected systems feeding the unified customer graph',
-    rows: [
-      { label: 'Salesforce Data Cloud (D360)', value: 'Connected · syncs hourly' },
-      { label: 'Golf tee-sheet system', value: 'Connected · syncs daily' },
-      { label: 'Pro Shop POS', value: 'Connected · syncs daily' },
-      { label: 'F&B POS', value: 'Connected · syncs daily' },
-      { label: 'Identity resolution', value: 'Fuzzy match · 160 unified profiles' },
     ],
   },
   notifications: {
@@ -138,9 +130,221 @@ const PLACEHOLDER_TABS: Record<Exclude<SubtabId, 'integration'>, { title: string
   },
 };
 
+// A demo Salesforce Org ID (18-char case-sensitive format: 00D + 15) —
+// cosmetic, not a real org.
+const DEMO_ORG_ID = '00DAj000000fx2VMAQ';
+
+const DATA_STREAMS = [
+  { label: 'Unified Customer Profile', detail: '160 resolved profiles · identity resolution: fuzzy match' },
+  { label: 'Golf Transactions', detail: 'Tee-sheet + Pro Shop POS · syncs daily' },
+  { label: 'Retail Transactions', detail: 'Pro Shop POS · syncs daily' },
+  { label: 'F&B Transactions', detail: 'F&B POS · syncs daily' },
+  { label: 'Calculated Insight: RFM Segments', detail: 'Per-channel + general segment, recomputed nightly' },
+];
+
+// Data Cloud 360 tab: presented like a live Salesforce integration (org ID,
+// domain, data streams, test button) but is entirely UI-only — no backend
+// calls. The story is "this portal is headless access to Salesforce, all
+// data comes straight from Data Cloud 360," and the app already ships with
+// the underlying data files, so there's nothing to actually wire up.
+function DataCloudTab({ myDomain }: { myDomain: string }) {
+  const [editing, setEditing] = useState(false);
+  const [orgId, setOrgId] = useState(DEMO_ORG_ID);
+  const [domain, setDomain] = useState(myDomain);
+  const [dataSpace, setDataSpace] = useState('default');
+  const [revealOrgId, setRevealOrgId] = useState(false);
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [testing, setTesting] = useState(false);
+  const [testResult, setTestResult] = useState<{ ok: boolean; message: string } | null>(null);
+
+  useEffect(() => {
+    setDomain((d) => d || myDomain);
+  }, [myDomain]);
+
+  function handleSave() {
+    setSaveMessage('Saved');
+    setTimeout(() => {
+      setSaveMessage(null);
+      setEditing(false);
+    }, 900);
+  }
+
+  function handleTest() {
+    setTesting(true);
+    setTestResult(null);
+    setTimeout(() => {
+      setTesting(false);
+      setTestResult({ ok: true, message: 'Connection successful — Data Cloud query API responding, 160 unified profiles resolved.' });
+    }, 700);
+  }
+
+  return (
+    <Card>
+      <Card.Header className="flex flex-row items-center justify-between gap-3 pb-0">
+        <div>
+          <Card.Title className="text-sm font-bold" style={{ color: 'var(--sf-primary)' }}>
+            Data Cloud 360 Integration
+          </Card.Title>
+          <Card.Description className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
+            Headless read access to the unified Customer 360 Data Model — profiles, transactions, and calculated insights
+          </Card.Description>
+        </div>
+        <Chip size="sm" color="success" variant="soft">Connected</Chip>
+      </Card.Header>
+
+      <Card.Content className="pt-4 flex flex-col gap-5">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-sm font-semibold" style={{ color: 'var(--sf-text)' }}>Enable Integration</div>
+            <div className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>
+              This portal reads directly from Data Cloud — no data is stored or duplicated locally
+            </div>
+          </div>
+          <Switch isSelected>
+            <Switch.Content>
+              <Switch.Control>
+                <Switch.Thumb />
+              </Switch.Control>
+            </Switch.Content>
+          </Switch>
+        </div>
+
+        <div className="h-px" style={{ background: 'var(--sf-border)' }} />
+
+        {!editing ? (
+          <>
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--sf-text-secondary)' }}>
+                Org ID
+              </div>
+              <div className="text-sm font-mono" style={{ color: 'var(--sf-text)' }}>{maskId(orgId)}</div>
+            </div>
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--sf-text-secondary)' }}>
+                My Domain URL
+              </div>
+              <div className="text-sm" style={{ color: 'var(--sf-text)' }}>
+                {domain || <span style={{ color: 'var(--sf-text-secondary)' }}>Not set</span>}
+              </div>
+            </div>
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--sf-text-secondary)' }}>
+                Data Space
+              </div>
+              <div className="text-sm" style={{ color: 'var(--sf-text)' }}>{dataSpace}</div>
+            </div>
+            <div>
+              <Button variant="outline" onPress={() => setEditing(true)}>Edit</Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 block" style={{ color: 'var(--sf-text-secondary)' }}>
+                Org ID
+              </label>
+              <div className="flex items-center gap-2">
+                <Input
+                  type={revealOrgId ? 'text' : 'password'}
+                  value={orgId}
+                  onChange={(e) => setOrgId(e.target.value)}
+                  placeholder="00Dxxxxxxxxxxxxxxx"
+                  fullWidth
+                />
+                <Button
+                  isIconOnly
+                  variant="ghost"
+                  size="sm"
+                  aria-label={revealOrgId ? 'Hide Org ID' : 'Show Org ID'}
+                  onPress={() => setRevealOrgId((v) => !v)}
+                >
+                  {revealOrgId ? <EyeOff size={16} strokeWidth={2} /> : <Eye size={16} strokeWidth={2} />}
+                </Button>
+              </div>
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 block" style={{ color: 'var(--sf-text-secondary)' }}>
+                My Domain URL
+              </label>
+              <Input
+                value={domain}
+                onChange={(e) => setDomain(e.target.value)}
+                placeholder="https://your-domain.my.salesforce.com"
+                fullWidth
+              />
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wider mb-1.5 block" style={{ color: 'var(--sf-text-secondary)' }}>
+                Data Space
+              </label>
+              <Input value={dataSpace} onChange={(e) => setDataSpace(e.target.value)} placeholder="default" fullWidth />
+            </div>
+
+            <div className="flex items-center gap-3 flex-wrap">
+              <Button onPress={handleSave} className="text-white" style={{ background: 'var(--sf-primary)' }}>
+                Save Changes
+              </Button>
+              <Button variant="ghost" onPress={() => setEditing(false)}>Cancel</Button>
+              {saveMessage && (
+                <span className="text-xs font-medium flex items-center gap-1" style={{ color: 'var(--sf-success)' }}>
+                  <CheckCircle2 size={14} strokeWidth={2} />
+                  {saveMessage}
+                </span>
+              )}
+            </div>
+          </>
+        )}
+
+        <div className="h-px" style={{ background: 'var(--sf-border)' }} />
+
+        <div>
+          <div className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--sf-text-secondary)' }}>
+            Connected Data Streams
+          </div>
+          <div className="flex flex-col">
+            {DATA_STREAMS.map((s, i) => (
+              <div
+                key={s.label}
+                className="flex items-center justify-between gap-3 py-2"
+                style={{ borderBottom: i < DATA_STREAMS.length - 1 ? '1px solid var(--sf-border)' : 'none' }}
+              >
+                <div>
+                  <div className="text-sm font-medium" style={{ color: 'var(--sf-text)' }}>{s.label}</div>
+                  <div className="text-xs" style={{ color: 'var(--sf-text-secondary)' }}>{s.detail}</div>
+                </div>
+                <Chip size="sm" color="success" variant="soft" className="flex-shrink-0">Active</Chip>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="h-px" style={{ background: 'var(--sf-border)' }} />
+
+        <div className="flex items-center gap-3 flex-wrap">
+          <Button variant="outline" onPress={handleTest} isDisabled={testing}>
+            {testing ? 'Testing…' : 'Test Connection'}
+          </Button>
+        </div>
+
+        {testResult && (
+          <div
+            className="text-sm px-3 py-2 rounded-lg flex items-start gap-2"
+            style={{ background: '#E8F5E9', color: 'var(--sf-success)' }}
+          >
+            <CheckCircle2 size={16} strokeWidth={2} className="flex-shrink-0 mt-0.5" />
+            <span>{testResult.message}</span>
+          </div>
+        )}
+      </Card.Content>
+    </Card>
+  );
+}
+
 export default function Settings() {
   const { refreshAgentConfig } = useApp();
-  const [subtab, setSubtab] = useState<SubtabId>('integration');
+  const [subtab, setSubtab] = useState<SubtabId>('agentforce');
   const [config, setConfig] = useState<AgentConfig | null>(null);
   const [editing, setEditing] = useState(false);
   const [agentId, setAgentId] = useState('');
@@ -271,10 +475,11 @@ export default function Settings() {
 
       {/* Content */}
       <div className="flex-1 max-w-2xl">
-        {subtab !== 'integration' && (
+        {subtab !== 'agentforce' && subtab !== 'data360' && (
           <PlaceholderTab {...PLACEHOLDER_TABS[subtab]} />
         )}
-        {subtab === 'integration' && (
+        {subtab === 'data360' && <DataCloudTab myDomain={config.myDomain} />}
+        {subtab === 'agentforce' && (
           <Card>
             <Card.Header className="flex flex-row items-center justify-between gap-3 pb-0">
               <div>
